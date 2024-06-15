@@ -7,6 +7,7 @@ class Carousel extends StatelessWidget {
   final List<String> backgroundImages;
   final VoidCallback onPreviousPage;
   final VoidCallback onNextPage;
+  
   const Carousel({
     super.key, 
     required this.controller, 

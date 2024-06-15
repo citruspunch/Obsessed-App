@@ -1,11 +1,13 @@
 import 'package:feather_icons/feather_icons.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/material.dart';
-import 'package:obsessed_app/src/features/Home/domain/entities/shirt.dart';
+import 'package:obsessed_app/src/features/Home/domain/entities/clothing_item.dart';
 
-class ShirtItem extends StatelessWidget {
-  final Shirt shirt;
-  const ShirtItem({required this.shirt, super.key});
+class ClothingItemWidget extends StatelessWidget {
+  final ClothingItem item;
+
+  const ClothingItemWidget({super.key, required this.item});
+  
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +28,7 @@ class ShirtItem extends StatelessWidget {
             child: Column(
               children: [
                 Image.asset(
-                  "assets/images/${shirt.imagePath}",
+                  "assets/images/${item.imagePath}",
                   fit: BoxFit.contain,
                   width: 111,
                   height: 111,
@@ -35,17 +37,17 @@ class ShirtItem extends StatelessWidget {
                   height: 11,
                 ),
                 Text(
-                  shirt.name,
+                  item.name,
                   style: GoogleFonts.playfairDisplay(
-                    fontSize: 18, fontWeight: FontWeight.bold),
+                    fontSize: 24, fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(
-                  height: 18,
+                  height: 16,
                 ),
                 Text(
-                  "Shop now",
-                  style: GoogleFonts.workSans(
-                    fontSize: 14, fontWeight: FontWeight.w500),
+                  "SHOP NOW",
+                  style: GoogleFonts.dmSerifText(
+                    fontSize: 15, fontWeight: FontWeight.w500),
                 ),
                 const SizedBox(
                   height: 4,
