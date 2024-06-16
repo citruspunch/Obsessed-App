@@ -1,20 +1,53 @@
 class ClothingItem {
+  final int id;
+  final String title;
   final String name;
   final String imagePath;
   final double price;
-  final String? color;
-  final String? size;
+  final String description;
+  final Map<String, dynamic> rating;
 
   ClothingItem({
+    required this.id,
+    required this.title,
     required this.name,
     required this.imagePath,
     required this.price,
-    this.color,
-    this.size,
+    required this.description,
+    required this.rating,
   });
+
+  factory ClothingItem.fromJson(Map<String, dynamic> json) {
+    // Validar que los datos recibidos sean correctos
+    if (json['title'] == null || json['title'] == '') {
+      throw Exception('Invalid title');
+    }
+    if (json['id'] == null || json['id'] <= 0) {
+      throw Exception('Invalid id');
+    }
+    if (json['price'] == null || json['price'] <= 0) {
+      throw Exception('Invalid price');
+    }
+    if (json['description'] == null || json['description'] == '') {
+      throw Exception('Invalid description');
+    }
+    if (json['rating'] == null || json['rating'].length == 0) {
+      throw Exception('Invalid rating');
+    }
+
+    return ClothingItem(
+      title: json['title'],
+      id: json['id'],
+      name: json['category'],
+      imagePath: json['image'],
+      price: json['price'].toDouble(),
+      description: json['description'],
+      rating: json['rating'],
+    );
+  }
 }
 
-List<ClothingItem> listOfClothingItems() {
+/*List<ClothingItem> listOfClothingItems() {
   return [
     ClothingItem(name: "Item1", imagePath: "shirt1.png", price: 190.0),
     ClothingItem(name: "Item2", imagePath: "shirt2.png", price: 250.0),
@@ -26,4 +59,6 @@ List<ClothingItem> listOfClothingItems() {
     ClothingItem(name: "Item8", imagePath: "shirt8.png", price: 180.0),
     ClothingItem(name: "Item9", imagePath: "shirt9.png", price: 210.0),
   ];
-}
+}*/
+
+

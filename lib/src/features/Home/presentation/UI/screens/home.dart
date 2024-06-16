@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:obsessed_app/src/features/Home/presentation/UI/widgets/carousel.dart';
 import 'package:obsessed_app/src/features/Home/presentation/UI/widgets/navigation_bar.dart';
-import 'package:obsessed_app/src/features/Home/presentation/UI/widgets/clothing_item.dart';
+import 'package:obsessed_app/src/features/Home/presentation/UI/widgets/clothing_item_widget.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -17,13 +17,13 @@ class Home extends StatelessWidget {
     "assets/images/background4.png",
   ];
 
-  Home({Key? key}) : super(key: key);
+  Home({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       extendBody: true,
-      backgroundColor: Colors.white,
+      backgroundColor: const Color(0xFFF1F1F1),
       appBar: AppBar(
         toolbarHeight: 90,
         elevation: 0,
@@ -32,7 +32,7 @@ class Home extends StatelessWidget {
                 color: Colors.black,
                 fontSize: 27,
                 fontWeight: FontWeight.bold)),
-        backgroundColor: Colors.white,
+        backgroundColor: const Color(0xFFF1F1F1),
         leading: IconButton(
             iconSize: 40,
             onPressed: (

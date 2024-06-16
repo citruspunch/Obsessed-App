@@ -24,7 +24,12 @@ class Carousel extends StatelessWidget {
             carouselController: controller,
             itemCount: backgroundImages.length,
             options: CarouselOptions(
-                viewportFraction: 1, height: 230, enableInfiniteScroll: true),
+                viewportFraction: 1, 
+                height: 230, 
+                enableInfiniteScroll: true,
+                autoPlay: true, // Habilitar el cambio automático de imágenes
+                autoPlayInterval: const Duration(seconds: 6), // Duración entre cada cambio de imagen
+            ),
             itemBuilder: (context, index, realIndex) {
               return Container(
                 width: double.infinity,
@@ -35,15 +40,23 @@ class Carousel extends StatelessWidget {
                         fit: BoxFit.cover)),
                 child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
                       Padding(
                         padding: const EdgeInsets.only(right: 12),
                         child: Text(
-                          " NEW \n MONTH, \n NEW \n DROP",
+                          " NEW DROP ",
                           style: GoogleFonts.playfairDisplay(
-                              backgroundColor: Colors.white,
-                              fontSize: 22,
+                              color: Colors.white,
+                              fontSize: 30,
+                              decorationStyle: TextDecorationStyle.solid,
+                              decorationThickness: 2,
+                              shadows: [
+                                const Shadow(
+                                  blurRadius: 5.0,
+                                  color: Colors.black54, // Aumenta la opacidad
+                                  offset: Offset(3.0, .0),
+                                ),
+                              ],
                               fontWeight: FontWeight.bold),
                         ),
                       )
@@ -51,35 +64,55 @@ class Carousel extends StatelessWidget {
               );
             }),
         Positioned(
+          left: 14,
           bottom: 1,
-          right: 22,
-          child: Row(
-            children: [
-              ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.black,
-                      minimumSize: const Size(50, 50),
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(0))),
-                  onPressed: onPreviousPage,
-                  child: const Icon(
-                    Icons.arrow_back,
-                    size: 30,
-                  )),
-              const SizedBox(width: 3),
-              ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.black,
-                      minimumSize: const Size(50, 50),
-                      shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(0) )),
-                  onPressed: onNextPage,
-                  child: const Icon(
-                    Icons.arrow_forward,
-                    size: 30,
-                  ))
-            ],
+          top: 1,
+          child: ButtonTheme(
+            minWidth: 40,
+            height: 30,
+            child: ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.transparent,
+                padding: EdgeInsets.zero,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(0)
+                ),
+                elevation: 0, // Eliminar la sombra del botón
+              ),
+              onPressed: onPreviousPage,
+              child: const Icon(
+                Icons.arrow_back_ios_rounded,
+                size: 40,
+                color: Colors.white,
+              ),
+            ),
           ),
-        )
+        ),
+        Positioned(
+          right: 14,
+          bottom: 1,
+          top: 1,
+          child: SizedBox(
+            width: 40,
+            height: 50,
+            child: ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.transparent,
+                padding: EdgeInsets.zero,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(0)
+                ),
+                elevation: 0, // Eliminar la sombra del botón
+              ),
+              onPressed: onNextPage,
+              child: const Icon(
+                Icons.arrow_forward_ios_rounded,
+                size: 40,
+                color: Colors.white,
+              ),
+            ),
+          ),
+        ),
       ],
     );
   }
