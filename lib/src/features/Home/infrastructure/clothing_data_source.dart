@@ -1,5 +1,5 @@
-import 'package:obsessed_app/src/features/Home/domain/entities/clothing_item.dart';
-import 'package:obsessed_app/src/features/Home/infrastructure/constants/constants.dart';
+import 'package:obsessed_app/src/core/entities/clothing_item.dart';
+import 'package:obsessed_app/src/core/constants/constants.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 

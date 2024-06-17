@@ -77,7 +77,7 @@ class Home extends StatelessWidget {
                       ),
                       Padding(
                         padding: const EdgeInsets.symmetric(
-                            horizontal: 12, vertical: 30),
+                            horizontal: 12, vertical: 23),
                         child: GridView.builder(
                           physics: const NeverScrollableScrollPhysics(),
                           shrinkWrap: true,
