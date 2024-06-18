@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:obsessed_app/src/core/entities/clothing_item.dart';
+import 'package:obsessed_app/src/features/ProductDetail/presentation/widgets/product_selection_modal.dart';
 
 class AddToCartBar extends StatelessWidget {
-  const AddToCartBar({super.key});
+  final ClothingItem item;
+  const AddToCartBar({super.key, required this.item});
 
   @override
   Widget build(BuildContext context) {
@@ -11,7 +15,13 @@ class AddToCartBar extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           InkWell(
-            onTap: () {},
+            onTap: () {
+              showModalBottomSheet(
+                backgroundColor: Colors.transparent,
+                context: context,
+                builder: (context) => ProductSelectionModal(item: item),
+              );
+            },
             child: Container(
               padding: const EdgeInsets.all(18),
               decoration: BoxDecoration(
@@ -26,20 +36,26 @@ class AddToCartBar extends StatelessWidget {
             ),
           ),
           InkWell(
-            onTap: () {},
+            onTap: () {
+              showModalBottomSheet(
+                backgroundColor: Colors.transparent,
+                context: context,
+                builder: (context) => ProductSelectionModal(item: item),
+              );
+            },
             child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 115, vertical: 17),
+              padding: const EdgeInsets.symmetric(horizontal: 100, vertical: 17),
               decoration: BoxDecoration(
                 color: Colors.black,
                 borderRadius: BorderRadius.circular(30),
               ),
               child: Text(
                 'Add to Cart',
-                style: TextStyle(
+                style: GoogleFonts.poppins(
                   fontSize: 17,
                   fontWeight: FontWeight.w600,
                   letterSpacing: 1,
-                  color: Colors.white.withOpacity(0.8),
+                  color: Colors.white.withOpacity(0.9),
                 ),
               ),
             ),

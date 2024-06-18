@@ -12,7 +12,10 @@ class ReturnToHomeButton extends StatelessWidget {
       ),
       child: IconButton(
         iconSize: 30,
-        icon: const Icon(Icons.arrow_back_ios_new),
+        icon: const Icon(
+          Icons.arrow_back_ios_new,
+          color: Colors.black,
+          ),
         onPressed: () {
           Navigator.pop(context);
         },

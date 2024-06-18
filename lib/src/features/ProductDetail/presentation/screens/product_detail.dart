@@ -86,7 +86,7 @@ class ProductDetail extends StatelessWidget {
           ],
         ),
       ),
-      bottomNavigationBar: const AddToCartBar(),
+      bottomNavigationBar: AddToCartBar(item: item),
     );
   }
 }

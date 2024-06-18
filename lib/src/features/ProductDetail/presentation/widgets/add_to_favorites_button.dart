@@ -12,7 +12,10 @@ class AddToFavoritesButton extends StatelessWidget {
       ),
       child: IconButton(
         iconSize: 32,
-        icon: const Icon(Icons.favorite_border),
+        icon: const Icon(
+          Icons.favorite_border,
+          color: Colors.black,
+          ),
         onPressed: () {},
       ),
     );
