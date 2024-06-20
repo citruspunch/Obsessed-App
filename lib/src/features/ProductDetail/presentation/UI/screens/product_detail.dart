@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:obsessed_app/src/core/entities/clothing_item.dart';
-import 'package:obsessed_app/src/features/ProductDetail/presentation/widgets/add_to_cart_bar.dart';
-import 'package:obsessed_app/src/features/ProductDetail/presentation/widgets/add_to_favorites_button.dart';
-import 'package:obsessed_app/src/features/ProductDetail/presentation/widgets/product_label.dart';
-import 'package:obsessed_app/src/features/ProductDetail/presentation/widgets/return_to_home_button.dart';
-import 'package:obsessed_app/src/features/ProductDetail/presentation/widgets/star_rating.dart';
+import 'package:obsessed_app/src/features/ProductDetail/presentation/UI/widgets/add_to_cart_bar.dart';
+import 'package:obsessed_app/src/features/ProductDetail/presentation/UI/widgets/add_to_favorites_button.dart';
+import 'package:obsessed_app/src/features/ProductDetail/presentation/UI/widgets/product_label.dart';
+import 'package:obsessed_app/src/features/ProductDetail/presentation/UI/widgets/return_to_home_button.dart';
+import 'package:obsessed_app/src/features/ProductDetail/presentation/UI/widgets/star_rating.dart';
 
 class ProductDetail extends StatelessWidget {
   final ClothingItem item;

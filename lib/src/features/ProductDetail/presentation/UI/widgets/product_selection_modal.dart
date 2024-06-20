@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:obsessed_app/src/core/entities/clothing_item.dart';
-import 'package:obsessed_app/src/features/ProductDetail/presentation/widgets/color_option.dart';
-import 'package:obsessed_app/src/features/ProductDetail/presentation/widgets/size_option.dart';
+import 'package:obsessed_app/src/features/Cart/presentation/UI/screens/cart_screen.dart';
+import 'package:obsessed_app/src/features/Cart/presentation/UI/widgets/cart_item.dart';
+import 'package:obsessed_app/src/features/Cart/presentation/providers/cart_provider.dart';
+import 'package:obsessed_app/src/features/ProductDetail/presentation/UI/widgets/color_option.dart';
+import 'package:obsessed_app/src/features/ProductDetail/presentation/UI/widgets/size_option.dart';
+import 'package:provider/provider.dart';
 
 class ProductSelectionModal extends StatefulWidget {
   final ClothingItem item;
@@ -122,7 +126,8 @@ class _ProductSelectionModalState extends State<ProductSelectionModal> {
                   child: IconButton(
                     icon: const Icon(Icons.remove),
                     onPressed: () {
-                      if (quantity > 1 && quantity <= widget.item.rating['count']){
+                      if (quantity > 1 &&
+                          quantity <= widget.item.rating['count']) {
                         setState(() {
                           quantity--;
                         });
@@ -151,7 +156,8 @@ class _ProductSelectionModalState extends State<ProductSelectionModal> {
                   child: IconButton(
                     icon: const Icon(Icons.add),
                     onPressed: () {
-                      if (quantity > 0 && quantity < widget.item.rating['count']){
+                      if (quantity > 0 &&
+                          quantity < widget.item.rating['count']) {
                         setState(() {
                           quantity++;
                         });
@@ -206,7 +212,34 @@ class _ProductSelectionModalState extends State<ProductSelectionModal> {
                 borderRadius: BorderRadius.circular(30),
               ),
             ),
-            onPressed: () {},
+            onPressed: () {
+              var cartProvider =
+                Provider.of<CartProvider>(context, listen: false);
+              cartProvider.addItem(
+                CartItem(
+                  item: widget.item,
+                  quantity: quantity,
+                  size: selectedSize,
+                  color: selectedColor,
+                  name: widget.item.title,
+                  description: widget.item.description,
+                  image: widget.item.imagePath,
+                ),
+              );
+              // Obtener los items del carrito y el precio total
+              List<CartItem> cartItems = cartProvider.items;
+              double totalPrice = cartProvider.totalPrice;
+              // Abrir la pantalla del carrito
+              Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => CartScreen(
+                  cartItems: cartItems,
+                  totalPrice: totalPrice,
+                ),
+              ),
+            );
+            },
             child: Text(
               'Checkout',
               style: GoogleFonts.poppins(

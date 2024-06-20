@@ -2,7 +2,7 @@ import 'package:feather_icons/feather_icons.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/material.dart';
 import 'package:obsessed_app/src/core/entities/clothing_item.dart';
-import 'package:obsessed_app/src/features/ProductDetail/presentation/screens/product_detail.dart';
+import 'package:obsessed_app/src/features/ProductDetail/presentation/UI/screens/product_detail.dart';
 
 class ClothingItemWidget extends StatelessWidget {
   final ClothingItem item;

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:obsessed_app/src/core/entities/clothing_item.dart';
-import 'package:obsessed_app/src/features/ProductDetail/presentation/widgets/product_selection_modal.dart';
+import 'package:obsessed_app/src/features/ProductDetail/presentation/UI/widgets/product_selection_modal.dart';
 
 class AddToCartBar extends StatelessWidget {
   final ClothingItem item;
@@ -15,12 +15,12 @@ class AddToCartBar extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           InkWell(
-            onTap: () {
+            onTap: () {/*
               showModalBottomSheet(
                 backgroundColor: Colors.transparent,
                 context: context,
                 builder: (context) => ProductSelectionModal(item: item),
-              );
+              );*/
             },
             child: Container(
               padding: const EdgeInsets.all(18),
