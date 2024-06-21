@@ -6,6 +6,7 @@ class ClothingItem {
   final double price;
   final String description;
   final Map<String, dynamic> rating;
+  final int count;
 
   ClothingItem({
     required this.id,
@@ -15,6 +16,7 @@ class ClothingItem {
     required this.price,
     required this.description,
     required this.rating,
+    required this.count,
   });
 
   factory ClothingItem.fromJson(Map<String, dynamic> json) {
@@ -43,6 +45,7 @@ class ClothingItem {
       price: json['price'].toDouble(),
       description: json['description'],
       rating: json['rating'],
+      count: json['rating']['count'],
     );
   }
 }

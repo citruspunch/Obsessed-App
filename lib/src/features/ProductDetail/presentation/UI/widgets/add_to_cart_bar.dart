@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:obsessed_app/src/core/entities/clothing_item.dart';
+import 'package:obsessed_app/src/features/Cart/presentation/UI/screens/cart_screen.dart';
+import 'package:obsessed_app/src/features/Cart/presentation/UI/widgets/cart_item.dart';
+import 'package:obsessed_app/src/features/Cart/presentation/providers/cart_provider.dart';
 import 'package:obsessed_app/src/features/ProductDetail/presentation/UI/widgets/product_selection_modal.dart';
+import 'package:provider/provider.dart';
 
 class AddToCartBar extends StatelessWidget {
   final ClothingItem item;
@@ -15,12 +19,19 @@ class AddToCartBar extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           InkWell(
-            onTap: () {/*
-              showModalBottomSheet(
-                backgroundColor: Colors.transparent,
-                context: context,
-                builder: (context) => ProductSelectionModal(item: item),
-              );*/
+            onTap: () {
+              var cartProvider = Provider.of<CartProvider>(context, listen: false);
+              List<CartItem> cartItems = cartProvider.items;
+              double totalPrice = cartProvider.totalPrice;
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => CartScreen(
+                    cartItems: cartItems,
+                    totalPrice: totalPrice,
+                  ),
+                ),
+              );
             },
             child: Container(
               padding: const EdgeInsets.all(18),

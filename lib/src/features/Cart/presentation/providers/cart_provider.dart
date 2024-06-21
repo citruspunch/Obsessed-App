@@ -12,7 +12,6 @@ class CartProvider extends ChangeNotifier {
   }
 
   void removeItem(CartItem item) {
-    print('Removing item: $item');
     _items.remove(item);
     notifyListeners();
   }

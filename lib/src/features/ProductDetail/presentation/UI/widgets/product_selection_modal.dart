@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:obsessed_app/src/core/entities/clothing_item.dart';
-import 'package:obsessed_app/src/features/Cart/presentation/UI/screens/cart_screen.dart';
 import 'package:obsessed_app/src/features/Cart/presentation/UI/widgets/cart_item.dart';
 import 'package:obsessed_app/src/features/Cart/presentation/providers/cart_provider.dart';
 import 'package:obsessed_app/src/features/ProductDetail/presentation/UI/widgets/color_option.dart';
@@ -127,7 +126,7 @@ class _ProductSelectionModalState extends State<ProductSelectionModal> {
                     icon: const Icon(Icons.remove),
                     onPressed: () {
                       if (quantity > 1 &&
-                          quantity <= widget.item.rating['count']) {
+                          quantity <= widget.item.count) {
                         setState(() {
                           quantity--;
                         });
@@ -157,7 +156,7 @@ class _ProductSelectionModalState extends State<ProductSelectionModal> {
                     icon: const Icon(Icons.add),
                     onPressed: () {
                       if (quantity > 0 &&
-                          quantity < widget.item.rating['count']) {
+                          quantity < widget.item.count) {
                         setState(() {
                           quantity++;
                         });
@@ -213,6 +212,39 @@ class _ProductSelectionModalState extends State<ProductSelectionModal> {
               ),
             ),
             onPressed: () {
+              if (selectedColor == null || selectedSize == null) {
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      title: const Text('Please select a size and a color.'),
+                      titleTextStyle: GoogleFonts.poppins(
+                        color: Colors.black,
+                        fontSize: 20,
+                        fontWeight: FontWeight.w600,
+                      ),
+                      actions: <Widget>[
+                        Center(
+                          child: TextButton(
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                            child: Text(
+                              'OK',
+                              style: GoogleFonts.poppins(
+                                color: Colors.grey[700],
+                                fontSize: 20,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    );
+                  },
+                );
+                return;
+              }
               var cartProvider =
                 Provider.of<CartProvider>(context, listen: false);
               cartProvider.addItem(
@@ -226,19 +258,38 @@ class _ProductSelectionModalState extends State<ProductSelectionModal> {
                   image: widget.item.imagePath,
                 ),
               );
-              // Obtener los items del carrito y el precio total
-              List<CartItem> cartItems = cartProvider.items;
-              double totalPrice = cartProvider.totalPrice;
-              // Abrir la pantalla del carrito
-              Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => CartScreen(
-                  cartItems: cartItems,
-                  totalPrice: totalPrice,
-                ),
-              ),
-            );
+              Navigator.pop(context); // Cerrar el modal
+              showDialog(
+                context: context,
+                barrierColor: Colors.black.withOpacity(0.7),
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                    title: const Text('Item successfully added to cart.'),
+                    titleTextStyle: GoogleFonts.poppins(
+                      color: Colors.black,
+                      fontSize: 20,
+                      fontWeight: FontWeight.w600,
+                    ),
+                    actions: <Widget>[
+                      Center(
+                        child: TextButton(
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                          child: Text(
+                            'OK',
+                            style: GoogleFonts.poppins(
+                              color: Colors.grey[700],
+                              fontSize: 20,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  );
+                },
+              );
             },
             child: Text(
               'Checkout',
