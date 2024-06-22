@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:obsessed_app/src/features/Home/presentation/UI/widgets/carousel.dart';
-import 'package:obsessed_app/src/features/Home/presentation/UI/widgets/navigation_bar.dart';
-import 'package:obsessed_app/src/features/Home/presentation/UI/widgets/clothing_item_widget.dart';
+import 'package:obsessed_app/src/features/home/presentation/UI/widgets/carousel.dart';
+import 'package:obsessed_app/src/features/home/presentation/UI/widgets/navigation_bar.dart';
+import 'package:obsessed_app/src/features/home/presentation/UI/widgets/clothing_item_widget.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:obsessed_app/src/features/Home/presentation/providers/clothing_provider.dart';
+import 'package:obsessed_app/src/features/home/presentation/providers/clothing_provider.dart';
 import 'package:provider/provider.dart';
 
 class Home extends StatelessWidget {

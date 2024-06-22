@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:obsessed_app/src/features/Cart/presentation/UI/widgets/cart_body.dart';
-import 'package:obsessed_app/src/features/Cart/presentation/UI/widgets/cart_footer.dart';
-import 'package:obsessed_app/src/features/Cart/presentation/UI/widgets/cart_header.dart';
-import 'package:obsessed_app/src/features/Cart/presentation/UI/widgets/cart_item.dart';
-import 'package:obsessed_app/src/features/Cart/presentation/providers/cart_provider.dart';
+import 'package:obsessed_app/src/features/cart/presentation/UI/widgets/cart_body.dart';
+import 'package:obsessed_app/src/features/cart/presentation/UI/widgets/cart_footer.dart';
+import 'package:obsessed_app/src/features/cart/presentation/UI/widgets/cart_header.dart';
+import 'package:obsessed_app/src/features/cart/domain/entities/cart_item.dart';
+import 'package:obsessed_app/src/features/cart/presentation/providers/cart_provider.dart';
 import 'package:provider/provider.dart';
 
 class CartScreen extends StatelessWidget {

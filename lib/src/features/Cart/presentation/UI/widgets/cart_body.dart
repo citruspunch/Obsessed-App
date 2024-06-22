@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:obsessed_app/src/features/Cart/presentation/UI/widgets/cart_item.dart';
-import 'package:obsessed_app/src/features/Cart/presentation/UI/widgets/cart_item_widget.dart';
+import 'package:obsessed_app/src/features/cart/domain/entities/cart_item.dart';
+import 'package:obsessed_app/src/features/cart/presentation/UI/widgets/cart_item_widget.dart';
 
 class CartBody extends StatelessWidget {
   final List<CartItem> cartItems;

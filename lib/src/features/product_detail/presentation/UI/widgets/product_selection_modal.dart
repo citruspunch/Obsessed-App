@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:obsessed_app/src/core/entities/clothing_item.dart';
-import 'package:obsessed_app/src/features/Cart/presentation/UI/widgets/cart_item.dart';
-import 'package:obsessed_app/src/features/Cart/presentation/providers/cart_provider.dart';
-import 'package:obsessed_app/src/features/ProductDetail/presentation/UI/widgets/color_option.dart';
-import 'package:obsessed_app/src/features/ProductDetail/presentation/UI/widgets/size_option.dart';
+import 'package:obsessed_app/src/features/cart/domain/entities/cart_item.dart';
+import 'package:obsessed_app/src/features/cart/presentation/providers/cart_provider.dart';
+import 'package:obsessed_app/src/features/product_detail/presentation/UI/widgets/color_option.dart';
+import 'package:obsessed_app/src/features/product_detail/presentation/UI/widgets/size_option.dart';
 import 'package:provider/provider.dart';
 
 class ProductSelectionModal extends StatefulWidget {
@@ -292,7 +292,7 @@ class _ProductSelectionModalState extends State<ProductSelectionModal> {
               );
             },
             child: Text(
-              'Checkout',
+              'Add to cart',
               style: GoogleFonts.poppins(
                 color: Colors.white,
                 fontSize: 20,

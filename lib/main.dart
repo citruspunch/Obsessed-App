@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:obsessed_app/src/features/Cart/presentation/providers/cart_provider.dart';
-import 'package:obsessed_app/src/features/Home/infrastructure/repositories/clothing_repository.dart';
-import 'package:obsessed_app/src/features/Home/domain/use_cases/get_all_items.dart';
-import 'package:obsessed_app/src/features/Home/infrastructure/clothing_data_source.dart';
-import 'package:obsessed_app/src/features/Home/presentation/UI/screens/home.dart';
-import 'package:obsessed_app/src/features/Home/presentation/providers/clothing_provider.dart';
+import 'package:obsessed_app/src/features/cart/presentation/providers/cart_provider.dart';
+import 'package:obsessed_app/src/features/home/infrastructure/repositories/clothing_repository.dart';
+import 'package:obsessed_app/src/features/home/domain/use_cases/get_all_items.dart';
+import 'package:obsessed_app/src/features/home/infrastructure/clothing_data_source.dart';
+import 'package:obsessed_app/src/features/home/presentation/UI/screens/home.dart';
+import 'package:obsessed_app/src/features/home/presentation/providers/clothing_provider.dart';
 import 'package:provider/provider.dart';
 
 void main() {

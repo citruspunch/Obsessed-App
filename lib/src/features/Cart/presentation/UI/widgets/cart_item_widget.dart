@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:obsessed_app/src/features/Cart/presentation/UI/widgets/cart_item.dart';
-import 'package:obsessed_app/src/features/Cart/presentation/providers/cart_provider.dart';
+import 'package:obsessed_app/src/features/cart/domain/entities/cart_item.dart';
+import 'package:obsessed_app/src/features/cart/presentation/providers/cart_provider.dart';
 import 'package:provider/provider.dart';
 
 class CartItemWidget extends StatelessWidget {
