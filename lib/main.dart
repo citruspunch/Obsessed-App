@@ -9,7 +9,6 @@ import 'package:obsessed_app/src/features/home/presentation/providers/clothing_p
 import 'package:provider/provider.dart';
 
 void main() async {
-
   WidgetsFlutterBinding.ensureInitialized(); // Asegura la inicialización de los widgets
   await dotenv.load(fileName: ".env"); // Carga las variables de entorno
 

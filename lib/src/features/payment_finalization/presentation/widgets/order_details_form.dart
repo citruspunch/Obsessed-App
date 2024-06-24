@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:obsessed_app/src/features/payment_finalization/domain/repositories/email_repository.dart';
+import 'package:obsessed_app/src/features/payment_finalization/domain/use_cases/send_email_use_case.dart';
+import 'package:obsessed_app/src/features/payment_finalization/infrastructure/email_service.dart';
 
 class OrderDetailsForm extends StatefulWidget {
   const OrderDetailsForm({super.key});
@@ -15,6 +18,15 @@ class _OrderDetailsFormState extends State<OrderDetailsForm> {
   final _countryController = TextEditingController();
   final _cityController = TextEditingController();
   final _emailController = TextEditingController();
+  final EmailRepository _emailRepository = EmailService();
+  late final SendEmailUseCase _sendEmailUseCase;
+
+  @override
+  void initState() {
+    super.initState();
+    // Crear la instancia de SendEmailUseCase con EmailRepository
+    _sendEmailUseCase = SendEmailUseCase(_emailRepository);
+  }
 
   @override
   void dispose() {
@@ -147,12 +159,23 @@ class _OrderDetailsFormState extends State<OrderDetailsForm> {
                 child: Padding(
                   padding: const EdgeInsets.all(30),
                   child: ElevatedButton(
-                    onPressed: () {
+                    onPressed: () async {
                       if (_formKey.currentState!.validate()) {
-                        // Si el formulario es válido, muestra un Snackbar.
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(content: Text('Processing Data')),
-                        );
+                        try {
+                          final String email = _emailController.text;
+                          const String subject = 'Order Details';
+                          final String body = 'Name: ${_nameController.text}\n'
+                              'Last Name: ${_lastNameController.text}\n'
+                              'Country: ${_countryController.text}\n'
+                              'City: ${_cityController.text}\n'
+                              'Email: ${_emailController.text}';
+
+                          // Llamada a la función de envío de correo electrónico
+                          await _sendEmailUseCase.sendEmail(email, subject, body);
+                          print('Sending email...\n$subject\n$body');
+                        } catch (e) {
+                          print('Error al enviar el correo: $e');
+                        }
                       }
                     },
                     style: ElevatedButton.styleFrom(
