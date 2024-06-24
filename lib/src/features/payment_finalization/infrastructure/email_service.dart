@@ -18,10 +18,10 @@ class EmailService implements EmailRepository {
         'Content-Type': 'application/x-www-form-urlencoded',
       },
       body: {
-        'from': 'Excited User <mailgun@$domain>',
+        'from': 'Obsessed <mailgun@$domain>',
         'to': email,
         'subject': subject,
-        'text': body,
+        'html': body,
       },
     );
 

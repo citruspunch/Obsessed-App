@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:obsessed_app/src/features/cart/domain/entities/cart_item.dart';
+import 'package:obsessed_app/src/features/cart/presentation/providers/cart_provider.dart';
 import 'package:obsessed_app/src/features/payment_finalization/domain/repositories/email_repository.dart';
 import 'package:obsessed_app/src/features/payment_finalization/domain/use_cases/send_email_use_case.dart';
 import 'package:obsessed_app/src/features/payment_finalization/infrastructure/email_service.dart';
+import 'package:obsessed_app/src/features/payment_finalization/presentation/widgets/succesful_payment.dart';
+import 'package:provider/provider.dart';
+import 'package:uuid/uuid.dart';
 
 class OrderDetailsForm extends StatefulWidget {
   const OrderDetailsForm({super.key});
@@ -162,17 +167,38 @@ class _OrderDetailsFormState extends State<OrderDetailsForm> {
                     onPressed: () async {
                       if (_formKey.currentState!.validate()) {
                         try {
+                          final cart = Provider.of<CartProvider>(context, listen: false);
+                          final List<CartItem> cartItems = cart.items;
+                          final double totalAmount = cart.totalPrice;
+                          final List<String> products = cartItems.map((item) => '${item.quantity}x ${item.name}').toList();
+                          var uuid = const Uuid();
+                          final String uniqueId = uuid.v4(); // Generar un UUID
                           final String email = _emailController.text;
                           const String subject = 'Order Details';
-                          final String body = 'Name: ${_nameController.text}\n'
-                              'Last Name: ${_lastNameController.text}\n'
-                              'Country: ${_countryController.text}\n'
-                              'City: ${_cityController.text}\n'
-                              'Email: ${_emailController.text}';
-
+                          final String body = _generateEmailBody(
+                            orderId: uniqueId,
+                            name: _nameController.text,
+                            lastName: _lastNameController.text,
+                            country: _countryController.text,
+                            city: _cityController.text,
+                            totalAmount: totalAmount,
+                            products: products,
+                          );
                           // Llamada a la función de envío de correo electrónico
                           await _sendEmailUseCase.sendEmail(email, subject, body);
                           print('Sending email...\n$subject\n$body');
+                          showDialog(
+                            // ignore: use_build_context_synchronously
+                            context: context,
+                            builder: (BuildContext context) {
+                              return Dialog(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                                child: const SuccesfulPayment(),
+                              );
+                            },
+                          );
                         } catch (e) {
                           print('Error al enviar el correo: $e');
                         }
@@ -201,5 +227,52 @@ class _OrderDetailsFormState extends State<OrderDetailsForm> {
         ),
       ),
     );
+  }
+
+  String _generateEmailBody({
+  required String orderId,
+  required String name,
+  required String lastName,
+  required String country,
+  required String city,
+  required double totalAmount,
+  required List<String> products,
+}) {
+  final productsString = products.map((product) => '• $product').join('<br>');
+    return '''
+  <html>
+  <head>
+    <style>
+      body {
+        font-family: 'Arial', sans-serif; /* Cambia 'Arial' por el tipo de letra que prefieras */
+      }
+      .bold {
+        font-weight: bold;
+      }
+    </style>
+  </head>
+  <body>
+    <p>Thank you for shopping with <span class="bold">Obsessed</span>!</p>
+
+    <p>Here are your order details:</p>
+
+    <p><span class="bold">Order ID:</span> $orderId</p>
+
+    <p><span class="bold">Name:</span> $name $lastName<br>
+    <span class="bold">Country:</span> $country<br>
+    <span class="bold">City:</span> $city<br>
+
+    <p><span class="bold">Products:</span><br>
+    $productsString</p>
+
+    <p><span class="bold">Total Amount:</span> \$${totalAmount.toStringAsFixed(2)}</p>
+
+    <p>We hope you enjoy your purchase. If you have any questions or need further assistance, please do not hesitate to contact us.</p>
+
+    <p>Best regards,<br>
+    The <span class="bold">Obsessed</span> Team</p>
+  </body>
+  </html>
+  ''';
   }
 }
