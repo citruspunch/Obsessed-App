@@ -20,15 +20,27 @@ class CartProvider extends ChangeNotifier {
 
   void removeItem(CartItem item) {
     final index = _items.indexWhere((element) => element.id == item.id && element.size == item.size && element.color == item.color);
-    if (index != -1) { // Asegura que el ítem existe en el carrito
-      if (_items[index].quantity > 1) {
-        // Si la cantidad es mayor que 1, simplemente disminuye la cantidad
-        _items[index].quantity--;
-      } else {
-        // Si la cantidad es 1, remueve el ítem del carrito
-        _items.removeAt(index);
-      }
+    if (index != -1) {
+      _items.removeAt(index);
       notifyListeners();
+    }
+  }
+
+  void increaseItemQuantity(CartItem item) {
+    final index = _items.indexWhere((element) => element.id == item.id && element.size == item.size && element.color == item.color);
+    if (index != -1) {
+      _items[index].quantity++;
+      notifyListeners();
+    }
+  }
+
+  void decreaseItemQuantity(CartItem item) {
+    final index = _items.indexWhere((element) => element.id == item.id && element.size == item.size && element.color == item.color);
+    if (index != -1) {
+      if (_items[index].quantity > 1) {
+        _items[index].quantity--;
+        notifyListeners();
+      } 
     }
   }
 
