@@ -46,7 +46,7 @@ class SuccesfulPayment extends StatelessWidget {
               onTap: () {
                 Provider.of<CartProvider>(context, listen: false).clear();
                 Navigator.of(context).pushAndRemoveUntil(
-                  MaterialPageRoute(builder: (context) => Home()),
+                  MaterialPageRoute(builder: (context) => const Home()),
                   (Route<dynamic> route) => false,
                 );
               },

@@ -24,7 +24,7 @@ class ProductLabel extends StatelessWidget {
               ),
             ),
           Text(
-            '\$${item.price}',
+            '\$${item.price.toStringAsFixed(2)}',
             style: GoogleFonts.poppins(
               fontSize: 25,
               fontWeight: FontWeight.w700,

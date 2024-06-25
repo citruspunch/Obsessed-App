@@ -58,7 +58,7 @@ class ProductDetail extends StatelessWidget {
                       ProductLabel(item: item),
                       const SizedBox(height: 6),
                       Text(
-                        item.name,
+                        capitalizeFirstLetter(item.name),
                         style: GoogleFonts.poppins(
                           fontSize: 16,
                           color: Colors.black54,
@@ -88,5 +88,9 @@ class ProductDetail extends StatelessWidget {
       ),
       bottomNavigationBar: AddToCartBar(item: item),
     );
+  }
+  String capitalizeFirstLetter(String text) {
+    if (text.isEmpty) return text;
+    return text[0].toUpperCase() + text.substring(1);
   }
 }

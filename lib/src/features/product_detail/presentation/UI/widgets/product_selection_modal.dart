@@ -98,8 +98,8 @@ class _ProductSelectionModalState extends State<ProductSelectionModal> {
               ),
               ColorOption(
                 color: Colors.teal,
-                isSelected: selectedColor == Colors.grey,
-                onSelect: () => setState(() => selectedColor = Colors.grey),
+                isSelected: selectedColor == Colors.teal,
+                onSelect: () => setState(() => selectedColor = Colors.teal),
               ),
             ],
           ),
@@ -256,7 +256,9 @@ class _ProductSelectionModalState extends State<ProductSelectionModal> {
                   color: selectedColor,
                   name: widget.item.title,
                   description: widget.item.description,
+                  category: widget.item.name,
                   image: widget.item.imagePath,
+                  count: widget.item.count,
                 ),
               );
               Navigator.pop(context); // Cerrar el modal

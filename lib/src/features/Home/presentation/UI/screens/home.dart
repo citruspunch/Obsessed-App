@@ -8,16 +8,24 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:obsessed_app/src/features/home/presentation/providers/clothing_provider.dart';
 import 'package:provider/provider.dart';
 
-class Home extends StatelessWidget {
+class Home extends StatefulWidget {
+
+  const Home({super.key});
+
+  @override
+  State<Home> createState() => _HomeState();
+}
+
+class _HomeState extends State<Home> {
+  final ScrollController _scrollController = ScrollController();
   final controller = CarouselController();
+
   final List<String> backgroundImages = [
     "assets/images/background1.png",
     "assets/images/background2.png",
     "assets/images/background3.png",
     "assets/images/background4.png",
   ];
-
-  Home({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -61,6 +69,7 @@ class Home extends StatelessWidget {
             return Consumer<ClothingProvider>(
               builder: (context, clothingProvider, child) {
                 return SingleChildScrollView(
+                  controller: _scrollController,
                   child: Column(
                     children: [
                       Carousel(
@@ -95,7 +104,15 @@ class Home extends StatelessWidget {
           }
         },
       ),
-      bottomNavigationBar: const NavigationBarHome(),
+      bottomNavigationBar: NavigationBarHome(
+        scrollToTop: () {
+          _scrollController.animateTo(
+            0,
+            duration: const Duration(milliseconds: 500),
+            curve: Curves.easeInOut,
+          );
+        },
+      ),
     );
   }
 
