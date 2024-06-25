@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:obsessed_app/src/core/entities/clothing_item.dart';
 
 class CartItem {
+  final int id;
   final ClothingItem item;
   final String name;
   final String description;
@@ -11,6 +12,7 @@ class CartItem {
   final Color? color;
 
   CartItem({
+    required this.id,
     required this.item,
     required this.quantity,
     required this.name,
