@@ -2,16 +2,34 @@ import 'package:feather_icons/feather_icons.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/material.dart';
 import 'package:obsessed_app/src/core/entities/clothing_item.dart';
+import 'package:obsessed_app/src/features/favorites/presentation/providers/favorites_provider.dart';
 import 'package:obsessed_app/src/features/product_detail/presentation/UI/screens/product_detail.dart';
+import 'package:provider/provider.dart';
 
 class ClothingItemWidget extends StatelessWidget {
   final ClothingItem item;
+  final double imageWidth;
+  final double imageHeight;
+  final double titleFontSize;
+  final double subtitleFontSize;
+  final double iconSize;
+  final Color iconColor;
 
-  const ClothingItemWidget({super.key, required this.item});
-  
+  const ClothingItemWidget({
+    super.key,
+    required this.item,
+    this.imageWidth = 111, // Valor por defecto
+    this.imageHeight = 111, // Valor por defecto
+    this.titleFontSize = 24, // Valor por defecto
+    this.subtitleFontSize = 15, // Valor por defecto
+    this.iconSize = 21, // Valor por defecto
+    this.iconColor = Colors.black, // Valor por defecto
+  });
 
   @override
   Widget build(BuildContext context) {
+    var isFavorite = Provider.of<FavoritesProvider>(context).items.contains(item);
+    
     return GestureDetector(
       onTap: () {
         Navigator.push(
@@ -24,14 +42,19 @@ class ClothingItemWidget extends StatelessWidget {
       child: ClipRRect(
         borderRadius: BorderRadius.circular(20),
         child: Container(
+          constraints: BoxConstraints(maxHeight: imageHeight + 140, maxWidth: imageWidth + 189),
           color: Colors.white,
           child: Stack(children: [
-            const Positioned(
+            Positioned(
                 right: 1,
                 top: 1,
                 child: Padding(
-                  padding: EdgeInsets.only(top: 6, right: 9),
-                  child: Icon(FeatherIcons.heart, size: 20),
+                  padding: const EdgeInsets.only(top: 10, right: 11),
+                  child: Icon(
+                    isFavorite ? Icons.favorite : FeatherIcons.heart,
+                    size: isFavorite ? iconSize + 3 : iconSize,
+                    color: isFavorite ? Colors.red : iconColor,
+                  ),
                 )),
             Positioned(
                 top: 20,
@@ -42,8 +65,8 @@ class ClothingItemWidget extends StatelessWidget {
                     Image.network(
                       item.imagePath,
                       fit: BoxFit.contain,
-                      width: 111,
-                      height: 111,
+                      width: imageWidth,
+                      height: imageHeight,
                     ),
                     const SizedBox(
                       height: 11,
@@ -51,7 +74,7 @@ class ClothingItemWidget extends StatelessWidget {
                     Text(
                       item.name,
                       style: GoogleFonts.playfairDisplay(
-                        fontSize: 24, fontWeight: FontWeight.bold),
+                        fontSize: titleFontSize, fontWeight: FontWeight.bold),
                     ),
                     const SizedBox(
                       height: 11,
@@ -59,7 +82,7 @@ class ClothingItemWidget extends StatelessWidget {
                     Text(
                       "SHOP NOW",
                       style: GoogleFonts.dmSerifText(
-                        fontSize: 15, fontWeight: FontWeight.w500),
+                        fontSize: subtitleFontSize, fontWeight: FontWeight.w500),
                     ),
                     const SizedBox(
                       height: 4,

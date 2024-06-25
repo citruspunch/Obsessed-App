@@ -1,10 +1,10 @@
+import 'package:feather_icons/feather_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:obsessed_app/src/features/home/presentation/UI/widgets/carousel.dart';
 import 'package:obsessed_app/src/features/home/presentation/UI/widgets/navigation_bar.dart';
 import 'package:obsessed_app/src/features/home/presentation/UI/widgets/clothing_item_widget.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:obsessed_app/src/features/home/presentation/providers/clothing_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -27,31 +27,25 @@ class Home extends StatelessWidget {
       appBar: AppBar(
         toolbarHeight: 90,
         elevation: 0,
-        title: Text("OBSESSED",
-            style: GoogleFonts.playfairDisplay(
-                color: Colors.black,
-                fontSize: 27,
-                fontWeight: FontWeight.bold)),
+        title: Padding(
+          padding: const EdgeInsets.only(left: 5.0),
+          child: Text("OBSESSED",
+              style: GoogleFonts.playfairDisplay(
+                  color: Colors.black,
+                  fontSize: 30,
+                  fontWeight: FontWeight.bold)),
+        ),
         backgroundColor: const Color(0xFFF1F1F1),
-        leading: IconButton(
-            iconSize: 40,
-            onPressed: (
-              //Implementar el boton de menu
-            ) {},
-            icon: SvgPicture.asset(
-              "assets/icons/menu_icon.svg",
-              fit: BoxFit.contain,
-            )),
         actions: [
           Container(
-            margin: const EdgeInsets.only(right: 12),
-            width: 40,
-            height: 40,
-            decoration: const BoxDecoration(
-                color: Colors.black, shape: BoxShape.circle),
-            child: Image.asset(
-              "assets/images/avatar2.png",
-              fit: BoxFit.contain,
+            margin: const EdgeInsets.only(right: 15),
+            width: 43,
+            height: 43,
+            decoration: BoxDecoration(
+                color: Colors.grey[300], shape: BoxShape.circle),
+            child: const Icon(
+              FeatherIcons.user,
+              color: Colors.black,
             ),
           )
         ],

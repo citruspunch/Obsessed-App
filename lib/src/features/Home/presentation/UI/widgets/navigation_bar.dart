@@ -1,5 +1,6 @@
 import 'package:feather_icons/feather_icons.dart';
 import 'package:flutter/material.dart';
+import 'package:obsessed_app/src/features/favorites/presentation/UI/screens/favorites.dart';
 
 class NavigationBarHome extends StatelessWidget {
   const NavigationBarHome({super.key});
@@ -25,7 +26,14 @@ class NavigationBarHome extends StatelessWidget {
               size: 30,
             )),
         IconButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const Favorites(),
+                ),
+              );
+            },
             icon: const Icon(
               FeatherIcons.heart,
               size: 30,
