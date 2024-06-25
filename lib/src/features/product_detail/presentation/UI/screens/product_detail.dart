@@ -36,13 +36,13 @@ class ProductDetail extends StatelessWidget {
                           ),
                         ),
                       ),
-                      const Padding(
-                        padding: EdgeInsets.all(20.0),
+                      Padding(
+                        padding: const EdgeInsets.all(20.0),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            ReturnToHomeButton(),
-                            AddToFavoritesButton(),
+                            const ReturnToHomeButton(),
+                            AddToFavoritesButton(item: item),
                           ],
                         ),
                       ),

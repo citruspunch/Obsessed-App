@@ -55,7 +55,7 @@ class AddToCartBar extends StatelessWidget {
               );
             },
             child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 100, vertical: 17),
+              padding: const EdgeInsets.symmetric(horizontal: 100, vertical: 15),
               decoration: BoxDecoration(
                 color: Colors.black,
                 borderRadius: BorderRadius.circular(30),
@@ -63,7 +63,7 @@ class AddToCartBar extends StatelessWidget {
               child: Text(
                 'Add to Cart',
                 style: GoogleFonts.poppins(
-                  fontSize: 17,
+                  fontSize: 20,
                   fontWeight: FontWeight.w600,
                   letterSpacing: 1,
                   color: Colors.white.withOpacity(0.9),

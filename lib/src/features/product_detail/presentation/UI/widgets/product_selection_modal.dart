@@ -249,6 +249,7 @@ class _ProductSelectionModalState extends State<ProductSelectionModal> {
                 Provider.of<CartProvider>(context, listen: false);
               cartProvider.addItem(
                 CartItem(
+                  id: widget.item.id,
                   item: widget.item,
                   quantity: quantity,
                   size: selectedSize,
