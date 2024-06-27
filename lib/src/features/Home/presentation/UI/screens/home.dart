@@ -33,6 +33,7 @@ class _HomeState extends State<Home> {
       extendBody: true,
       backgroundColor: const Color(0xFFF1F1F1),
       appBar: AppBar(
+        backgroundColor: const Color(0xFFF1F1F1),
         toolbarHeight: 90,
         elevation: 0,
         title: Padding(
@@ -43,7 +44,6 @@ class _HomeState extends State<Home> {
                   fontSize: 30,
                   fontWeight: FontWeight.bold)),
         ),
-        backgroundColor: const Color(0xFFF1F1F1),
         actions: [
           Container(
             margin: const EdgeInsets.only(right: 15),

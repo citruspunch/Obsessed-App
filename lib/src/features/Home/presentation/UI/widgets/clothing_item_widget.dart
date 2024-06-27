@@ -18,12 +18,12 @@ class ClothingItemWidget extends StatelessWidget {
   const ClothingItemWidget({
     super.key,
     required this.item,
-    this.imageWidth = 111, // Valor por defecto
-    this.imageHeight = 111, // Valor por defecto
-    this.titleFontSize = 24, // Valor por defecto
-    this.subtitleFontSize = 15, // Valor por defecto
-    this.iconSize = 21, // Valor por defecto
-    this.iconColor = Colors.black, // Valor por defecto
+    this.imageWidth = 111, // Valores por defecto
+    this.imageHeight = 111,
+    this.titleFontSize = 24, 
+    this.subtitleFontSize = 15, 
+    this.iconSize = 21, 
+    this.iconColor = Colors.black, 
   });
 
   @override

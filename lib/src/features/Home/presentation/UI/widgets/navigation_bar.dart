@@ -5,6 +5,8 @@ import 'package:obsessed_app/src/features/cart/domain/entities/cart_item.dart';
 import 'package:obsessed_app/src/features/cart/presentation/UI/screens/cart_screen.dart';
 import 'package:obsessed_app/src/features/cart/presentation/providers/cart_provider.dart';
 import 'package:obsessed_app/src/features/favorites/presentation/UI/screens/favorites.dart';
+import 'package:obsessed_app/src/features/home/presentation/UI/screens/home.dart';
+import 'package:obsessed_app/src/features/search/presentation/UI/screens/search_screen.dart';
 import 'package:provider/provider.dart';
 
 class NavigationBarHome extends StatefulWidget {
@@ -29,13 +31,34 @@ class _NavigationBarHomeState extends State<NavigationBarHome> {
           color: Colors.white, borderRadius: BorderRadius.circular(69)),
       child: Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
         IconButton(
-            onPressed: widget.scrollToTop ?? () {},
+            onPressed: widget.scrollToTop ?? () {
+              Navigator.of(context).pushAndRemoveUntil(
+                PageRouteBuilder(
+                  pageBuilder: (context, animation, secondaryAnimation) => const Home(),
+                  transitionsBuilder: (context, animation, secondaryAnimation, child) {
+                    return FadeTransition(
+                      opacity: animation,
+                      child: child,
+                    );
+                  },
+                  transitionDuration: const Duration(milliseconds: 300),
+                ),
+                (Route<dynamic> route) => false,
+              );
+            },
             icon: const Icon(
               FeatherIcons.home,
               size: 30,
             )),
         IconButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const SearchScreen(),
+                ),
+              );
+            },
             icon: const Icon(
               FeatherIcons.search,
               size: 30,
