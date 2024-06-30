@@ -48,6 +48,17 @@ class ClothingItem {
       count: json['rating']['count'],
     );
   }
+
+  @override
+  bool operator ==(Object other) {
+    // Si son exactamente el mismo objeto en memoria
+    if (identical(this, other)) return true;
+    
+    return other is ClothingItem && other.id == id;
+  }
+
+  @override
+  int get hashCode => id.hashCode;
 }
 
 /*List<ClothingItem> listOfClothingItems() {

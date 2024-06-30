@@ -9,8 +9,8 @@ class CartTitle extends StatelessWidget {
     return Text(
       'Cart',
       style: GoogleFonts.poppins(
-        fontSize: 22,
-        fontWeight: FontWeight.bold,
+        fontSize: 27,
+        fontWeight: FontWeight.w600,
       ),
     );
   }
