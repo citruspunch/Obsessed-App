@@ -8,17 +8,28 @@ class SearchScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: SingleChildScrollView(
+    return Scaffold(
+      appBar: AppBar(
+        title: const SearchBarWidget(),
+        backgroundColor: const Color(0xFFF1F1F1),
+        forceMaterialTransparency: true,
+        automaticallyImplyLeading: false,
+        toolbarHeight: 80.0,
+        bottom: PreferredSize(
+          preferredSize: const Size.fromHeight(10.0),
+          child: Container(),
+        ),
+      ),
+      backgroundColor: const Color(0xFFF1F1F1),
+      body: const SingleChildScrollView(
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            SearchBarWidget(),
             FilteredProductsWidget(),
           ],
         ),
       ),
-      bottomNavigationBar: NavigationBarHome(),
+      bottomNavigationBar: const NavigationBarHome(),
     );
   }
 }

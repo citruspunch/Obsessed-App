@@ -52,7 +52,7 @@ class ClothingItemWidget extends StatelessWidget {
                   padding: const EdgeInsets.only(top: 10, right: 11),
                   child: Icon(
                     isFavorite ? Icons.favorite : FeatherIcons.heart,
-                    size: isFavorite ? iconSize + 3 : iconSize,
+                    size: isFavorite ? iconSize + 4 : iconSize,
                     color: isFavorite ? Colors.red : iconColor,
                   ),
                 )),
@@ -71,10 +71,14 @@ class ClothingItemWidget extends StatelessWidget {
                     const SizedBox(
                       height: 11,
                     ),
-                    Text(
-                      item.name,
-                      style: GoogleFonts.playfairDisplay(
-                        fontSize: titleFontSize, fontWeight: FontWeight.bold),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 18.0),
+                      child: Text(
+                        item.title,
+                        style: GoogleFonts.playfairDisplay(
+                          fontSize: titleFontSize, fontWeight: FontWeight.bold),
+                        overflow: TextOverflow.ellipsis,
+                      ),
                     ),
                     const SizedBox(
                       height: 11,

@@ -29,88 +29,112 @@ class _NavigationBarHomeState extends State<NavigationBarHome> {
       margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 20),
       decoration: BoxDecoration(
           color: Colors.white, borderRadius: BorderRadius.circular(69)),
-      child: Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
-        IconButton(
-            onPressed: widget.scrollToTop ?? () {
-              Navigator.of(context).pushAndRemoveUntil(
-                PageRouteBuilder(
-                  pageBuilder: (context, animation, secondaryAnimation) => const Home(),
-                  transitionsBuilder: (context, animation, secondaryAnimation, child) {
-                    return FadeTransition(
-                      opacity: animation,
-                      child: child,
-                    );
-                  },
-                  transitionDuration: const Duration(milliseconds: 300),
-                ),
-                (Route<dynamic> route) => false,
-              );
-            },
-            icon: const Icon(
-              FeatherIcons.home,
-              size: 30,
-            )),
-        IconButton(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround, 
+        children: [
+          IconButton(
+              onPressed: widget.scrollToTop ?? () {
+                Navigator.of(context).pushAndRemoveUntil(
+                  PageRouteBuilder(
+                    pageBuilder: (context, animation, secondaryAnimation) => const Home(),
+                    transitionsBuilder: (context, animation, secondaryAnimation, child) {
+                      return FadeTransition(
+                        opacity: animation,
+                        child: child,
+                      );
+                    },
+                    transitionDuration: const Duration(milliseconds: 300),
+                  ),
+                  (Route<dynamic> route) => false,
+                );
+              },
+              icon: const Icon(
+                FeatherIcons.home,
+                size: 30,
+              )),
+          IconButton(
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(
-                  builder: (context) => const SearchScreen(),
-                ),
+                PageRouteBuilder(
+                  pageBuilder: (context, animation, secondaryAnimation) => const SearchScreen(),
+                  transitionsBuilder: (context, animation, secondaryAnimation, child) {
+                      return FadeTransition(
+                        opacity: animation,
+                        child: child,
+                      );
+                    },
+                    transitionDuration: const Duration(milliseconds: 300),
+                  ),
               );
             },
             icon: const Icon(
               FeatherIcons.search,
               size: 30,
-            )),
-        IconButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const Favorites(),
-                ),
-              );
-            },
-            icon: const Icon(
-              FeatherIcons.heart,
-              size: 30,
-            )),
-        Stack(
-          children: [
-            IconButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => CartScreen(cartItems: cartItems, totalPrice: totalPrice),
-                    ),
-                  );
-                },
-                icon: Icon(
-                  totalQuantity > 0 ? FeatherIcons.shoppingCart : FeatherIcons.shoppingBag,
-                  size: 30,
-                )),
-            if ( totalQuantity > 0 && totalQuantity < 100)
-              Positioned(
-                right: 1,
-                top: 1,
-                child: CircleAvatar(
-                  backgroundColor: Colors.grey[800],
-                  radius: 10,
-                  child: Text(
-                    totalQuantity.toString(),
-                    style: GoogleFonts.poppins(
-                      fontSize: 13,
-                      fontWeight: FontWeight.w700,
-                      color: Colors.white,
+            ),
+          ),
+          IconButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  PageRouteBuilder(
+                    pageBuilder: (context, animation, secondaryAnimation) => const Favorites(),
+                    transitionsBuilder: (context, animation, secondaryAnimation, child) {
+                      return FadeTransition(
+                        opacity: animation,
+                        child: child,
+                      );
+                    },
+                    transitionDuration: const Duration(milliseconds: 200),
+                  )
+                );
+              },
+              icon: const Icon(
+                FeatherIcons.heart,
+                size: 30,
+              )
+          ),
+          Stack(
+            children: [
+              IconButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      PageRouteBuilder(
+                        pageBuilder: (context, animation, secondaryAnimation) => CartScreen(cartItems: cartItems, totalPrice: totalPrice), transitionsBuilder: (context, animation, secondaryAnimation, child) {
+                          return FadeTransition(
+                            opacity: animation,
+                            child: child,
+                          );
+                        },
+                      ),
+                    );
+                  },
+                  icon: Icon(
+                    totalQuantity > 0 ? FeatherIcons.shoppingCart : FeatherIcons.shoppingBag,
+                    size: 30,
+                  )),
+              if ( totalQuantity > 0 && totalQuantity < 100)
+                Positioned(
+                  right: 1,
+                  top: 1,
+                  child: CircleAvatar(
+                    backgroundColor: Colors.grey[800],
+                    radius: 10,
+                    child: Text(
+                      totalQuantity.toString(),
+                      style: GoogleFonts.poppins(
+                        fontSize: 13,
+                        fontWeight: FontWeight.w700,
+                        color: Colors.white,
+                      ),
                     ),
                   ),
-                ),
-              )
-          ],
-        )
-      ]),
+                )
+            ],
+          )
+        ]
+      ),
     );
   }
 }

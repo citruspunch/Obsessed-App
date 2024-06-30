@@ -34,6 +34,7 @@ class _HomeState extends State<Home> {
       backgroundColor: const Color(0xFFF1F1F1),
       appBar: AppBar(
         backgroundColor: const Color(0xFFF1F1F1),
+        forceMaterialTransparency: true,
         toolbarHeight: 90,
         elevation: 0,
         title: Padding(
