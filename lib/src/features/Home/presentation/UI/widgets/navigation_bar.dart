@@ -124,7 +124,7 @@ class _NavigationBarHomeState extends State<NavigationBarHome> {
                     child: Text(
                       totalQuantity.toString(),
                       style: GoogleFonts.poppins(
-                        fontSize: 13,
+                        fontSize: (totalQuantity > 9) ? 11.5 : 13.5,
                         fontWeight: FontWeight.w700,
                         color: Colors.white,
                       ),

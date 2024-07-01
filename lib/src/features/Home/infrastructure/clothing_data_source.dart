@@ -12,8 +12,8 @@ class ClothingDataSource {
     if (response.statusCode == 200) {
       final List<dynamic> itemJson = jsonDecode(response.body);
       // Ignorar artículos que no son ropa
-      for (int i=firstNonUsableItem; i<=lastNonUsableItem; i++) {
-        itemJson.removeAt(i);
+      for (int i=firstNonUsableItem; i<lastNonUsableItem; i++) {
+        itemJson.removeAt(firstNonUsableItem);
       }
       return itemJson.map((json) => ClothingItem.fromJson(json)).toList();
     } else {

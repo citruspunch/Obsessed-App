@@ -7,6 +7,7 @@ class ClothingItem {
   final String description;
   final Map<String, dynamic> rating;
   final int count;
+  int stock;
 
   ClothingItem({
     required this.id,
@@ -17,6 +18,7 @@ class ClothingItem {
     required this.description,
     required this.rating,
     required this.count,
+    this.stock = 10,
   });
 
   factory ClothingItem.fromJson(Map<String, dynamic> json) {
