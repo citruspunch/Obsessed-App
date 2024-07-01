@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:obsessed_app/src/core/entities/clothing_item.dart';
 import 'package:obsessed_app/src/features/cart/domain/entities/cart_item.dart';
 
 class CartProvider extends ChangeNotifier {
@@ -9,11 +10,17 @@ class CartProvider extends ChangeNotifier {
   void addItem(CartItem item) {
     final index = _items.indexWhere((element) => element.id == item.id && element.size == item.size && element.color == item.color);
     if (index != -1) {
-      // El ítem ya existe en el carrito, aumenta la cantidad
-      _items[index].quantity += item.quantity;
+      // El ítem ya existe en el carrito, verifica las existencias antes de aumentar la cantidad
+      if (_items[index].stock >= item.quantity) {
+        _items[index].quantity += item.quantity;
+        _items[index].stock -= item.quantity; // Disminuye las existencias disponibles
+      }
     } else {
-      // El ítem no existe en el carrito, lo agrega
-      _items.add(item);
+      // El ítem no existe en el carrito, verifica las existencias antes de agregar
+      if (item.stock >= item.quantity) {
+        _items.add(item);
+        item.stock -= item.quantity; // Disminuye las existencias disponibles
+      }
     }
     notifyListeners();
   }
@@ -21,6 +28,7 @@ class CartProvider extends ChangeNotifier {
   void removeItem(CartItem item) {
     final index = _items.indexWhere((element) => element.id == item.id && element.size == item.size && element.color == item.color);
     if (index != -1) {
+      _items[index].stock += item.quantity;
       _items.removeAt(index);
       notifyListeners();
     }
@@ -29,8 +37,11 @@ class CartProvider extends ChangeNotifier {
   void increaseItemQuantity(CartItem item) {
     final index = _items.indexWhere((element) => element.id == item.id && element.size == item.size && element.color == item.color);
     if (index != -1) {
-      _items[index].quantity++;
-      notifyListeners();
+      if (_items[index].stock > 0) {
+        _items[index].quantity++;
+        _items[index].stock--;
+        notifyListeners();
+      }
     }
   }
 
@@ -39,9 +50,18 @@ class CartProvider extends ChangeNotifier {
     if (index != -1) {
       if (_items[index].quantity > 1) {
         _items[index].quantity--;
+        _items[index].stock++;
         notifyListeners();
       } 
     }
+  }
+
+  bool containsClothingItem(ClothingItem item, Color color, String size) {
+    return _items.any((element) => element.item == item && element.color == color && element.size == size);
+  }
+
+  int getIndex(ClothingItem item) {
+    return _items.indexWhere((element) => element.item == item);
   }
 
   void clear() {

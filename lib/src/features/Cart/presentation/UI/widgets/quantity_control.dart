@@ -31,7 +31,7 @@ class QuantityControl extends StatelessWidget {
         ),
         InkWell(
           onTap: () {
-            if (item.quantity < item.count) {
+            if (item.quantity < item.item.stock) {
               Provider.of<CartProvider>(context, listen: false).increaseItemQuantity(item);
             } else {
               ScaffoldMessenger.of(context).showSnackBar(

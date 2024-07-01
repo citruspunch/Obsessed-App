@@ -12,6 +12,7 @@ class CartItem {
   int quantity;
   final String? size;
   final Color? color;
+  int stock;
 
   CartItem({
     required this.id,
@@ -24,6 +25,7 @@ class CartItem {
     required this.count,
     this.size,
     this.color,
+    this.stock = 10,
   });
 
   double get price => item.price * quantity;

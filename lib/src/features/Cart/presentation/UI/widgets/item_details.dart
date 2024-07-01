@@ -36,7 +36,7 @@ class ItemDetails extends StatelessWidget {
           ),
           Text(
             'Color: ${getColorName(item.color)}',
-            style: GoogleFonts.poppins(fontSize: 14, color: item.color?.withOpacity(0.7)),
+            style: GoogleFonts.poppins(fontSize: 14, color: (item.color != Colors.black) ? item.color?.withOpacity(0.7) : Colors.black, fontWeight: (item.color == Colors.black) ? FontWeight.w500 : FontWeight.normal),
           ),
           const SizedBox(height: 5),
           SizedBox(
