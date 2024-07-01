@@ -9,8 +9,8 @@ class PaymentTitle extends StatelessWidget {
     return Text(
       'Payment',
       style: GoogleFonts.poppins(
-        fontSize: 22,
-        fontWeight: FontWeight.bold,
+        fontSize: 27,
+        fontWeight: FontWeight.w600,
       ),
     );
   }

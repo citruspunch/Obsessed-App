@@ -22,6 +22,7 @@ class EmailService implements EmailRepository {
         'to': email,
         'subject': subject,
         'html': body,
+        'h:Reply-To': 'no-reply@$domain',
       },
     );
 

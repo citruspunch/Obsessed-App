@@ -21,13 +21,20 @@ class SearchScreen extends StatelessWidget {
         ),
       ),
       backgroundColor: const Color(0xFFF1F1F1),
-      body: const SingleChildScrollView(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            FilteredProductsWidget(),
-          ],
-        ),
+      body: LayoutBuilder(
+        builder: (context, constraints) {
+          return SingleChildScrollView(
+            child: ConstrainedBox(
+              constraints: BoxConstraints(minHeight: constraints.maxHeight),
+              child: const Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  FilteredProductsWidget(),
+                ],
+              ),
+            ),
+          );
+        },
       ),
       bottomNavigationBar: const NavigationBarHome(),
     );
