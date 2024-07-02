@@ -30,9 +30,12 @@ class ProductDetail extends StatelessWidget {
                       Center(
                         child: Transform.scale(
                           scale: 0.75, // zoom level
-                          child: Image(
-                            image: NetworkImage(item.imagePath),
-                            fit: BoxFit.cover,
+                          child: Hero(
+                            tag: 'hero-${item.id}',
+                            child: Image(
+                              image: NetworkImage(item.imagePath),
+                              fit: BoxFit.cover,
+                            ),
                           ),
                         ),
                       ),

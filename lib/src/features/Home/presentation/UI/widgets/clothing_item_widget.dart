@@ -113,11 +113,15 @@ class ClothingItemWidget extends StatelessWidget {
               ),
               Expanded(
                 child: Center(
-                  child: Image.network(
-                    item.imagePath,
-                    fit: BoxFit.contain,
-                    width: imageWidth,
-                    height: imageHeight,
+                  child: Hero(
+                    tag: 'hero-${item.id}',
+                    transitionOnUserGestures: true,
+                    child: Image.network(
+                      item.imagePath,
+                      fit: BoxFit.contain,
+                      width: imageWidth,
+                      height: imageHeight,
+                    ),
                   ),
                 ),
               ),
