@@ -34,7 +34,7 @@ class SuccesfulPayment extends StatelessWidget {
             ),
             const SizedBox(height: 10), // Espacio entre el ícono y el texto
             Text(
-              'Payment Successful\nGo to Home',
+              'Payment Successful!',
               textAlign: TextAlign.center,
               style: GoogleFonts.poppins(
                 color: Colors.white,

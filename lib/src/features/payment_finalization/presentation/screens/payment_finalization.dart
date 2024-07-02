@@ -26,7 +26,7 @@ class PaymentFinalization extends StatelessWidget {
                         children: [
                           const ReturnToHomeButton(),
                           const PaymentTitle(),
-                          Container(width: 45),
+                          Container(width: 30),
                         ],
                       ),
                       const OrderDetailsForm(),

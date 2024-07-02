@@ -11,6 +11,7 @@ class PaymentTitle extends StatelessWidget {
       style: GoogleFonts.poppins(
         fontSize: 27,
         fontWeight: FontWeight.w600,
+        color: Colors.grey[800],
       ),
     );
   }

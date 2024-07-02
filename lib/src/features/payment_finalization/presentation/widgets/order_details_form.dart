@@ -2,8 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:obsessed_app/src/features/cart/domain/entities/cart_item.dart';
 import 'package:obsessed_app/src/features/cart/presentation/providers/cart_provider.dart';
+import 'package:obsessed_app/src/features/payment_finalization/domain/entities/city.dart';
+import 'package:obsessed_app/src/features/payment_finalization/domain/entities/country.dart';
 import 'package:obsessed_app/src/features/payment_finalization/domain/repositories/email_repository.dart';
 import 'package:obsessed_app/src/features/payment_finalization/domain/use_cases/send_email_use_case.dart';
+import 'package:obsessed_app/src/features/payment_finalization/infrastructure/city_service.dart';
+import 'package:obsessed_app/src/features/payment_finalization/infrastructure/countries_service.dart';
 import 'package:obsessed_app/src/features/payment_finalization/infrastructure/email_service.dart';
 import 'package:obsessed_app/src/features/payment_finalization/presentation/widgets/succesful_payment.dart';
 import 'package:provider/provider.dart';
@@ -20,25 +24,59 @@ class _OrderDetailsFormState extends State<OrderDetailsForm> {
   final _formKey = GlobalKey<FormState>();
   final _nameController = TextEditingController();
   final _lastNameController = TextEditingController();
-  final _countryController = TextEditingController();
-  final _cityController = TextEditingController();
   final _emailController = TextEditingController();
   final EmailRepository _emailRepository = EmailService();
   late final SendEmailUseCase _sendEmailUseCase;
+
+  List<Country> _countries = [];
+  String? _selectedCountry;
+  List<City> _cities = [];
+  String? _selectedCity;
 
   @override
   void initState() {
     super.initState();
     // Crear la instancia de SendEmailUseCase con EmailRepository
     _sendEmailUseCase = SendEmailUseCase(_emailRepository);
+    _loadCountries();
+  }
+
+  void _loadCountries() async {
+    try {
+      CountriesService service = CountriesService();
+      List<Country> countries = await service.getCountries(); // Obtiene los países
+      // Actualiza el estado con los nuevos países y selecciona el primer país por defecto
+      if (countries.isNotEmpty) {
+        setState(() {
+          _countries = countries;
+          _selectedCountry = countries.first.name;
+        });
+      }
+    } catch (e) {
+      throw Exception('Error loading countries: $e');
+    }
+  }
+
+  void _loadCities(String countryName) async {
+    try {
+      CityService service = CityService();
+      List<City> cities = await service.getCities(countryName);
+      setState(() {
+        _cities = cities;
+        _selectedCity = cities.isNotEmpty ? cities.first.name : null;
+      });
+    } catch (e) {
+      setState(() {
+        _cities = [];
+        _selectedCity = 'No cities Available';
+      });
+    }
   }
 
   @override
   void dispose() {
     _nameController.dispose();
     _lastNameController.dispose();
-    _countryController.dispose();
-    _cityController.dispose();
     _emailController.dispose();
     super.dispose();
   }
@@ -49,20 +87,13 @@ class _OrderDetailsFormState extends State<OrderDetailsForm> {
       child: Form(
         key: _formKey,
         child: Padding(
-          padding: const EdgeInsets.only(left: 20, right: 20, top: 40),
+          padding: const EdgeInsets.only(left: 3, right: 3, top: 80),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               TextFormField(
                 controller: _nameController,
-                decoration: InputDecoration(
-                  icon: const Icon(Icons.person),
-                  labelText: 'Name: ',
-                  labelStyle: GoogleFonts.poppins(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
+                decoration: createDecoration('Name:', icon: Icons.person),
                 style: GoogleFonts.poppins(
                   fontSize: 15,
                 ),
@@ -73,17 +104,10 @@ class _OrderDetailsFormState extends State<OrderDetailsForm> {
                   return null;
                 },
               ),
-              const SizedBox(height: 45),
+              const SizedBox(height: 65),
               TextFormField(
                 controller: _lastNameController,
-                decoration: InputDecoration(
-                  icon: const Icon(Icons.person_outline),
-                  labelText: 'Last Name:',
-                  labelStyle: GoogleFonts.poppins(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
+                decoration: createDecoration('Last Name:', icon: Icons.person_outline),
                 style: GoogleFonts.poppins(
                   fontSize: 15,
                 ),
@@ -94,59 +118,95 @@ class _OrderDetailsFormState extends State<OrderDetailsForm> {
                   return null;
                 },
               ),
-              const SizedBox(height: 45),
-              TextFormField(
-                controller: _countryController,
+              const SizedBox(height: 65),
+              DropdownButtonFormField<String>(
+                value: _selectedCountry,
                 decoration: InputDecoration(
-                  icon: const Icon(Icons.flag),
+                  fillColor: Colors.white,
+                  filled: true,
+                  icon: const Icon(Icons.flag, color: Colors.deepPurple),
                   labelText: 'Country:',
                   labelStyle: GoogleFonts.poppins(
                     fontSize: 18,
                     fontWeight: FontWeight.w600,
                   ),
+                  border: OutlineInputBorder( 
+                    borderRadius: BorderRadius.circular(10.0),
+                    borderSide: const BorderSide(color: Colors.grey),
+                  ),
+                  enabledBorder: OutlineInputBorder( 
+                    borderRadius: BorderRadius.circular(10.0),
+                    borderSide: const BorderSide(color: Colors.grey),
+                  ),
+                  focusedBorder: OutlineInputBorder( 
+                    borderRadius: BorderRadius.circular(10.0),
+                    borderSide: const BorderSide(color: Colors.deepPurple, width: 2),
+                  ),
                 ),
-                style: GoogleFonts.poppins(
-                  fontSize: 15,
-                ),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter your country';
-                  }
-                  return null;
+                onChanged: (String? newValue) {
+                  setState(() {
+                    _selectedCountry = newValue;
+                    _loadCities(_selectedCountry!);
+                  });
                 },
+                items: _countries.map<DropdownMenuItem<String>>((Country country) {
+                  return DropdownMenuItem<String>(
+                    value: country.name,
+                    child: Text(
+                      country.name.length > 40 ? '${country.name.substring(0, country.name.length - 7)}...' : country.name,
+                      style: GoogleFonts.poppins(
+                        fontSize: 15,
+                      ),
+                    ),
+                  );
+                }).toList(),
               ),
-              const SizedBox(height: 45),
-              TextFormField(
-                controller: _cityController,
+              const SizedBox(height: 65),
+              DropdownButtonFormField<String>(
+                value: _selectedCity,
                 decoration: InputDecoration(
-                  icon: const Icon(Icons.location_city),
+                  fillColor: Colors.white, 
+                  filled: true,
+                  icon: const Icon(Icons.location_city, color: Colors.deepPurple),
                   labelText: 'City:',
                   labelStyle: GoogleFonts.poppins(
                     fontSize: 18,
                     fontWeight: FontWeight.w600,
                   ),
-                ),
-                style: GoogleFonts.poppins(
-                  fontSize: 15,
-                ),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter your city';
-                  }
-                  return null;
-                },
-              ),
-              const SizedBox(height: 45),
-              TextFormField(
-                controller: _emailController,
-                decoration: InputDecoration(
-                  icon: const Icon(Icons.email),
-                  labelText: 'Email:',
-                  labelStyle: GoogleFonts.poppins(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w600,
+                  border: OutlineInputBorder( 
+                    borderRadius: BorderRadius.circular(10.0),
+                    borderSide: const BorderSide(color: Colors.grey),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                    borderSide: const BorderSide(color: Colors.grey),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                    borderSide: const BorderSide(color: Colors.deepPurple, width: 2),
                   ),
                 ),
+                onChanged: (String? newValue) {
+                  setState(() {
+                    _selectedCity = newValue;
+                  });
+                },
+                items: _cities.map<DropdownMenuItem<String>>((City city) {
+                  return DropdownMenuItem<String>(
+                    value: city.name,
+                    child: Text(
+                      city.name.length > 40 ? '${city.name.substring(0, city.name.length - 10)}...' : city.name,
+                      style: GoogleFonts.poppins(
+                        fontSize: 15,
+                      ),
+                    ),
+                  );
+                }).toList(),
+              ),
+              const SizedBox(height: 65),
+              TextFormField(
+                controller: _emailController,
+                decoration: createDecoration('Email:', icon: Icons.email),
                 style: GoogleFonts.poppins(
                   fontSize: 15,
                 ),
@@ -159,7 +219,7 @@ class _OrderDetailsFormState extends State<OrderDetailsForm> {
                   return null;
                 },
               ),
-              const SizedBox(height: 45),
+              const SizedBox(height: 65),
               Center(
                 child: Padding(
                   padding: const EdgeInsets.all(30),
@@ -179,8 +239,8 @@ class _OrderDetailsFormState extends State<OrderDetailsForm> {
                             orderId: uniqueId,
                             name: _nameController.text,
                             lastName: _lastNameController.text,
-                            country: _countryController.text,
-                            city: _cityController.text,
+                            country: _selectedCountry!,
+                            city: _selectedCity!,
                             totalAmount: totalAmount,
                             products: products,
                           );
@@ -205,12 +265,15 @@ class _OrderDetailsFormState extends State<OrderDetailsForm> {
                       }
                     },
                     style: ElevatedButton.styleFrom(
-                      foregroundColor: Colors.white,
-                      backgroundColor: Colors.grey[800],
+                      fixedSize: const Size(230, 80),
+                      foregroundColor: Colors.deepPurple[500],
+                      backgroundColor: Colors.white,
                       padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 20),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20),
                       ),
+                      shadowColor: Colors.grey,
+                      elevation: 6,
                     ),
                     child: Text(
                       'Submit',
@@ -227,6 +290,31 @@ class _OrderDetailsFormState extends State<OrderDetailsForm> {
         ),
       ),
     );
+  }
+
+  InputDecoration createDecoration(String label, {IconData? icon}) {
+    return InputDecoration(
+                fillColor: Colors.white,
+                filled: true,
+                icon: Icon(icon, color: Colors.deepPurple), 
+                labelText: label,
+                labelStyle: GoogleFonts.poppins(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w600,
+                ),
+                border: OutlineInputBorder( 
+                  borderRadius: BorderRadius.circular(10.0),
+                  borderSide: const BorderSide(color: Colors.grey),
+                ),
+                enabledBorder: OutlineInputBorder( 
+                  borderRadius: BorderRadius.circular(10.0),
+                  borderSide: const BorderSide(color: Colors.grey),
+                ),
+                focusedBorder: OutlineInputBorder( 
+                  borderRadius: BorderRadius.circular(10.0),
+                  borderSide: const BorderSide(color: Colors.deepPurple, width: 2),
+                ),
+              );
   }
 
   String _generateEmailBody({
