@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:obsessed_app/src/features/cart/presentation/providers/cart_provider.dart';
 import 'package:obsessed_app/src/features/home/presentation/UI/screens/home.dart';
 import 'package:provider/provider.dart';
+import 'package:rive/rive.dart';
 
 
 class SuccesfulPayment extends StatelessWidget {
@@ -11,6 +12,8 @@ class SuccesfulPayment extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+        height: 300,
+        width: 350,
         padding: const EdgeInsets.all(20),
         decoration: BoxDecoration(
           color: Colors.grey[900],
@@ -25,14 +28,15 @@ class SuccesfulPayment extends StatelessWidget {
           borderRadius: BorderRadius.circular(10),
         ),
         child: Column(
-          mainAxisSize: MainAxisSize.min, // Para ajustar el tamaño al contenido
+          mainAxisSize: MainAxisSize.min,
           children: [
-            const Icon(
-              Icons.check_circle_outline, // Ícono de éxito
-              color: Colors.white,
-              size: 60,
+            const Expanded(
+              child: RiveAnimation.asset(
+                'assets/animations/success_payment.riv',
+                fit: BoxFit.fitHeight,
+              ),
             ),
-            const SizedBox(height: 10), // Espacio entre el ícono y el texto
+            const SizedBox(height: 10),
             Text(
               'Payment Successful!',
               textAlign: TextAlign.center,

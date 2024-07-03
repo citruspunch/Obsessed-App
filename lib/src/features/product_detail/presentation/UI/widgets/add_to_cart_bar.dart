@@ -16,7 +16,7 @@ class AddToCartBar extends StatelessWidget {
     return BottomAppBar(
       color: Colors.transparent,
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
           InkWell(
             onTap: () {
@@ -55,7 +55,7 @@ class AddToCartBar extends StatelessWidget {
               );
             },
             child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 100, vertical: 15),
+              padding: const EdgeInsets.symmetric(horizontal: 110, vertical: 15),
               decoration: BoxDecoration(
                 color: Colors.black,
                 borderRadius: BorderRadius.circular(30),
@@ -66,7 +66,7 @@ class AddToCartBar extends StatelessWidget {
                   fontSize: 20,
                   fontWeight: FontWeight.w600,
                   letterSpacing: 1,
-                  color: Colors.white.withOpacity(0.9),
+                  color: Colors.white,
                 ),
               ),
             ),

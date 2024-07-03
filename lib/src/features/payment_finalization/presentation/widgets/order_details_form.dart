@@ -92,6 +92,7 @@ class _OrderDetailsFormState extends State<OrderDetailsForm> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               TextFormField(
+                autofocus: true,
                 controller: _nameController,
                 decoration: createDecoration('Name:', icon: Icons.person),
                 style: GoogleFonts.poppins(
