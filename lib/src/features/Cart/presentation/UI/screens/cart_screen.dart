@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:obsessed_app/src/features/cart/presentation/UI/widgets/cart_body.dart';
 import 'package:obsessed_app/src/features/cart/presentation/UI/widgets/cart_footer.dart';
 import 'package:obsessed_app/src/features/cart/presentation/UI/widgets/cart_header.dart';
 import 'package:obsessed_app/src/features/cart/domain/entities/cart_item.dart';
 import 'package:obsessed_app/src/features/cart/presentation/UI/widgets/cart_title.dart';
+import 'package:obsessed_app/src/features/cart/presentation/UI/widgets/no_products_widget.dart';
 import 'package:obsessed_app/src/features/cart/presentation/providers/cart_provider.dart';
-import 'package:obsessed_app/src/features/home/presentation/UI/screens/home.dart';
 import 'package:obsessed_app/src/features/product_detail/presentation/UI/widgets/return_to_home_button.dart';
 import 'package:provider/provider.dart';
 
@@ -63,56 +62,7 @@ class CartScreen extends StatelessWidget {
               child: CartFooter(totalPrice: cart.totalPrice),
             )
           else
-            Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    'Your cart is empty',
-                    style: GoogleFonts.poppins(
-                      fontSize: 29,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.grey.shade800,
-                    ),
-                  ),
-                  const SizedBox(height: 20),
-                  Icon(
-                    Icons.remove_shopping_cart,
-                    size: 90,
-                    color: Colors.grey.shade400,
-                  ),
-                  const SizedBox(height: 30),
-                  ElevatedButton(
-                    onPressed: () {
-                      Navigator.of(context).pushAndRemoveUntil(
-                        PageRouteBuilder(
-                          pageBuilder: (context, animation, secondaryAnimation) => const Home(),
-                          transitionsBuilder: (context, animation, secondaryAnimation, child) {
-                            return FadeTransition(
-                              opacity: animation,
-                              child: child,
-                            );
-                          },
-                          transitionDuration: const Duration(milliseconds: 300),
-                        ),
-                        (Route<dynamic> route) => false,
-                      );
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.grey.shade800, 
-                      foregroundColor: Colors.white,
-                    ),
-                    child: Text(
-                      'Start Shopping',
-                      style: GoogleFonts.poppins(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            )
+            const NoProductsWidget(backToHome: true, text: 'Your cart is empty')
         ],
       ),
     );

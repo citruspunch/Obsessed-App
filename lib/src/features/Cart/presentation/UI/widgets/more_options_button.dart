@@ -7,7 +7,12 @@ class MoreOptionsButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        Navigator.pop(context);
+        showAboutDialog(
+          context: context,
+          applicationName: 'Obsessed',
+          applicationVersion: '1.0.0',
+          applicationLegalese: '© 2021 Obsessed. All rights reserved.',
+        );
       },
       child: const Icon(
         Icons.more_horiz,
