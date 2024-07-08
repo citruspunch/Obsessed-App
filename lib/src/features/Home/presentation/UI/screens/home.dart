@@ -1,15 +1,18 @@
 import 'package:feather_icons/feather_icons.dart';
 import 'package:flutter/material.dart';
+import 'package:obsessed_app/main.dart';
 import 'package:obsessed_app/src/features/home/presentation/UI/widgets/carousel.dart';
 import 'package:obsessed_app/src/features/home/presentation/UI/widgets/navigation_bar.dart';
 import 'package:obsessed_app/src/features/home/presentation/UI/widgets/clothing_item_widget.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:obsessed_app/src/features/home/presentation/providers/clothing_provider.dart';
+import 'package:obsessed_app/src/features/user_account/presentation/UI/screens/login_screen.dart';
+import 'package:obsessed_app/src/features/user_account/presentation/UI/screens/profile_page.dart';
 import 'package:provider/provider.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class Home extends StatefulWidget {
-
   const Home({super.key});
 
   @override
@@ -19,13 +22,46 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   final ScrollController _scrollController = ScrollController();
   final controller = CarouselController();
+  String? _avatarUrl;
 
+  @override
+  void initState() {
+    super.initState();
+    if (supabase.auth.currentSession != null) {
+      _initializeProfile();
+    }
+  }
+
+   Future<void> _initializeProfile() async {
+    await _getPicture();
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
   final List<String> backgroundImages = [
     "assets/images/background1.png",
-    "assets/images/background2.png",
+    "assets/images/background2.png"
     "assets/images/background3.png",
     "assets/images/background4.png",
   ];
+  Future<void> _getPicture() async {
+    try {
+      final userId = supabase.auth.currentSession!.user.id;
+      final data = await supabase.from('profiles').select().eq('id', userId).single();
+      setState(() {
+        _avatarUrl = (data['avatar_url'] ?? '') as String;
+      });
+    } on PostgrestException catch (error) {
+      if (mounted) context.showSnackBar(error.message, isError: true);
+    } catch (error) {
+      if (mounted) {
+        context.showSnackBar('Unexpected error occurred', isError: true);
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -48,13 +84,56 @@ class _HomeState extends State<Home> {
         actions: [
           Container(
             margin: const EdgeInsets.only(right: 15),
-            width: 43,
-            height: 43,
+            width: 45,
+            height: 45,
             decoration: BoxDecoration(
-                color: Colors.grey[300], shape: BoxShape.circle),
-            child: const Icon(
-              FeatherIcons.user,
-              color: Colors.black,
+              color: Colors.grey[300], 
+              shape: BoxShape.circle,
+            ),
+            child: InkWell(
+              onTap: () {
+                // Verifica si el usuario está autenticado
+                if (supabase.auth.currentSession == null) {
+                  // Si no hay sesión, navega a LoginPage
+                  Navigator.of(context).push(
+                    PageRouteBuilder(
+                      pageBuilder: (context, animation, secondaryAnimation) => const LoginScreen(),
+                      transitionsBuilder: (context, animation, secondaryAnimation, child) {
+                        return FadeTransition(
+                          opacity: animation,
+                          child: child,
+                        );
+                      },
+                      transitionDuration: const Duration(milliseconds: 600),
+                    ),
+                  );
+                } else {
+                  // Si hay sesión, navega a AccountPage
+                  Navigator.of(context).push(
+                    PageRouteBuilder(
+                      pageBuilder: (context, animation, secondaryAnimation) => const ProfilePage(),
+                      transitionsBuilder: (context, animation, secondaryAnimation, child) {
+                        return FadeTransition(
+                          opacity: animation,
+                          child: child,
+                        );
+                      },
+                      transitionDuration: const Duration(milliseconds: 500),
+                    ),
+                  );
+                }
+              },
+              child: (_avatarUrl != null)
+                ? ClipOval(
+                  child: Image.network(
+                    _avatarUrl!,
+                    fit: BoxFit.cover,
+                  ),
+                )
+                : const Icon(
+                    FeatherIcons.user,
+                    color: Colors.black,
+                  ),
             ),
           )
         ],

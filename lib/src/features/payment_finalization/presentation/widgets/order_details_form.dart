@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:obsessed_app/main.dart';
 import 'package:obsessed_app/src/features/cart/domain/entities/cart_item.dart';
 import 'package:obsessed_app/src/features/cart/presentation/providers/cart_provider.dart';
 import 'package:obsessed_app/src/features/payment_finalization/domain/entities/city.dart';
 import 'package:obsessed_app/src/features/payment_finalization/domain/entities/country.dart';
 import 'package:obsessed_app/src/features/payment_finalization/domain/repositories/email_repository.dart';
 import 'package:obsessed_app/src/features/payment_finalization/domain/use_cases/send_email_use_case.dart';
-import 'package:obsessed_app/src/features/payment_finalization/infrastructure/city_service.dart';
-import 'package:obsessed_app/src/features/payment_finalization/infrastructure/countries_service.dart';
 import 'package:obsessed_app/src/features/payment_finalization/infrastructure/email_service.dart';
+import 'package:obsessed_app/src/features/payment_finalization/infrastructure/location_service.dart';
 import 'package:obsessed_app/src/features/payment_finalization/presentation/widgets/succesful_payment.dart';
 import 'package:provider/provider.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:uuid/uuid.dart';
 
 class OrderDetailsForm extends StatefulWidget {
@@ -27,6 +28,7 @@ class _OrderDetailsFormState extends State<OrderDetailsForm> {
   final _emailController = TextEditingController();
   final EmailRepository _emailRepository = EmailService();
   late final SendEmailUseCase _sendEmailUseCase;
+  final LocationService _locationService = LocationService();
 
   List<Country> _countries = [];
   String? _selectedCountry;
@@ -38,18 +40,48 @@ class _OrderDetailsFormState extends State<OrderDetailsForm> {
     super.initState();
     // Crear la instancia de SendEmailUseCase con EmailRepository
     _sendEmailUseCase = SendEmailUseCase(_emailRepository);
-    _loadCountries();
+    _initializeProfileAndCountries();
   }
 
-  void _loadCountries() async {
+  Future<void> _initializeProfileAndCountries() async {
+    if (supabase.auth.currentSession != null) {
+      await _getProfile();
+      _emailController.text = supabase.auth.currentSession!.user.email!;
+      _loadCountries(_selectedCountry);
+      _loadCities(_selectedCountry!, _selectedCity);
+    } else {
+      _loadCountries(null);
+    }
+  }
+
+  Future<void> _getProfile() async {
     try {
-      CountriesService service = CountriesService();
-      List<Country> countries = await service.getCountries(); // Obtiene los países
-      // Actualiza el estado con los nuevos países y selecciona el primer país por defecto
+      final userId = supabase.auth.currentSession!.user.id;
+      final data =
+          await supabase.from('profiles').select().eq('id', userId).single();
+      _nameController.text = (data['name'] ?? '') as String;
+      _lastNameController.text = (data['last_name'] ?? '') as String;
+      _selectedCountry = (data['country'] ?? '') as String;
+      _selectedCity = (data['city'] ?? '') as String;
+    } on PostgrestException catch (error) {
+      if (mounted) context.showSnackBar(error.message, isError: true);
+    } catch (error) {
+      if (mounted) {
+        context.showSnackBar('Unexpected error occurred', isError: true);
+      }
+    }
+  }
+
+  void _loadCountries([String? selectedCountryFromDb]) async {
+    try {
+      List<Country> countries = await _locationService.getCountries();
       if (countries.isNotEmpty) {
         setState(() {
           _countries = countries;
-          _selectedCountry = countries.first.name;
+          // Verifica si el país obtenido de la base de datos está en la lista de países cargados
+          _selectedCountry = selectedCountryFromDb != null && countries.any((country) => country.name == selectedCountryFromDb)
+              ? selectedCountryFromDb
+              : countries.first.name;
         });
       }
     } catch (e) {
@@ -57,13 +89,15 @@ class _OrderDetailsFormState extends State<OrderDetailsForm> {
     }
   }
 
-  void _loadCities(String countryName) async {
+  void _loadCities(String countryName, [String? selectedCityFromDb]) async {
     try {
-      CityService service = CityService();
-      List<City> cities = await service.getCities(countryName);
+      List<City> cities = await _locationService.getCities(countryName);
       setState(() {
         _cities = cities;
-        _selectedCity = cities.isNotEmpty ? cities.first.name : null;
+        // Verifica si la ciudad obtenida de la base de datos está en la lista de ciudades cargadas
+        _selectedCity = selectedCityFromDb != null && cities.any((city) => city.name == selectedCityFromDb)
+            ? selectedCityFromDb
+            : cities.isNotEmpty ? cities.first.name : null;
       });
     } catch (e) {
       setState(() {
@@ -92,7 +126,7 @@ class _OrderDetailsFormState extends State<OrderDetailsForm> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               TextFormField(
-                autofocus: true,
+                autofocus: (supabase.auth.currentSession != null) ? false : true,
                 controller: _nameController,
                 decoration: createDecoration('Name:', icon: Icons.person),
                 style: GoogleFonts.poppins(
@@ -220,7 +254,7 @@ class _OrderDetailsFormState extends State<OrderDetailsForm> {
                   return null;
                 },
               ),
-              const SizedBox(height: 65),
+              const SizedBox(height: 50),
               Center(
                 child: Padding(
                   padding: const EdgeInsets.all(30),
@@ -233,7 +267,7 @@ class _OrderDetailsFormState extends State<OrderDetailsForm> {
                           final double totalAmount = cart.totalPrice;
                           final List<String> products = cartItems.map((item) => '${item.quantity}x ${item.name}').toList();
                           var uuid = const Uuid();
-                          final String uniqueId = uuid.v4(); // Generar un UUID
+                          final String uniqueId = uuid.v4();
                           final String email = _emailController.text;
                           const String subject = 'Order Details';
                           final String body = _generateEmailBody(
@@ -245,9 +279,18 @@ class _OrderDetailsFormState extends State<OrderDetailsForm> {
                             totalAmount: totalAmount,
                             products: products,
                           );
-                          // Llamada a la función de envío de correo electrónico
                           await _sendEmailUseCase.sendEmail(email, subject, body);
-                          print('Sending email...\n$subject\n$body');
+                          // Añadir la compra a la base de datos
+                          if (supabase.auth.currentSession != null) {
+                            final userId = supabase.auth.currentSession!.user.id;
+                            await addPurchaseToUser(userId, {
+                              'totalAmount': totalAmount,
+                              'products': products,
+                              'email': email,
+                              'orderId': uniqueId,
+                              'date': DateTime.now().toIso8601String(),
+                            });
+                          }
                           showDialog(
                             // ignore: use_build_context_synchronously
                             context: context,
@@ -261,7 +304,7 @@ class _OrderDetailsFormState extends State<OrderDetailsForm> {
                             },
                           );
                         } catch (e) {
-                          print('Error al enviar el correo: $e');
+                          throw Exception('Error sending email: $e');
                         }
                       }
                     },
@@ -293,6 +336,29 @@ class _OrderDetailsFormState extends State<OrderDetailsForm> {
     );
   }
 
+  Future<void> addPurchaseToUser(String userId, Map<String, dynamic> purchaseDetails) async {
+    try {
+      final data = await supabase.from('profiles').select().eq('id', userId).single();
+
+      List<dynamic> currentPurchases = data['purchases'] ?? [];
+
+      // Añadir la nueva compra a la lista de compras existentes
+      currentPurchases.add(purchaseDetails);
+      // Actualizar la columna de compras del usuario con la nueva lista de compras
+      await supabase
+          .from('profiles')
+          .update({'purchases': currentPurchases})
+          .eq('id', userId);
+
+    } on PostgrestException catch (error) {
+      if (mounted) context.showSnackBar(error.message, isError: true);
+    } catch (e) {
+      if (mounted) {
+        context.showSnackBar('Unexpected error occurred', isError: true);
+      }
+    }
+  }
+
   InputDecoration createDecoration(String label, {IconData? icon}) {
     return InputDecoration(
                 fillColor: Colors.white,
@@ -319,49 +385,50 @@ class _OrderDetailsFormState extends State<OrderDetailsForm> {
   }
 
   String _generateEmailBody({
-  required String orderId,
-  required String name,
-  required String lastName,
-  required String country,
-  required String city,
-  required double totalAmount,
-  required List<String> products,
-}) {
-  final productsString = products.map((product) => '• $product').join('<br>');
-    return '''
-  <html>
-  <head>
-    <style>
-      body {
-        font-family: 'Arial', sans-serif; /* Cambia 'Arial' por el tipo de letra que prefieras */
-      }
-      .bold {
-        font-weight: bold;
-      }
-    </style>
-  </head>
-  <body>
-    <p>Thank you for shopping with <span class="bold">Obsessed</span>!</p>
+    required String orderId,
+    required String name,
+    required String lastName,
+    required String country,
+    required String city,
+    required double totalAmount,
+    required List<String> products,
+  }) {
+    final productsString = products.map((product) => '• $product').join('<br>');
+      return '''
+    <html>
+    <head>
+      <style>
+        body {
+          font-family: 'Arial', sans-serif; /* Cambia 'Arial' por el tipo de letra que prefieras */
+        }
+        .bold {
+          font-weight: bold;
+        }
+      </style>
+    </head>
+    <body>
+      <p>Thank you for shopping with <span class="bold">Obsessed</span>!</p>
 
-    <p>Here are your order details:</p>
+      <p>Here are your order details:</p>
 
-    <p><span class="bold">Order ID:</span> $orderId</p>
+      <p><span class="bold">Order ID:</span> $orderId</p>
 
-    <p><span class="bold">Name:</span> $name $lastName<br>
-    <span class="bold">Country:</span> $country<br>
-    <span class="bold">City:</span> $city<br>
+      <p><span class="bold">Name:</span> $name $lastName<br>
+      <span class="bold">Country:</span> $country<br>
+      <span class="bold">City:</span> $city<br>
 
-    <p><span class="bold">Products:</span><br>
-    $productsString</p>
+      <p><span class="bold">Products:</span><br>
+      $productsString</p>
 
-    <p><span class="bold">Total Amount:</span> \$${totalAmount.toStringAsFixed(2)}</p>
+      <p><span class="bold">Total Amount:</span> \$${totalAmount.toStringAsFixed(2)}</p>
 
-    <p>We hope you enjoy your purchase. If you have any questions or need further assistance, please do not hesitate to contact us.</p>
+      <p>We hope you enjoy your purchase. If you have any questions or need further assistance, please do not hesitate to contact us.</p>
 
-    <p>Best regards,<br>
-    The <span class="bold">Obsessed</span> Team</p>
-  </body>
-  </html>
-  ''';
+      <p>Best regards,<br>
+      The <span class="bold">Obsessed</span> Team</p>
+    </body>
+    </html>
+    ''';
   }
 }
+

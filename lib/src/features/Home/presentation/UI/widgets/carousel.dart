@@ -31,8 +31,8 @@ class Carousel extends StatelessWidget {
                 viewportFraction: 1,
                 height: 230,
                 enableInfiniteScroll: true,
-                autoPlay: true, // Habilitar el cambio automático de imágenes
-                autoPlayInterval: const Duration(seconds: 9), // Duración entre cada cambio de imagen
+                autoPlay: true,
+                autoPlayInterval: const Duration(seconds: 9),
               ),
               itemBuilder: (context, index, realIndex) {
                 return Container(
