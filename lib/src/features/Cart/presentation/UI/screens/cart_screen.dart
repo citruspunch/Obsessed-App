@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:obsessed_app/src/features/cart/presentation/UI/widgets/cart_body.dart';
 import 'package:obsessed_app/src/features/cart/presentation/UI/widgets/cart_footer.dart';
-import 'package:obsessed_app/src/features/cart/presentation/UI/widgets/cart_header.dart';
 import 'package:obsessed_app/src/features/cart/domain/entities/cart_item.dart';
-import 'package:obsessed_app/src/features/cart/presentation/UI/widgets/cart_title.dart';
 import 'package:obsessed_app/src/features/cart/presentation/UI/widgets/no_products_widget.dart';
 import 'package:obsessed_app/src/features/cart/presentation/providers/cart_provider.dart';
 import 'package:obsessed_app/src/features/product_detail/presentation/UI/widgets/return_to_home_button.dart';
@@ -25,18 +24,14 @@ class CartScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: cart.items.isEmpty ? const Color(0xFFF1F1F1) : null,
       appBar: AppBar(
-        leading: const Padding(
-          padding: EdgeInsets.only(left: 18.0, top: 20.0, bottom: 20.0),
-          child: ReturnToHomeButton(),
-        ),
-        title: const Padding(
-          padding: EdgeInsets.only(left: 140, top: 20.0),
-          child: CartTitle(),
-        ),
-        bottom: const PreferredSize(
-          preferredSize: Size.fromHeight(42),
-          child: CartHeader(),
-        ),
+        toolbarHeight: 80,
+        backgroundColor: cart.items.isEmpty ? const Color(0xFFF1F1F1) : null,
+        centerTitle: true,
+        leading: const ReturnToHomeButton(),
+        title: Text('Cart', style: GoogleFonts.poppins(
+          fontSize: 25,
+          fontWeight: FontWeight.w600,
+        )),
         forceMaterialTransparency: true,
       ),
       body: Stack(
