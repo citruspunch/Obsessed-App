@@ -9,7 +9,6 @@ class FilteredProductsWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Acceder a los productos filtrados a través del Provider
     final filteredProducts = Provider.of<ClothingProvider>(context).filteredItems;
 
     // Verificar si hay productos filtrados
@@ -17,20 +16,20 @@ class FilteredProductsWidget extends StatelessWidget {
       return const Center(child: NoItemsFoundWidget());
     } else {
       return Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20.0),
+        padding: const EdgeInsets.symmetric(horizontal: 10.0),
         child: GridView.builder(
           physics: const NeverScrollableScrollPhysics(),
           shrinkWrap: true,
           itemCount: filteredProducts.length,
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            mainAxisExtent: 230,
-            mainAxisSpacing: 24,
-            crossAxisSpacing: 18,
+            mainAxisExtent: 200,
+            mainAxisSpacing: 14,
+            crossAxisSpacing: 12,
             crossAxisCount: 2,
           ),
           itemBuilder: (context, index) {
             final item = filteredProducts[index];
-            return ClothingItemWidget(item: item);
+            return ClothingItemWidget(item: item, heroActivated: false);
           },
         ),
       );

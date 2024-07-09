@@ -121,7 +121,7 @@ class _OrderDetailsFormState extends State<OrderDetailsForm> {
       child: Form(
         key: _formKey,
         child: Padding(
-          padding: const EdgeInsets.only(left: 3, right: 3, top: 80),
+          padding: const EdgeInsets.only(left: 3, right: 3, top: 10),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
@@ -139,7 +139,7 @@ class _OrderDetailsFormState extends State<OrderDetailsForm> {
                   return null;
                 },
               ),
-              const SizedBox(height: 65),
+              const SizedBox(height: 45),
               TextFormField(
                 controller: _lastNameController,
                 decoration: createDecoration('Last Name:', icon: Icons.person_outline),
@@ -153,92 +153,92 @@ class _OrderDetailsFormState extends State<OrderDetailsForm> {
                   return null;
                 },
               ),
-              const SizedBox(height: 65),
-              DropdownButtonFormField<String>(
-                value: _selectedCountry,
-                decoration: InputDecoration(
-                  fillColor: Colors.white,
-                  filled: true,
-                  icon: const Icon(Icons.flag, color: Colors.deepPurple),
-                  labelText: 'Country:',
-                  labelStyle: GoogleFonts.poppins(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w600,
-                  ),
-                  border: OutlineInputBorder( 
-                    borderRadius: BorderRadius.circular(10.0),
-                    borderSide: const BorderSide(color: Colors.grey),
-                  ),
-                  enabledBorder: OutlineInputBorder( 
-                    borderRadius: BorderRadius.circular(10.0),
-                    borderSide: const BorderSide(color: Colors.grey),
-                  ),
-                  focusedBorder: OutlineInputBorder( 
-                    borderRadius: BorderRadius.circular(10.0),
-                    borderSide: const BorderSide(color: Colors.deepPurple, width: 2),
+              const SizedBox(height: 45),
+              ConstrainedBox(
+                constraints: const BoxConstraints(minWidth: double.infinity, maxHeight: 60.0),
+                child: InputDecorator(
+                  decoration: getDropdownInputDecoration('Country:', Icons.location_on),
+                  child: DropdownButtonHideUnderline(
+                    child: DropdownButton<String>(
+                      value: _selectedCountry,
+                      isExpanded: true,
+                      onChanged: (String? newValue) {
+                        setState(() {
+                          _selectedCountry = newValue;
+                          _loadCities(_selectedCountry!);
+                        });
+                      },
+                      items: _countries.map<DropdownMenuItem<String>>((Country country) {
+                        return DropdownMenuItem<String>(
+                          value: country.name,
+                          child: Text(
+                            country.name,
+                            style: GoogleFonts.poppins(
+                              fontSize: 15,
+                            ),
+                          ),
+                        );
+                      }).toList(),
+                      selectedItemBuilder: (BuildContext context) {
+                        return _countries.map<Widget>((Country country) {
+                          return Flexible(
+                            child: Text(
+                              country.name,
+                              overflow: TextOverflow.ellipsis,
+                              style: GoogleFonts.poppins(
+                                fontSize: 15,
+                              ),
+                            ),
+                          );
+                        }).toList();
+                      },
+                    ),
                   ),
                 ),
-                onChanged: (String? newValue) {
-                  setState(() {
-                    _selectedCountry = newValue;
-                    _loadCities(_selectedCountry!);
-                  });
-                },
-                items: _countries.map<DropdownMenuItem<String>>((Country country) {
-                  return DropdownMenuItem<String>(
-                    value: country.name,
-                    child: Text(
-                      country.name.length > 40 ? '${country.name.substring(0, country.name.length - 7)}...' : country.name,
-                      style: GoogleFonts.poppins(
-                        fontSize: 15,
-                      ),
-                    ),
-                  );
-                }).toList(),
               ),
-              const SizedBox(height: 65),
-              DropdownButtonFormField<String>(
-                value: _selectedCity,
-                decoration: InputDecoration(
-                  fillColor: Colors.white, 
-                  filled: true,
-                  icon: const Icon(Icons.location_city, color: Colors.deepPurple),
-                  labelText: 'City:',
-                  labelStyle: GoogleFonts.poppins(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w600,
-                  ),
-                  border: OutlineInputBorder( 
-                    borderRadius: BorderRadius.circular(10.0),
-                    borderSide: const BorderSide(color: Colors.grey),
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10.0),
-                    borderSide: const BorderSide(color: Colors.grey),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10.0),
-                    borderSide: const BorderSide(color: Colors.deepPurple, width: 2),
+              const SizedBox(height: 45),
+              ConstrainedBox(
+                constraints: const BoxConstraints(minWidth: double.infinity, maxHeight: 60.0),
+                child: InputDecorator(
+                  decoration: getDropdownInputDecoration('City:', Icons.location_city),
+                  child: DropdownButtonHideUnderline(
+                    child: DropdownButton<String>(
+                      value: _selectedCity,
+                      isExpanded: true,
+                      onChanged: (String? newValue) {
+                        setState(() {
+                          _selectedCity = newValue;
+                        });
+                      },
+                      items: _cities.map<DropdownMenuItem<String>>((City city) {
+                        return DropdownMenuItem<String>(
+                          value: city.name,
+                          child: Text(
+                            city.name,
+                            style: GoogleFonts.poppins(
+                              fontSize: 15,
+                            ),
+                          ),
+                        );
+                      }).toList(),
+                      selectedItemBuilder: (BuildContext context) {
+                        return _cities.map<Widget>((City city) {
+                          return Flexible(
+                            child: Text(
+                              city.name,
+                              overflow: TextOverflow.ellipsis,
+                              style: GoogleFonts.poppins(
+                                fontSize: 15,
+                              ),
+                            ),
+                          );
+                        }).toList();
+                      },
+                    ),
                   ),
                 ),
-                onChanged: (String? newValue) {
-                  setState(() {
-                    _selectedCity = newValue;
-                  });
-                },
-                items: _cities.map<DropdownMenuItem<String>>((City city) {
-                  return DropdownMenuItem<String>(
-                    value: city.name,
-                    child: Text(
-                      city.name.length > 40 ? '${city.name.substring(0, city.name.length - 10)}...' : city.name,
-                      style: GoogleFonts.poppins(
-                        fontSize: 15,
-                      ),
-                    ),
-                  );
-                }).toList(),
               ),
-              const SizedBox(height: 65),
+              const SizedBox(height: 45),
               TextFormField(
                 controller: _emailController,
                 decoration: createDecoration('Email:', icon: Icons.email),
@@ -254,10 +254,10 @@ class _OrderDetailsFormState extends State<OrderDetailsForm> {
                   return null;
                 },
               ),
-              const SizedBox(height: 50),
+              const SizedBox(height: 30),
               Center(
                 child: Padding(
-                  padding: const EdgeInsets.all(30),
+                  padding: const EdgeInsets.all(20),
                   child: ElevatedButton(
                     onPressed: () async {
                       if (_formKey.currentState!.validate()) {
@@ -382,6 +382,30 @@ class _OrderDetailsFormState extends State<OrderDetailsForm> {
                   borderSide: const BorderSide(color: Colors.deepPurple, width: 2),
                 ),
               );
+  }
+  InputDecoration getDropdownInputDecoration(String labelText, IconData? icon) {
+    return InputDecoration(
+      fillColor: Colors.white,
+      filled: true,
+      icon: Icon(icon, color: Colors.deepPurple),
+      labelText: labelText,
+      labelStyle: GoogleFonts.poppins(
+        fontSize: 18,
+        fontWeight: FontWeight.w600,
+      ),
+      border: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(10.0),
+        borderSide: const BorderSide(color: Colors.grey),
+      ),
+      enabledBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(10.0),
+        borderSide: const BorderSide(color: Colors.grey),
+      ),
+      focusedBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(10.0),
+        borderSide: const BorderSide(color: Colors.deepPurple, width: 2),
+      ),
+    );
   }
 
   String _generateEmailBody({

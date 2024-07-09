@@ -21,8 +21,8 @@ class SizeOption extends StatelessWidget {
       child: InkWell(
         onTap: onSelect,
         child: Container(
-          width: 50,
-          height: 50,
+          width: 45,
+          height: 45,
           decoration: BoxDecoration(
             color: backgroundColor,
             borderRadius: BorderRadius.circular(10),

@@ -78,6 +78,7 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        forceMaterialTransparency: true,
         toolbarHeight: 80,
         centerTitle: true,
         leading: const ReturnToHomeButton(),
@@ -159,7 +160,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       MaterialPageRoute(builder: (_) => const ObsessedInfoScreen()),
                     );
                   },),
-                  ProfileMenuWidget(title: 'Logout', icon: FeatherIcons.logOut, onTap: _signOut, textColor: Colors.red, endIcon: false, isBold: true,),
+                  ProfileMenuWidget(title: 'Logout', icon: FeatherIcons.logOut, onTap: _signOut, textColor: Colors.red, endIcon: false, isBold: true, isLogout: true,),
                   const SizedBox(height: 24),
                 ],
               ),

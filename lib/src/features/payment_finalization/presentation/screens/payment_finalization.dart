@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:obsessed_app/src/features/payment_finalization/presentation/widgets/order_details_form.dart';
-import 'package:obsessed_app/src/features/payment_finalization/presentation/widgets/payment_title.dart';
 import 'package:obsessed_app/src/features/product_detail/presentation/UI/widgets/return_to_home_button.dart';
 
 class PaymentFinalization extends StatelessWidget {
@@ -12,30 +12,24 @@ class PaymentFinalization extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: Column(
-          children: [
-            Expanded(
-              child: SingleChildScrollView(
-                child: Padding(
-                  padding: const EdgeInsets.all(25.0),
-                  child: Column(
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          const ReturnToHomeButton(),
-                          const PaymentTitle(),
-                          Container(width: 34),
-                        ],
-                      ),
-                      const OrderDetailsForm(),
-                    ],
-                  ),
-                ),
-              ),
+      appBar: AppBar(
+        toolbarHeight: 80,
+        centerTitle: true,
+        leading: const ReturnToHomeButton(),
+        title: Text('Payment', style: GoogleFonts.poppins(
+          fontSize: 25,
+          fontWeight: FontWeight.w600,
+        )),
+        forceMaterialTransparency: true,
+      ),
+      body: const SafeArea(
+        child: Expanded(
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+              child: OrderDetailsForm(),
             ),
-          ],
+          ),
         ),
       ),
     );

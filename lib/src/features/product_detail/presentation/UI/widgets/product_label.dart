@@ -14,13 +14,16 @@ class ProductLabel extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           SizedBox(
-            width: MediaQuery.of(context).size.width - 170,
+            width: MediaQuery.of(context).size.width - 140,
             child: Text(
               item.title,
+              maxLines: 4,
+              overflow: TextOverflow.ellipsis,
               style: GoogleFonts.poppins(
+                height: 1.4,
                 color: Colors.black,
-                fontSize: 28,
-                fontWeight: FontWeight.bold)
+                fontSize: 25,
+                fontWeight: FontWeight.bold),
               ),
             ),
           Text(

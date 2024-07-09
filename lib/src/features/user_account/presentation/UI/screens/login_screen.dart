@@ -92,11 +92,12 @@ class _LoginScreenState extends State<LoginScreen> {
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
-        child: SizedBox(
+        child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              SizedBox(
+              Container(
+                padding: const EdgeInsets.only(top: 50, bottom: 20),
                 height: height / 2.7,
                 child: Image.asset('assets/images/user_login.png'),
               ),

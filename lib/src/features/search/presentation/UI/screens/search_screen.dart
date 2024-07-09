@@ -9,12 +9,12 @@ class SearchScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBody: true,
       appBar: AppBar(
         title: const SearchBarWidget(),
-        backgroundColor: const Color(0xFFF1F1F1),
         forceMaterialTransparency: true,
         automaticallyImplyLeading: false,
-        toolbarHeight: 80.0,
+        toolbarHeight: 67.0,
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(10.0),
           child: Container(),
@@ -25,7 +25,7 @@ class SearchScreen extends StatelessWidget {
         builder: (context, constraints) {
           return SingleChildScrollView(
             child: ConstrainedBox(
-              constraints: BoxConstraints(minHeight: constraints.maxHeight),
+              constraints: BoxConstraints(minHeight: constraints.minHeight),
               child: const Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [

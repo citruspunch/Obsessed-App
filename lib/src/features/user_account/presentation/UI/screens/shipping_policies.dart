@@ -11,6 +11,7 @@ class ShippingPolicies extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        forceMaterialTransparency: true,
         toolbarHeight: 80,
         centerTitle: true,
         leading: const ReturnToHomeButton(),

@@ -25,23 +25,31 @@ class AddToCartBar extends StatelessWidget {
               double totalPrice = cartProvider.totalPrice;
               Navigator.push(
                 context,
-                MaterialPageRoute(
-                  builder: (context) => CartScreen(
+                PageRouteBuilder(
+                    pageBuilder: (context, animation, secondaryAnimation) => CartScreen(
                     cartItems: cartItems,
                     totalPrice: totalPrice,
                   ),
-                ),
+                    transitionsBuilder: (context, animation, secondaryAnimation, child) {
+                      return FadeTransition(
+                        opacity: animation,
+                        child: child,
+                      );
+                    },
+                    transitionDuration: const Duration(milliseconds: 400),
+                  ),
               );
             },
             child: Container(
-              padding: const EdgeInsets.all(18),
+              height: MediaQuery.of(context).size.height / 16,
+              padding: const EdgeInsets.all(15),
               decoration: BoxDecoration(
                 color: Colors.white,
-                borderRadius: BorderRadius.circular(30),
+                borderRadius: BorderRadius.circular(100),
               ),
               child: const Icon(
                 Icons.shopping_cart,
-                size: 23,
+                size: 21,
                 color: Colors.black,
               ),
             ),
@@ -49,24 +57,31 @@ class AddToCartBar extends StatelessWidget {
           InkWell(
             onTap: () {
               showModalBottomSheet(
+                isScrollControlled: true,
+                useSafeArea: true,
                 backgroundColor: Colors.transparent,
                 context: context,
                 builder: (context) => ProductSelectionModal(item: item),
               );
             },
-            child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 110, vertical: 15),
-              decoration: BoxDecoration(
-                color: Colors.black,
-                borderRadius: BorderRadius.circular(30),
-              ),
-              child: Text(
-                'Add to Cart',
-                style: GoogleFonts.poppins(
-                  fontSize: 20,
-                  fontWeight: FontWeight.w600,
-                  letterSpacing: 1,
-                  color: Colors.white,
+            child: SafeArea(
+              child: Container(
+                width: MediaQuery.of(context).size.width / 1.4,
+                height: MediaQuery.of(context).size.height / 16,
+                decoration: BoxDecoration(
+                  color: Colors.black,
+                  borderRadius: BorderRadius.circular(30),
+                ),
+                child: Center(
+                  child: Text(
+                    'Add to Cart',
+                    style: GoogleFonts.poppins(
+                      fontSize: 17,
+                      fontWeight: FontWeight.w600,
+                      letterSpacing: 1,
+                      color: Colors.white,
+                    ),
+                  ),
                 ),
               ),
             ),

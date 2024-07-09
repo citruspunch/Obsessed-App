@@ -43,6 +43,7 @@ class _PurchaseHistoryState extends State<PurchaseHistory> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        forceMaterialTransparency: true,
         toolbarHeight: 80,
         centerTitle: true,
         leading: const ReturnToHomeButton(),

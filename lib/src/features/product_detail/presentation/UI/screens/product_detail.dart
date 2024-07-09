@@ -23,13 +23,13 @@ class ProductDetail extends StatelessWidget {
               children: [
                 Container(
                   alignment: Alignment.topCenter,
-                  height: MediaQuery.of(context).size.height / 1.7,
+                  height: MediaQuery.of(context).size.height / 1.8,
                   color: Colors.white,
                   child: Stack(
                     children: [
                       Center(
                         child: Transform.scale(
-                          scale: 0.75, // zoom level
+                          scale: 0.80,
                           child: Hero(
                             tag: 'hero-${item.id}',
                             child: Image(
@@ -40,7 +40,7 @@ class ProductDetail extends StatelessWidget {
                         ),
                       ),
                       Padding(
-                        padding: const EdgeInsets.all(20.0),
+                        padding: const EdgeInsets.only(top: 15.0, right: 10.0, left: 5.0),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [

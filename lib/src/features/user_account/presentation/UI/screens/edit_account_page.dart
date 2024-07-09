@@ -181,6 +181,7 @@ class _AccountPageState extends State<AccountPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        forceMaterialTransparency: true,
         toolbarHeight: 80,
         centerTitle: true,
         leading: const ReturnToHomeButton(),
@@ -221,6 +222,92 @@ class _AccountPageState extends State<AccountPage> {
             ),
           ),
           const SizedBox(height: 30),
+          ConstrainedBox(
+            constraints: const BoxConstraints(minWidth: double.infinity, maxHeight: 60.0),
+            child: InputDecorator(
+              decoration: getDropdownInputDecoration('Country:'),
+              child: DropdownButtonHideUnderline(
+                child: DropdownButton<String>(
+                  value: _selectedCountry,
+                  isExpanded: true,
+                  onChanged: (String? newValue) {
+                    setState(() {
+                      _selectedCountry = newValue;
+                      _loadCities(_selectedCountry!);
+                    });
+                  },
+                  items: _countries.map<DropdownMenuItem<String>>((Country country) {
+                    return DropdownMenuItem<String>(
+                      value: country.name,
+                      child: Text(
+                        country.name,
+                        style: GoogleFonts.poppins(
+                          fontSize: 15,
+                        ),
+                      ),
+                    );
+                  }).toList(),
+                  selectedItemBuilder: (BuildContext context) {
+                    return _countries.map<Widget>((Country country) {
+                      return Flexible(
+                        child: Text(
+                          country.name,
+                          overflow: TextOverflow.ellipsis,
+                          style: GoogleFonts.poppins(
+                            fontSize: 15,
+                          ),
+                        ),
+                      );
+                    }).toList();
+                  },
+                ),
+              ),
+            ),
+          ),
+          const SizedBox(height: 45),
+          ConstrainedBox(
+            constraints: const BoxConstraints(minWidth: double.infinity, maxHeight: 60.0),
+            child: InputDecorator(
+              decoration: getDropdownInputDecoration('City:'),
+              child: DropdownButtonHideUnderline(
+                child: DropdownButton<String>(
+                  value: _selectedCity,
+                  isExpanded: true,
+                  onChanged: (String? newValue) {
+                    setState(() {
+                      _selectedCity = newValue;
+                    });
+                  },
+                  items: _cities.map<DropdownMenuItem<String>>((City city) {
+                    return DropdownMenuItem<String>(
+                      value: city.name,
+                      child: Text(
+                        city.name,
+                        style: GoogleFonts.poppins(
+                          fontSize: 15,
+                        ),
+                      ),
+                    );
+                  }).toList(),
+                  selectedItemBuilder: (BuildContext context) {
+                    return _cities.map<Widget>((City city) {
+                      return Flexible(
+                        child: Text(
+                          city.name,
+                          overflow: TextOverflow.ellipsis,
+                          style: GoogleFonts.poppins(
+                            fontSize: 15,
+                          ),
+                        ),
+                      );
+                    }).toList();
+                  },
+                ),
+              ),
+            ),
+          ),
+          const SizedBox(height: 30),
+          /* 
           DropdownButtonFormField<String>(
             value: _selectedCountry,
             decoration: InputDecoration(
@@ -303,7 +390,7 @@ class _AccountPageState extends State<AccountPage> {
               );
             }).toList(),
           ),
-          const SizedBox(height: 30),
+          */
           DropdownButtonFormField<String>(
             value: _genderController.text.isEmpty ? null : _genderController.text,
             decoration: InputDecoration(
@@ -392,5 +479,28 @@ class _AccountPageState extends State<AccountPage> {
                   borderSide: const BorderSide(color: Colors.deepPurple, width: 2),
                 ),
               );
+  }
+  InputDecoration getDropdownInputDecoration(String labelText) {
+    return InputDecoration(
+      fillColor: Colors.white,
+      filled: true,
+      labelText: labelText,
+      labelStyle: GoogleFonts.poppins(
+        fontSize: 18,
+        fontWeight: FontWeight.w600,
+      ),
+      border: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(10.0),
+        borderSide: const BorderSide(color: Colors.grey),
+      ),
+      enabledBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(10.0),
+        borderSide: const BorderSide(color: Colors.grey),
+      ),
+      focusedBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(10.0),
+        borderSide: const BorderSide(color: Colors.deepPurple, width: 2),
+      ),
+    );
   }
 }

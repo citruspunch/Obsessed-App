@@ -10,6 +10,7 @@ class ProfileMenuWidget extends StatelessWidget {
     this.endIcon = true, 
     this.isBold = false,
     this.textColor,
+    this.isLogout = false,
   });
 
   final String title;
@@ -18,6 +19,7 @@ class ProfileMenuWidget extends StatelessWidget {
   final bool endIcon;
   final Color? textColor;
   final bool isBold;
+  final bool isLogout;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -28,10 +30,10 @@ class ProfileMenuWidget extends StatelessWidget {
           width: 50,
           height: 50,
           decoration: BoxDecoration(
-            color: Colors.deepPurple.withOpacity(0.2),
+            color: isLogout ? Colors.redAccent.withOpacity(0.2) : Colors.deepPurple.withOpacity(0.2),
             borderRadius: BorderRadius.circular(100),
           ),
-          child: Icon(icon, color: Colors.deepPurple[800], size: 27.0),
+          child: Icon(icon, color: isLogout ? Colors.red : Colors.deepPurple[800], size: 27.0),
         ),
         title: Text(title, style: GoogleFonts.poppins(
           fontSize: 19,

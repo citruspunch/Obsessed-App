@@ -5,21 +5,15 @@ class ReturnToHomeButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.transparent,
-        borderRadius: BorderRadius.circular(30),
-      ),
-      child: IconButton(
-        iconSize: 30,
-        icon: const Icon(
-          Icons.arrow_back_ios_new,
-          color: Colors.black,
-          ),
-        onPressed: () {
-          Navigator.pop(context);
-        },
-      ),
+    return IconButton(
+      iconSize: 30,
+      icon: const Icon(
+        Icons.arrow_back_ios_new,
+        color: Colors.black,
+        ),
+      onPressed: () {
+        Navigator.pop(context);
+      },
     );
   }
 }
