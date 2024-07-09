@@ -13,7 +13,7 @@ class FavoritesBody extends StatelessWidget {
       padding: const EdgeInsets.all(8),
       child: Column(
         children: favoriteItems.map((item) => Padding(
-          padding: const EdgeInsets.only(bottom: 10, top: 10),
+          padding: const EdgeInsets.only(bottom: 12, top: 12, right: 20, left: 20),
           child: Card( 
             elevation: 4,
             shape: RoundedRectangleBorder(
@@ -21,13 +21,15 @@ class FavoritesBody extends StatelessWidget {
             ),
             child: ClothingItemWidget(
               item: item, 
-              imageWidth: 200, 
-              imageHeight: 200,
-              titleFontSize: 27,
-              subtitleFontSize: 22,
-              iconSize: 30,
+              imageWidth: 160, 
+              imageHeight: 160,
+              titleFontSize: 23,
+              subtitleFontSize: 20,
+              iconSize: 27,
               iconColor: Colors.black,
               iconPadding: 4.0,
+              isFavoriteItem: true,
+              heroActivated: false,
             ),
           ),
         )).toList(),

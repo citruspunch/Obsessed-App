@@ -11,7 +11,7 @@ class EmptyFavoritesWidget extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Icon(Icons.favorite_border, size: 120, color: Colors.grey.shade400),
-          const SizedBox(height: 20), // Espacio entre el ícono y el texto
+          const SizedBox(height: 20), 
           Text(
             'No items yet',
             style: GoogleFonts.poppins(
@@ -20,7 +20,7 @@ class EmptyFavoritesWidget extends StatelessWidget {
               color: Colors.grey.shade600,
             ),
           ),
-          const SizedBox(height: 8), // Espacio entre el título y el subtítulo
+          const SizedBox(height: 8),
           Text(
             'Start adding items to your favorites list.',
             style: GoogleFonts.poppins(

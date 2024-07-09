@@ -20,6 +20,7 @@ class _FavoritesState extends State<Favorites> {
     bool hasFavorites = favorites.items.isNotEmpty;
 
     return Scaffold(
+      extendBody: true,
       backgroundColor: const Color(0xFFF1F1F1),
       body: hasFavorites ? buildFavoritesList(favorites) : buildEmptyFavorites(),
       bottomNavigationBar: const NavigationBarHome(),
@@ -33,7 +34,6 @@ class _FavoritesState extends State<Favorites> {
           children: [
             const FavoritesHeader(),
             FavoritesBody(favoriteItems: favorites.items),
-            SizedBox(height: MediaQuery.of(context).size.height * 0.7),
           ],
         ),
       ),
