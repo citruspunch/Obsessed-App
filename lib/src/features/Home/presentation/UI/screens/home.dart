@@ -43,7 +43,7 @@ class _HomeState extends State<Home> {
   }
   final List<String> backgroundImages = [
     "assets/images/background1.png",
-    "assets/images/background2.png"
+    "assets/images/background2.png",
     "assets/images/background3.png",
     "assets/images/background4.png",
   ];
@@ -69,23 +69,24 @@ class _HomeState extends State<Home> {
       extendBody: true,
       backgroundColor: const Color(0xFFF1F1F1),
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         backgroundColor: const Color(0xFFF1F1F1),
         forceMaterialTransparency: true,
-        toolbarHeight: 90,
+        toolbarHeight: 65,
         elevation: 0,
         title: Padding(
           padding: const EdgeInsets.only(left: 5.0),
           child: Text("OBSESSED",
               style: GoogleFonts.playfairDisplay(
                   color: Colors.black,
-                  fontSize: 30,
+                  fontSize: 26,
                   fontWeight: FontWeight.bold)),
         ),
         actions: [
           Container(
             margin: const EdgeInsets.only(right: 15),
-            width: 45,
-            height: 45,
+            width: 40,
+            height: 40,
             decoration: BoxDecoration(
               color: Colors.grey[300], 
               shape: BoxShape.circle,
@@ -167,7 +168,7 @@ class _HomeState extends State<Home> {
                           itemCount: clothingProvider.items.length,
                           gridDelegate:
                               const SliverGridDelegateWithFixedCrossAxisCount(
-                                  mainAxisExtent: 230,
+                                  mainAxisExtent: 200,
                                   mainAxisSpacing: 24,
                                   crossAxisSpacing: 13,
                                   crossAxisCount: 2),

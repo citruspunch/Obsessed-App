@@ -29,7 +29,7 @@ class Carousel extends StatelessWidget {
               itemCount: backgroundImages.length,
               options: CarouselOptions(
                 viewportFraction: 1,
-                height: 230,
+                height: MediaQuery.of(context).size.height / 4.3,
                 enableInfiniteScroll: true,
                 autoPlay: true,
                 autoPlayInterval: const Duration(seconds: 9),
@@ -52,7 +52,7 @@ class Carousel extends StatelessWidget {
                           " NEW DROP ",
                           style: GoogleFonts.playfairDisplay(
                             color: Colors.white,
-                            fontSize: 30,
+                            fontSize: 25,
                             decorationStyle: TextDecorationStyle.solid,
                             decorationThickness: 2,
                             shadows: [
@@ -92,7 +92,7 @@ class Carousel extends StatelessWidget {
               onPressed: onPreviousPage,
               child: const Icon(
                 Icons.arrow_back_ios_rounded,
-                size: 40,
+                size: 30,
                 color: Colors.white,
               ),
             ),
@@ -112,12 +112,12 @@ class Carousel extends StatelessWidget {
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(0),
                 ),
-                elevation: 0, // Eliminar la sombra del botón
+                elevation: 0,
               ),
               onPressed: onNextPage,
               child: const Icon(
                 Icons.arrow_forward_ios_rounded,
-                size: 40,
+                size: 30,
                 color: Colors.white,
               ),
             ),
