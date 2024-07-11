@@ -28,7 +28,8 @@ class _NavigationBarHomeState extends State<NavigationBarHome> {
       height: 55,
       margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
       decoration: BoxDecoration(
-        color: Colors.white, borderRadius: BorderRadius.circular(69),
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(69),
         boxShadow: [
           BoxShadow(
             color: Colors.grey.withOpacity(0.5),
@@ -38,115 +39,99 @@ class _NavigationBarHomeState extends State<NavigationBarHome> {
           ),
         ],
       ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround, 
-        children: [
-          IconButton(
-              onPressed: widget.scrollToTop ?? () {
-                Navigator.of(context).pushAndRemoveUntil(
-                  PageRouteBuilder(
-                    pageBuilder: (context, animation, secondaryAnimation) => const Home(),
-                    transitionsBuilder: (context, animation, secondaryAnimation, child) {
-                      return FadeTransition(
-                        opacity: animation,
-                        child: child,
-                      );
-                    },
-                    transitionDuration: const Duration(milliseconds: 300),
-                  ),
-                  (Route<dynamic> route) => false,
-                );
-              },
-              icon: const Icon(
-                FeatherIcons.home,
-                size: 27,
-                color: Colors.black,
-              )),
-          IconButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                PageRouteBuilder(
-                  pageBuilder: (context, animation, secondaryAnimation) => const SearchScreen(),
-                  transitionsBuilder: (context, animation, secondaryAnimation, child) {
-                      return FadeTransition(
-                        opacity: animation,
-                        child: child,
-                      );
-                    },
-                    transitionDuration: const Duration(milliseconds: 300),
-                  ),
-              );
-            },
+      child: Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
+        IconButton(
+            onPressed: widget.scrollToTop ??
+                () {
+                  Navigator.of(context).pushAndRemoveUntil(
+                    PageRouteBuilder(
+                      pageBuilder: (context, animation, secondaryAnimation) =>
+                          const Home(),
+                      transitionsBuilder:
+                          (context, animation, secondaryAnimation, child) {
+                        return FadeTransition(
+                          opacity: animation,
+                          child: child,
+                        );
+                      },
+                      transitionDuration: const Duration(milliseconds: 400),
+                    ),
+                    (Route<dynamic> route) => false,
+                  );
+                },
             icon: const Icon(
-              FeatherIcons.search,
+              FeatherIcons.home,
               size: 27,
               color: Colors.black,
-            ),
+            )),
+        IconButton(
+          onPressed: () {
+            animateTransition(context, const SearchScreen());
+          },
+          icon: const Icon(
+            FeatherIcons.search,
+            size: 27,
+            color: Colors.black,
           ),
-          IconButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  PageRouteBuilder(
-                    pageBuilder: (context, animation, secondaryAnimation) => const Favorites(),
-                    transitionsBuilder: (context, animation, secondaryAnimation, child) {
-                      return FadeTransition(
-                        opacity: animation,
-                        child: child,
-                      );
-                    },
-                    transitionDuration: const Duration(milliseconds: 300),
-                  )
-                );
-              },
-              icon: const Icon(
-                FeatherIcons.heart,
-                size: 27,
-                color: Colors.black,
-              )
-          ),
-          Stack(
-            children: [
-              IconButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      PageRouteBuilder(
-                        pageBuilder: (context, animation, secondaryAnimation) => CartScreen(cartItems: cartItems, totalPrice: totalPrice), transitionsBuilder: (context, animation, secondaryAnimation, child) {
-                          return FadeTransition(
-                            opacity: animation,
-                            child: child,
-                          );
-                        },
-                      ),
-                    );
-                  },
-                  icon: Icon(
-                    totalQuantity > 0 ? FeatherIcons.shoppingCart : FeatherIcons.shoppingBag,
-                    size: 27,
-                    color: Colors.black,
-                  )),
-              if ( totalQuantity > 0 && totalQuantity < 100)
-                Positioned(
-                  right: 1,
-                  top: 3.5,
-                  child: CircleAvatar(
-                    backgroundColor: Colors.grey[800],
-                    radius: 10,
-                    child: Text(
-                      totalQuantity.toString(),
-                      style: GoogleFonts.poppins(
-                        fontSize: (totalQuantity > 9) ? 11.5 : 13.5,
-                        fontWeight: FontWeight.w700,
-                        color: Colors.white,
-                      ),
+        ),
+        IconButton(
+            onPressed: () {
+              animateTransition(context, const Favorites());
+            },
+            icon: const Icon(
+              FeatherIcons.heart,
+              size: 27,
+              color: Colors.black,
+            )),
+        Stack(
+          children: [
+            IconButton(
+                onPressed: () {
+                  animateTransition(context,
+                      CartScreen(cartItems: cartItems, totalPrice: totalPrice));
+                },
+                icon: Icon(
+                  totalQuantity > 0
+                      ? FeatherIcons.shoppingCart
+                      : FeatherIcons.shoppingBag,
+                  size: 27,
+                  color: Colors.black,
+                )),
+            if (totalQuantity > 0 && totalQuantity < 100)
+              Positioned(
+                right: 1,
+                top: 3.5,
+                child: CircleAvatar(
+                  backgroundColor: Colors.grey[800],
+                  radius: 10,
+                  child: Text(
+                    totalQuantity.toString(),
+                    style: GoogleFonts.poppins(
+                      fontSize: (totalQuantity > 9) ? 11.5 : 13.5,
+                      fontWeight: FontWeight.w700,
+                      color: Colors.white,
                     ),
                   ),
-                )
-            ],
-          )
-        ]
+                ),
+              )
+          ],
+        )
+      ]),
+    );
+  }
+
+  void animateTransition(BuildContext context, Widget page) {
+    Navigator.push(
+      context,
+      PageRouteBuilder(
+        pageBuilder: (context, animation, secondaryAnimation) => page,
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          return FadeTransition(
+            opacity: animation,
+            child: child,
+          );
+        },
+        transitionDuration: const Duration(milliseconds: 400),
       ),
     );
   }

@@ -82,10 +82,11 @@ class _ProfilePageState extends State<ProfilePage> {
         toolbarHeight: 80,
         centerTitle: true,
         leading: const ReturnToHomeButton(),
-        title: Text('Profile', style: GoogleFonts.poppins(
-          fontSize: 25,
-          fontWeight: FontWeight.w600,
-        )),
+        title: Text('Profile',
+            style: GoogleFonts.poppins(
+              fontSize: 25,
+              fontWeight: FontWeight.w600,
+            )),
       ),
       body: _loading
           ? const Center(child: CircularProgressIndicator())
@@ -100,7 +101,8 @@ class _ProfilePageState extends State<ProfilePage> {
                               width: 170,
                               height: 170,
                               color: Colors.grey,
-                              child: const Icon(Icons.person, size: 80, color: Colors.white),
+                              child: const Icon(Icons.person,
+                                  size: 80, color: Colors.white),
                             )
                           : Image.network(
                               _avatarUrl!,
@@ -111,61 +113,141 @@ class _ProfilePageState extends State<ProfilePage> {
                     ),
                   ),
                   const SizedBox(height: 20),
-                  Text(_username!, style: GoogleFonts.poppins(
-                    fontSize: 30,
-                    fontWeight: FontWeight.w600,
-                  )),
-                  Text(Supabase.instance.client.auth.currentSession!.user.email!, style: GoogleFonts.poppins(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w400,
-                  )),
+                  Text(_username!,
+                      style: GoogleFonts.poppins(
+                        fontSize: 30,
+                        fontWeight: FontWeight.w600,
+                      )),
+                  Text(
+                      Supabase.instance.client.auth.currentSession!.user.email!,
+                      style: GoogleFonts.poppins(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w400,
+                      )),
                   const SizedBox(height: 10),
                   SizedBox(
                     width: 200,
                     child: ElevatedButton(
                       onPressed: () {
-                        Navigator.of(context).push(
-                          MaterialPageRoute(builder: (_) => const AccountPage()),
-                        ).then((_) => _loadProfile());
+                        Navigator.of(context)
+                            .push(_createRoute())
+                            .then((_) => _loadProfile());
                       },
-                      child: Text('Edit Profile', style: GoogleFonts.poppins(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w400,
-                      )) ,
+                      child: Text('Edit Profile',
+                          style: GoogleFonts.poppins(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w400,
+                          )),
                     ),
                   ),
                   const SizedBox(height: 30),
                   const Divider(thickness: 0.7),
                   const SizedBox(height: 20),
-                  ProfileMenuWidget(title: 'User', icon: FeatherIcons.user, textColor: Colors.black, onTap: () {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(builder: (_) => const UserScreen()),
-                    );
-                  },),
-                  ProfileMenuWidget(title: 'Purchase History', icon: Icons.wallet_rounded, textColor: Colors.black, onTap: () {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(builder: (_) => const PurchaseHistory()),
-                    );
-                  },),
-                  ProfileMenuWidget(title: 'Shipping Policies', icon: Icons.local_shipping, textColor: Colors.black, onTap: () {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(builder: (_) => const ShippingPolicies()),
-                    );
-                  },),
+                  ProfileMenuWidget(
+                    title: 'User',
+                    icon: FeatherIcons.user,
+                    textColor: Colors.black,
+                    onTap: () {
+                      animate(context, const UserScreen());
+                    },
+                  ),
+                  ProfileMenuWidget(
+                    title: 'Purchase History',
+                    icon: Icons.wallet_rounded,
+                    textColor: Colors.black,
+                    onTap: () {
+                      animate(context, const PurchaseHistory());
+                    },
+                  ),
+                  ProfileMenuWidget(
+                    title: 'Shipping Policies',
+                    icon: Icons.local_shipping,
+                    textColor: Colors.black,
+                    onTap: () {
+                      animate(context, const ShippingPolicies());
+                    },
+                  ),
                   const SizedBox(height: 20),
                   const Divider(thickness: 0.7),
                   const SizedBox(height: 20),
-                  ProfileMenuWidget(title: 'About Obsessed', icon: Icons.info_outline,  textColor: Colors.black, isBold: true, onTap: () {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(builder: (_) => const ObsessedInfoScreen()),
-                    );
-                  },),
-                  ProfileMenuWidget(title: 'Logout', icon: FeatherIcons.logOut, onTap: _signOut, textColor: Colors.red, endIcon: false, isBold: true, isLogout: true,),
+                  ProfileMenuWidget(
+                    title: 'About Obsessed',
+                    icon: Icons.info_outline,
+                    textColor: Colors.black,
+                    isBold: true,
+                    onTap: () {
+                      animate(context, const ObsessedInfoScreen());
+                    },
+                  ),
+                  ProfileMenuWidget(
+                    title: 'Logout',
+                    icon: FeatherIcons.logOut,
+                    onTap: _signOut,
+                    textColor: Colors.red,
+                    endIcon: false,
+                    isBold: true,
+                    isLogout: true,
+                  ),
                   const SizedBox(height: 24),
                 ],
               ),
             ),
     );
   }
-}
 
+  void animateTransition(BuildContext context, Widget page) {
+    Navigator.push(
+      context,
+      PageRouteBuilder(
+        pageBuilder: (context, animation, secondaryAnimation) => page,
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          return FadeTransition(
+            opacity: animation,
+            child: child,
+          );
+        },
+        transitionDuration: const Duration(milliseconds: 400),
+      ),
+    );
+  }
+
+  Route _createRoute() {
+    return PageRouteBuilder(
+      pageBuilder: (context, animation, secondaryAnimation) =>
+          const AccountPage(),
+      transitionsBuilder: (context, animation, secondaryAnimation, child) {
+        const begin = Offset(0.0, 1.0);
+        const end = Offset.zero;
+        const curve = Curves.ease;
+
+        var tween =
+            Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+
+        return SlideTransition(
+          position: animation.drive(tween),
+          child: child,
+        );
+      },
+    );
+  }
+
+  // Método para navegar con animación
+  void animate(BuildContext context, Widget page) {
+    Navigator.of(context).push(PageRouteBuilder(
+      pageBuilder: (context, animation, secondaryAnimation) => page,
+      transitionsBuilder: (context, animation, secondaryAnimation, child) {
+        const begin = Offset(1.0, 0.0);
+        const end = Offset.zero;
+        const curve = Curves.ease;
+        var tween =
+            Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+        var offsetAnimation = animation.drive(tween);
+        return SlideTransition(
+          position: offsetAnimation,
+          child: page,
+        );
+      },
+      transitionDuration: const Duration(milliseconds: 500),
+    ));
+  }
+}

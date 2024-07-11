@@ -14,7 +14,7 @@ class ProductLabel extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           SizedBox(
-            width: MediaQuery.of(context).size.width - 140,
+            width: MediaQuery.of(context).size.width - 145,
             child: Text(
               item.title,
               maxLines: 4,

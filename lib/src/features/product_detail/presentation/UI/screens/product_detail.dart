@@ -69,10 +69,10 @@ class ProductDetail extends StatelessWidget {
                           fontStyle: FontStyle.italic,
                         ),
                       ),
-                      const SizedBox(height: 10),
+                      const SizedBox(height: 5),
                       // RATING BAR 
                       StarRatingWidget(item: item),
-                      const SizedBox(height: 10),
+                      const SizedBox(height: 5),
                       Text(
                         item.description,
                         style: GoogleFonts.poppins(

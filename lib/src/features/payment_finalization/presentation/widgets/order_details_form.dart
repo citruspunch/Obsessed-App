@@ -181,13 +181,11 @@ class _OrderDetailsFormState extends State<OrderDetailsForm> {
                       }).toList(),
                       selectedItemBuilder: (BuildContext context) {
                         return _countries.map<Widget>((Country country) {
-                          return Flexible(
-                            child: Text(
-                              country.name,
-                              overflow: TextOverflow.ellipsis,
-                              style: GoogleFonts.poppins(
-                                fontSize: 15,
-                              ),
+                          return Text(
+                            country.name,
+                            overflow: TextOverflow.ellipsis,
+                            style: GoogleFonts.poppins(
+                              fontSize: 15,
                             ),
                           );
                         }).toList();
@@ -223,13 +221,11 @@ class _OrderDetailsFormState extends State<OrderDetailsForm> {
                       }).toList(),
                       selectedItemBuilder: (BuildContext context) {
                         return _cities.map<Widget>((City city) {
-                          return Flexible(
-                            child: Text(
-                              city.name,
-                              overflow: TextOverflow.ellipsis,
-                              style: GoogleFonts.poppins(
-                                fontSize: 15,
-                              ),
+                          return Text(
+                            city.name,
+                            overflow: TextOverflow.ellipsis,
+                            style: GoogleFonts.poppins(
+                              fontSize: 15,
                             ),
                           );
                         }).toList();

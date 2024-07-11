@@ -28,5 +28,62 @@ class CartItem {
     this.stock = 10,
   });
 
+  
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'item': item.toJson(),
+      'name': name,
+      'description': description,
+      'category': category,
+      'image': image,
+      'count': count,
+      'quantity': quantity,
+      'size': size,
+      'color': serializeColor(color),
+      'stock': stock,
+    };
+  }
+
+  factory CartItem.fromJson(Map<String, dynamic> json) {
+    return CartItem(
+      id: json['id'],
+      item: ClothingItem.fromJson(json['item']),
+      name: json['name'],
+      description: json['description'],
+      category: json['category'],
+      image: json['image'],
+      count: json['count'],
+      quantity: json['quantity'],
+      size: json['size'],
+      color: deserializeColor(json['color']),
+      stock: json['stock'],
+    );
+  }
+
+  static String serializeColor(Color? color) {
+    return getColorName(color);
+  }
+  
+  static Color? deserializeColor(String colorName) {
+    Map<String, Color> nameToColor = {
+      "Black": Colors.black,
+      "Blue": Colors.blue,
+      "Red": Colors.red,
+      "Teal": Colors.teal,
+    };
+    return nameToColor[colorName];
+  }
+
+  static String getColorName(Color? color) {
+    Map<Color, String> colorNames = {
+      Colors.black: "Black",
+      Colors.blue: "Blue",
+      Colors.red: "Red",
+      Colors.teal: "Teal",
+    };
+    return colorNames[color] ?? "Unknown Color";
+  }
+
   double get price => item.price * quantity;
 }

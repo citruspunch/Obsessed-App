@@ -32,7 +32,8 @@ class _AvatarState extends State<Avatar> {
                       width: 170,
                       height: 170,
                       color: Colors.grey,
-                      child: const Icon(Icons.person, size: 80, color: Colors.white),
+                      child: const Icon(Icons.person,
+                          size: 80, color: Colors.white),
                     )
                   : Image.network(
                       widget.imageUrl!,
@@ -61,7 +62,8 @@ class _AvatarState extends State<Avatar> {
                         ),
                       ],
                     ),
-                    child: const Icon(Icons.create_outlined, size: 30, color: Colors.deepPurple),
+                    child: Icon(Icons.create_outlined,
+                        size: 30, color: Colors.deepPurple[800]),
                   ),
                 ),
               ),

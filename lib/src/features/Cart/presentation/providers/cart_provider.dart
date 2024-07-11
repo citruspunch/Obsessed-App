@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:obsessed_app/main.dart';
 import 'package:obsessed_app/src/core/entities/clothing_item.dart';
 import 'package:obsessed_app/src/features/cart/domain/entities/cart_item.dart';
 
@@ -62,6 +63,40 @@ class CartProvider extends ChangeNotifier {
 
   int getIndex(ClothingItem item) {
     return _items.indexWhere((element) => element.item == item);
+  }
+
+  Future<void> saveCartToDatabase() async {
+    try {
+      var cartData = _items.map((item) => item.toJson()).toList();
+      final userId = supabase.auth.currentSession!.user.id;
+
+      await supabase
+          .from('profiles')
+          .update({'cart_items': cartData})
+          .eq('id', userId);
+    } catch (e) {
+      print(e.toString());
+      throw e.toString();
+    }
+  }
+
+
+  Future<void> loadCartFromDatabase() async {
+    try {
+      final userId = supabase.auth.currentSession!.user.id;
+      final data =
+          await supabase.from('profiles').select().eq('id', userId).single();
+      List<dynamic> cartData = (data['cart_items'] ?? '') as List<dynamic>;
+      // Convertir cartData de nuevo a una lista de CartItem y actualizar _items
+      _items.clear();
+      for (var itemData in cartData) {
+        _items.add(CartItem.fromJson(itemData));
+      }
+      notifyListeners();
+    } catch (e) {
+      print(e.toString());
+      throw e.toString();
+    }
   }
 
   void clear() {

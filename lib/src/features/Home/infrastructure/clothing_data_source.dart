@@ -7,24 +7,22 @@ import 'dart:convert';
 class ClothingDataSource {
   Future<List<ClothingItem>> getAllItems() async {
     var url = Uri.parse(productsUrl);
-    final response = await http.get(url); 
+    try {
+      final response = await http.get(url); 
     
-    if (response.statusCode == 200) {
-      final List<dynamic> itemJson = jsonDecode(response.body);
-      // Ignorar artículos que no son ropa
-      for (int i=firstNonUsableItem; i<lastNonUsableItem; i++) {
-        itemJson.removeAt(firstNonUsableItem);
+      if (response.statusCode == 200) {
+        final List<dynamic> itemJson = jsonDecode(response.body);
+        // Ignorar artículos que no son ropa
+        for (int i=firstNonUsableItem; i<lastNonUsableItem; i++) {
+          itemJson.removeAt(firstNonUsableItem);
+        }
+        return itemJson.map((json) => ClothingItem.fromJson(json)).toList();
+      } else {
+        throw Exception('Failed to load clothing items');
       }
-      return itemJson.map((json) => ClothingItem.fromJson(json)).toList();
-    } else {
-      throw Exception('Failed to load clothing items');
+    } catch (e){
+      print(e.toString());
+      return [];
     }
   }
 }
-/*class ClothingDataSource {
-  Future<List<ClothingItem>> getAllItems() {
-    return Future.delayed(const Duration(seconds: 1), () {
-      return listOfClothingItems(); 
-    });
-  }
-}*/

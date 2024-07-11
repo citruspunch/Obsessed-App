@@ -1,11 +1,10 @@
+import 'package:feather_icons/feather_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:obsessed_app/main.dart';
 import 'package:obsessed_app/src/features/payment_finalization/domain/entities/city.dart';
 import 'package:obsessed_app/src/features/payment_finalization/domain/entities/country.dart';
 import 'package:obsessed_app/src/features/payment_finalization/infrastructure/location_service.dart';
-import 'package:obsessed_app/src/features/product_detail/presentation/UI/widgets/return_to_home_button.dart';
-import 'package:obsessed_app/src/features/user_account/presentation/UI/screens/login_screen.dart';
 import 'package:obsessed_app/src/features/user_account/presentation/UI/widgets/avatar.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -78,7 +77,7 @@ class _AccountPageState extends State<AccountPage> {
       'last_name': lastName,
       'country': _selectedCountry,
       'city': _selectedCity,
-      'gender' : gender,
+      'gender': gender,
       'avatar_url': _avatarUrl,
       'updated_at': DateTime.now().toIso8601String(),
     };
@@ -103,24 +102,6 @@ class _AccountPageState extends State<AccountPage> {
     }
   }
 
-  Future<void> _signOut() async {
-    try {
-      await supabase.auth.signOut();
-    } on AuthException catch (error) {
-      if (mounted) context.showSnackBar(error.message, isError: true);
-    } catch (error) {
-      if (mounted) {
-        context.showSnackBar('Unexpected error occurred', isError: true);
-      }
-    } finally {
-      if (mounted) {
-        Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (_) => const LoginScreen()),
-        );
-      }
-    }
-  }
-
   void _loadCountries([String? selectedCountryFromDb]) async {
     try {
       List<Country> countries = await _locationService.getCountries();
@@ -128,7 +109,9 @@ class _AccountPageState extends State<AccountPage> {
         setState(() {
           _countries = countries;
           // Verifica si el país obtenido de la base de datos está en la lista de países cargados
-          _selectedCountry = selectedCountryFromDb != null && countries.any((country) => country.name == selectedCountryFromDb)
+          _selectedCountry = selectedCountryFromDb != null &&
+                  countries
+                      .any((country) => country.name == selectedCountryFromDb)
               ? selectedCountryFromDb
               : countries.first.name;
         });
@@ -144,9 +127,12 @@ class _AccountPageState extends State<AccountPage> {
       setState(() {
         _cities = cities;
         // Verifica si la ciudad obtenida de la base de datos está en la lista de ciudades cargadas
-        _selectedCity = selectedCityFromDb != null && cities.any((city) => city.name == selectedCityFromDb)
+        _selectedCity = selectedCityFromDb != null &&
+                cities.any((city) => city.name == selectedCityFromDb)
             ? selectedCityFromDb
-            : cities.isNotEmpty ? cities.first.name : null;
+            : cities.isNotEmpty
+                ? cities.first.name
+                : null;
       });
     } catch (e) {
       setState(() {
@@ -184,20 +170,29 @@ class _AccountPageState extends State<AccountPage> {
         forceMaterialTransparency: true,
         toolbarHeight: 80,
         centerTitle: true,
-        leading: const ReturnToHomeButton(),
-        title: Text('Profile', style: GoogleFonts.poppins(
-          fontSize: 25,
-          fontWeight: FontWeight.w600,
-        )),
+        leading: Padding(
+          padding: const EdgeInsets.only(left: 10, bottom: 5),
+          child: IconButton(
+            icon: const Icon(FeatherIcons.minus, size: 33, color: Colors.black),
+            onPressed: () => Navigator.of(context).pop(),
+          ),
+        ),
+        title: Text('Profile',
+            style: GoogleFonts.poppins(
+              fontSize: 25,
+              fontWeight: FontWeight.w600,
+            )),
       ),
       body: ListView(
         padding: const EdgeInsets.symmetric(vertical: 18, horizontal: 20),
         children: [
-          Avatar( imageUrl: _avatarUrl, onUpload: (imageUrl){
-            setState(() {
-              _avatarUrl = imageUrl;
-            });
-          }),
+          Avatar(
+              imageUrl: _avatarUrl,
+              onUpload: (imageUrl) {
+                setState(() {
+                  _avatarUrl = imageUrl;
+                });
+              }),
           TextFormField(
             controller: _usernameController,
             decoration: createDecoration('User Name:'),
@@ -223,7 +218,8 @@ class _AccountPageState extends State<AccountPage> {
           ),
           const SizedBox(height: 30),
           ConstrainedBox(
-            constraints: const BoxConstraints(minWidth: double.infinity, maxHeight: 60.0),
+            constraints: const BoxConstraints(
+                minWidth: double.infinity, maxHeight: 55.0),
             child: InputDecorator(
               decoration: getDropdownInputDecoration('Country:'),
               child: DropdownButtonHideUnderline(
@@ -236,7 +232,8 @@ class _AccountPageState extends State<AccountPage> {
                       _loadCities(_selectedCountry!);
                     });
                   },
-                  items: _countries.map<DropdownMenuItem<String>>((Country country) {
+                  items: _countries
+                      .map<DropdownMenuItem<String>>((Country country) {
                     return DropdownMenuItem<String>(
                       value: country.name,
                       child: Text(
@@ -249,13 +246,11 @@ class _AccountPageState extends State<AccountPage> {
                   }).toList(),
                   selectedItemBuilder: (BuildContext context) {
                     return _countries.map<Widget>((Country country) {
-                      return Flexible(
-                        child: Text(
-                          country.name,
-                          overflow: TextOverflow.ellipsis,
-                          style: GoogleFonts.poppins(
-                            fontSize: 15,
-                          ),
+                      return Text(
+                        country.name,
+                        overflow: TextOverflow.ellipsis,
+                        style: GoogleFonts.poppins(
+                          fontSize: 15,
                         ),
                       );
                     }).toList();
@@ -264,9 +259,10 @@ class _AccountPageState extends State<AccountPage> {
               ),
             ),
           ),
-          const SizedBox(height: 45),
+          const SizedBox(height: 30),
           ConstrainedBox(
-            constraints: const BoxConstraints(minWidth: double.infinity, maxHeight: 60.0),
+            constraints: const BoxConstraints(
+                minWidth: double.infinity, maxHeight: 55.0),
             child: InputDecorator(
               decoration: getDropdownInputDecoration('City:'),
               child: DropdownButtonHideUnderline(
@@ -291,13 +287,11 @@ class _AccountPageState extends State<AccountPage> {
                   }).toList(),
                   selectedItemBuilder: (BuildContext context) {
                     return _cities.map<Widget>((City city) {
-                      return Flexible(
-                        child: Text(
-                          city.name,
-                          overflow: TextOverflow.ellipsis,
-                          style: GoogleFonts.poppins(
-                            fontSize: 15,
-                          ),
+                      return Text(
+                        city.name,
+                        overflow: TextOverflow.ellipsis,
+                        style: GoogleFonts.poppins(
+                          fontSize: 15,
                         ),
                       );
                     }).toList();
@@ -307,179 +301,89 @@ class _AccountPageState extends State<AccountPage> {
             ),
           ),
           const SizedBox(height: 30),
-          /* 
-          DropdownButtonFormField<String>(
-            value: _selectedCountry,
-            decoration: InputDecoration(
-              fillColor: Colors.white,
-              filled: true,
-              labelText: 'Country:',
-              labelStyle: GoogleFonts.poppins(
-                fontSize: 18,
-                fontWeight: FontWeight.w600,
-              ),
-              border: OutlineInputBorder( 
-                borderRadius: BorderRadius.circular(10.0),
-                borderSide: const BorderSide(color: Colors.grey),
-              ),
-              enabledBorder: OutlineInputBorder( 
-                borderRadius: BorderRadius.circular(10.0),
-                borderSide: const BorderSide(color: Colors.grey),
-              ),
-              focusedBorder: OutlineInputBorder( 
-                borderRadius: BorderRadius.circular(10.0),
-                borderSide: const BorderSide(color: Colors.deepPurple, width: 2),
+          ConstrainedBox(
+            constraints: const BoxConstraints(
+                minWidth: double.infinity, maxHeight: 55.0),
+            child: InputDecorator(
+              decoration: getDropdownInputDecoration('Gender:'),
+              child: DropdownButtonHideUnderline(
+                child: DropdownButton<String>(
+                  value: _genderController.text.isEmpty
+                      ? null
+                      : _genderController.text,
+                  isExpanded: true,
+                  onChanged: (String? newValue) {
+                    setState(() {
+                      if (newValue != null) {
+                        _genderController.text = newValue;
+                      }
+                    });
+                  },
+                  items: [
+                    DropdownMenuItem<String>(
+                      value: 'Male',
+                      child: Text('Male',
+                          style: GoogleFonts.poppins(
+                            fontSize: 15,
+                          )),
+                    ),
+                    DropdownMenuItem<String>(
+                      value: 'Female',
+                      child: Text('Female',
+                          style: GoogleFonts.poppins(
+                            fontSize: 15,
+                          )),
+                    ),
+                  ],
+                ),
               ),
             ),
-            onChanged: (String? newValue) {
-              setState(() {
-                _selectedCountry = newValue;
-                _loadCities(_selectedCountry!);
-              });
-            },
-            items: _countries.map<DropdownMenuItem<String>>((Country country) {
-              return DropdownMenuItem<String>(
-                value: country.name,
-                child: Text(
-                  country.name.length > 40 ? '${country.name.substring(0, country.name.length - 7)}...' : country.name,
-                  style: GoogleFonts.poppins(
-                    fontSize: 15,
-                  ),
-                ),
-              );
-            }).toList(),
           ),
           const SizedBox(height: 30),
-          DropdownButtonFormField<String>(
-            value: _selectedCity,
-            decoration: InputDecoration(
-              fillColor: Colors.white, 
-              filled: true,
-              labelText: 'City:',
-              labelStyle: GoogleFonts.poppins(
-                fontSize: 18,
-                fontWeight: FontWeight.w600,
-              ),
-              border: OutlineInputBorder( 
-                borderRadius: BorderRadius.circular(10.0),
-                borderSide: const BorderSide(color: Colors.grey),
-              ),
-              enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10.0),
-                borderSide: const BorderSide(color: Colors.grey),
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10.0),
-                borderSide: const BorderSide(color: Colors.deepPurple, width: 2),
-              ),
-            ),
-            onChanged: (String? newValue) {
-              setState(() {
-                _selectedCity = newValue;
-              });
-            },
-            items: _cities.map<DropdownMenuItem<String>>((City city) {
-              return DropdownMenuItem<String>(
-                value: city.name,
-                child: Text(
-                  city.name.length > 40 ? '${city.name.substring(0, city.name.length - 10)}...' : city.name,
-                  style: GoogleFonts.poppins(
-                    fontSize: 15,
-                  ),
-                ),
-              );
-            }).toList(),
-          ),
-          */
-          DropdownButtonFormField<String>(
-            value: _genderController.text.isEmpty ? null : _genderController.text,
-            decoration: InputDecoration(
-              fillColor: Colors.white, 
-              filled: true,
-              labelText: 'Gender:',
-              labelStyle: GoogleFonts.poppins(
-                fontSize: 18,
-                fontWeight: FontWeight.w600,
-              ),
-              border: OutlineInputBorder( 
-                borderRadius: BorderRadius.circular(10.0),
-                borderSide: const BorderSide(color: Colors.grey),
-              ),
-              enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10.0),
-                borderSide: const BorderSide(color: Colors.grey),
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10.0),
-                borderSide: const BorderSide(color: Colors.deepPurple, width: 2),
-              ),
-            ),
-            items: [
-              DropdownMenuItem<String>(
-                value: 'Male',
-                child: Text(
-                  'Male', 
-                  style: GoogleFonts.poppins(
-                    fontSize: 15,
-                  )),
-              ),
-              DropdownMenuItem<String>(
-                value: 'Female',
-                child: Text('Female', style: GoogleFonts.poppins(
-                    fontSize: 15,
-                  )),
-              ),
-            ],
-            onChanged: (value) {
-              if (value != null) {
-                _genderController.text = value;
-              }
-            },
-          ),
-          const SizedBox(height: 40),
           ElevatedButton(
             onPressed: _loading ? null : _updateProfile,
             style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.deepPurple,
+              backgroundColor: Colors.deepPurple[800],
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(30.0),
               ),
               padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 15),
             ),
-            child: Text(
-              _loading ? 'Saving...' : 'Update', 
-              style: GoogleFonts.poppins(fontSize: 16, fontWeight: FontWeight.w600, color: Colors.white)
-            ),
+            child: Text(_loading ? 'Saving...' : 'Update',
+                style: GoogleFonts.poppins(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.white)),
           ),
-          const SizedBox(height: 18),
-          TextButton(onPressed: _signOut, child: const Text('Sign Out', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600))),
         ],
       ),
     );
   }
+
   InputDecoration createDecoration(String label, {IconData? icon}) {
     return InputDecoration(
-                fillColor: Colors.white,
-                filled: true,
-                labelText: label,
-                labelStyle: GoogleFonts.poppins(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w600,
-                ),
-                border: OutlineInputBorder( 
-                  borderRadius: BorderRadius.circular(10.0),
-                  borderSide: const BorderSide(color: Colors.grey),
-                ),
-                enabledBorder: OutlineInputBorder( 
-                  borderRadius: BorderRadius.circular(10.0),
-                  borderSide: const BorderSide(color: Colors.grey),
-                ),
-                focusedBorder: OutlineInputBorder( 
-                  borderRadius: BorderRadius.circular(10.0),
-                  borderSide: const BorderSide(color: Colors.deepPurple, width: 2),
-                ),
-              );
+      fillColor: Colors.white,
+      filled: true,
+      labelText: label,
+      labelStyle: GoogleFonts.poppins(
+        fontSize: 18,
+        fontWeight: FontWeight.w600,
+      ),
+      border: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(10.0),
+        borderSide: const BorderSide(color: Colors.grey),
+      ),
+      enabledBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(10.0),
+        borderSide: const BorderSide(color: Colors.grey),
+      ),
+      focusedBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(10.0),
+        borderSide: const BorderSide(color: Colors.deepPurple, width: 2),
+      ),
+    );
   }
+
   InputDecoration getDropdownInputDecoration(String labelText) {
     return InputDecoration(
       fillColor: Colors.white,

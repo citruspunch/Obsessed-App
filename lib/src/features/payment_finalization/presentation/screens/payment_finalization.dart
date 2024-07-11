@@ -23,12 +23,10 @@ class PaymentFinalization extends StatelessWidget {
         forceMaterialTransparency: true,
       ),
       body: const SafeArea(
-        child: Expanded(
-          child: SingleChildScrollView(
-            child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
-              child: OrderDetailsForm(),
-            ),
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+            child: OrderDetailsForm(),
           ),
         ),
       ),
