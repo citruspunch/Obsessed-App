@@ -1,12 +1,12 @@
+import 'package:feather_icons/feather_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:obsessed_app/src/core/constants/constants.dart';
 import 'package:obsessed_app/src/core/entities/clothing_item.dart';
 import 'package:obsessed_app/src/features/cart/domain/entities/cart_item.dart';
 import 'package:obsessed_app/src/features/cart/presentation/providers/cart_provider.dart';
-import 'package:obsessed_app/src/features/product_detail/presentation/UI/widgets/cart_confirmation_dialog.dart';
+import 'package:obsessed_app/src/features/product_detail/presentation/UI/widgets/personalized_dialog.dart';
 import 'package:obsessed_app/src/features/product_detail/presentation/UI/widgets/color_option.dart';
-import 'package:obsessed_app/src/features/product_detail/presentation/UI/widgets/no_stock_dialog.dart';
-import 'package:obsessed_app/src/features/product_detail/presentation/UI/widgets/size_color_selection_dialog.dart';
 import 'package:obsessed_app/src/features/product_detail/presentation/UI/widgets/size_option.dart';
 import 'package:provider/provider.dart';
 
@@ -29,9 +29,12 @@ class _ProductSelectionModalState extends State<ProductSelectionModal> {
     var cartProvider = Provider.of<CartProvider>(context, listen: false);
     int maxQuantity;
     if (selectedColor != null && selectedSize != null) {
-      maxQuantity = cartProvider.containsClothingItem(widget.item, selectedColor!, selectedSize!) ? cartProvider.items[cartProvider.getIndex(widget.item)].stock : widget.item.stock;
+      maxQuantity = cartProvider.containsClothingItem(
+              widget.item, selectedColor!, selectedSize!)
+          ? cartProvider.items[cartProvider.getIndex(widget.item)].stock
+          : initialStock;
     } else {
-      maxQuantity = widget.item.stock;
+      maxQuantity = initialStock;
     }
     return Container(
       padding: const EdgeInsets.all(20),
@@ -138,8 +141,12 @@ class _ProductSelectionModalState extends State<ProductSelectionModal> {
                         onTap: () {
                           if (selectedColor == null || selectedSize == null) {
                             // Mostrar diálogo si el color o tamaño no están seleccionados
-                            SizeColorSelectionDialog.show(context);
-                          } else { 
+                            showPersonalizedDialog(
+                                context: context,
+                                text: 'Please select a size\nand a color',
+                                icon: FeatherIcons.alertCircle,
+                                iconColor: Colors.indigoAccent);
+                          } else {
                             if (quantity > 1 && quantity <= maxQuantity) {
                               setState(() {
                                 quantity--;
@@ -171,15 +178,18 @@ class _ProductSelectionModalState extends State<ProductSelectionModal> {
                       child: InkWell(
                         onTap: () {
                           if (selectedColor == null || selectedSize == null) {
-                            // Mostrar diálogo si el color o tamaño no están seleccionados
-                            SizeColorSelectionDialog.show(context);
-                          } else{
+                            showPersonalizedDialog(
+                                context: context,
+                                text: 'Please select a size\nand a color',
+                                icon: FeatherIcons.alertCircle,
+                                iconColor: Colors.indigoAccent);
+                          } else {
                             if (quantity > 0 && quantity < maxQuantity) {
                               setState(() {
                                 quantity++;
                               });
                             }
-                          } 
+                          }
                         },
                         child: const Icon(Icons.add),
                       ),
@@ -253,11 +263,20 @@ class _ProductSelectionModalState extends State<ProductSelectionModal> {
                 onTap: () {
                   if (maxQuantity == 0) {
                     Navigator.pop(context);
-                    NoStockDialog.show(context);
+                    showPersonalizedDialog(
+                        context: context,
+                        text: 'NO STOCK AVAILABLE',
+                        icon: FeatherIcons.slash,
+                        iconColor: Colors.red);
                     return;
                   }
                   if (selectedColor == null || selectedSize == null) {
-                    SizeColorSelectionDialog.show(context);
+                    showPersonalizedDialog(
+                        context: context,
+                        text: 'Please select a size\nand a color',
+                        icon: FeatherIcons.alertCircle,
+                        iconColor: Colors.indigoAccent);
+
                     return;
                   }
                   cartProvider.addItem(
@@ -275,7 +294,11 @@ class _ProductSelectionModalState extends State<ProductSelectionModal> {
                     ),
                   );
                   Navigator.pop(context);
-                  CartConfirmationDialog.show(context);
+                  showPersonalizedDialog(
+                      context: context,
+                      icon: FeatherIcons.checkCircle,
+                      text: 'Item successfully\nadded to cart.',
+                      iconColor: Colors.green);
                 },
                 child: Center(
                   child: Text(

@@ -7,7 +7,6 @@ class ClothingItem {
   final String description;
   final Map<String, dynamic> rating;
   final int count;
-  int stock;
 
   ClothingItem({
     required this.id,
@@ -18,7 +17,6 @@ class ClothingItem {
     required this.description,
     required this.rating,
     required this.count,
-    this.stock = 10,
   });
 
   factory ClothingItem.fromJson(Map<String, dynamic> json) {
@@ -42,8 +40,8 @@ class ClothingItem {
     return ClothingItem(
       id: json['id'],
       title: json['title'],
-      name: json['category'],
-      imagePath: json['image'],
+      name: json['category'] ?? json['name'],
+      imagePath: json['image'] ?? json['imagePath'],
       price: json['price'].toDouble(),
       description: json['description'],
       rating: json['rating'],
@@ -68,7 +66,7 @@ class ClothingItem {
   bool operator ==(Object other) {
     // Si son exactamente el mismo objeto en memoria
     if (identical(this, other)) return true;
-    
+
     return other is ClothingItem && other.id == id;
   }
 

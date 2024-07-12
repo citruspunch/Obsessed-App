@@ -65,71 +65,73 @@ class _UserScreenState extends State<UserScreen> {
         forceMaterialTransparency: true,
         toolbarHeight: 80,
         centerTitle: true,
-        leading: const ReturnToHomeButton(),
-        title: Text('User', style: GoogleFonts.poppins(
-          fontSize: 25,
-          fontWeight: FontWeight.w600,
-        )),
+        leading: const Padding(
+          padding: EdgeInsets.only(left: 11.0, bottom: 2.0),
+          child: ReturnToHomeButton(),
+        ),
+        title: Text('User',
+            style: GoogleFonts.poppins(
+              fontSize: 25,
+              fontWeight: FontWeight.w600,
+            )),
       ),
       body: _loading
           ? const Center(child: CircularProgressIndicator())
           : SingleChildScrollView(
-        child: Column(
-          children: [
-            const SizedBox(height: 10),
-            InfoCard(
-              title: 'Username',
-              englishText: _username,
-              icon: FeatherIcons.globe,
-              titleSize: 23,
-              iconSize: 25,
+              child: Column(
+                children: [
+                  const SizedBox(height: 10),
+                  InfoCard(
+                    title: 'Username',
+                    englishText: _username,
+                    icon: FeatherIcons.globe,
+                    titleSize: 23,
+                    iconSize: 25,
+                  ),
+                  const SizedBox(height: 8),
+                  InfoCard(
+                    title: 'Name',
+                    englishText: _name,
+                    icon: FeatherIcons.user,
+                    titleSize: 23,
+                    iconSize: 25,
+                  ),
+                  const SizedBox(height: 8),
+                  InfoCard(
+                    title: 'Last Name',
+                    englishText: _lastName,
+                    icon: Icons.person,
+                    titleSize: 23,
+                    iconSize: 25,
+                  ),
+                  const SizedBox(height: 8),
+                  InfoCard(
+                    title: 'Country',
+                    englishText: _country,
+                    icon: FeatherIcons.flag,
+                    titleSize: 23,
+                    iconSize: 25,
+                  ),
+                  const SizedBox(height: 8),
+                  InfoCard(
+                    title: 'City',
+                    englishText: _city,
+                    icon: FeatherIcons.mapPin,
+                    titleSize: 23,
+                    iconSize: 25,
+                  ),
+                  const SizedBox(height: 8),
+                  InfoCard(
+                    title: 'Gender',
+                    englishText: _gender,
+                    icon: FeatherIcons.feather,
+                    titleSize: 23,
+                    iconSize: 25,
+                  ),
+                  const SizedBox(height: 8),
+                ],
+              ),
             ),
-            const SizedBox(height: 8),
-            InfoCard(
-              title: 'Name',
-              englishText: _name,
-              icon: FeatherIcons.user,
-              titleSize: 23,
-              iconSize: 25,
-            ),
-            const SizedBox(height: 8),
-            InfoCard(
-              title: 'Last Name',
-              englishText: _lastName,
-              icon: Icons.person,
-              titleSize: 23,
-              iconSize: 25,
-            ),
-            const SizedBox(height: 8),
-            InfoCard(
-              title: 'Country',
-              englishText: _country,
-              icon: FeatherIcons.flag,
-              titleSize: 23,
-              iconSize: 25,
-            ),
-            const SizedBox(height: 8),
-            InfoCard(
-              title: 'City',
-              englishText: _city,
-              icon: FeatherIcons.mapPin,
-              titleSize: 23,
-              iconSize: 25,
-            ),
-            const SizedBox(height: 8),
-            InfoCard(
-              title: 'Gender',
-              englishText: _gender,
-              icon: FeatherIcons.feather,
-              titleSize: 23,
-              iconSize: 25,
-            ),
-            const SizedBox(height: 8),
-          ],
-        ),
-      ),
     );
   }
 }
-
-

@@ -13,8 +13,8 @@ class CartScreen extends StatelessWidget {
   final double totalPrice;
 
   const CartScreen({
-    super.key, 
-    required this.cartItems, 
+    super.key,
+    required this.cartItems,
     required this.totalPrice,
   });
 
@@ -27,11 +27,15 @@ class CartScreen extends StatelessWidget {
         toolbarHeight: 80,
         backgroundColor: cart.items.isEmpty ? const Color(0xFFF1F1F1) : null,
         centerTitle: true,
-        leading: const ReturnToHomeButton(),
-        title: Text('Cart', style: GoogleFonts.poppins(
-          fontSize: 25,
-          fontWeight: FontWeight.w600,
-        )),
+        leading: const Padding(
+          padding: EdgeInsets.only(left: 11.0, bottom: 2.0),
+          child: ReturnToHomeButton(),
+        ),
+        title: Text('Cart',
+            style: GoogleFonts.poppins(
+              fontSize: 25,
+              fontWeight: FontWeight.w600,
+            )),
         forceMaterialTransparency: true,
       ),
       body: Stack(
@@ -40,8 +44,7 @@ class CartScreen extends StatelessWidget {
             child: SafeArea(
               child: Column(
                 children: [
-                  if (cart.items.isNotEmpty)
-                    CartBody(cartItems: cart.items),
+                  if (cart.items.isNotEmpty) CartBody(cartItems: cart.items),
                   const Padding(
                     padding: EdgeInsets.only(bottom: 680),
                   ),

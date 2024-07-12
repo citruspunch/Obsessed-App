@@ -81,7 +81,10 @@ class _ProfilePageState extends State<ProfilePage> {
         forceMaterialTransparency: true,
         toolbarHeight: 80,
         centerTitle: true,
-        leading: const ReturnToHomeButton(),
+        leading: const Padding(
+          padding: EdgeInsets.only(left: 11.0, bottom: 2.0),
+          child: ReturnToHomeButton(),
+        ),
         title: Text('Profile',
             style: GoogleFonts.poppins(
               fontSize: 25,

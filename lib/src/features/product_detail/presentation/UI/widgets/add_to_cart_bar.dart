@@ -19,18 +19,21 @@ class AddToCartBar extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
           InkWell(
-            onTap: () {
-              var cartProvider = Provider.of<CartProvider>(context, listen: false);
-              List<CartItem> cartItems = cartProvider.items;
-              double totalPrice = cartProvider.totalPrice;
-              Navigator.push(
-                context,
-                PageRouteBuilder(
-                    pageBuilder: (context, animation, secondaryAnimation) => CartScreen(
-                    cartItems: cartItems,
-                    totalPrice: totalPrice,
-                  ),
-                    transitionsBuilder: (context, animation, secondaryAnimation, child) {
+              onTap: () {
+                var cartProvider =
+                    Provider.of<CartProvider>(context, listen: false);
+                List<CartItem> cartItems = cartProvider.items;
+                double totalPrice = cartProvider.totalPrice;
+                Navigator.push(
+                  context,
+                  PageRouteBuilder(
+                    pageBuilder: (context, animation, secondaryAnimation) =>
+                        CartScreen(
+                      cartItems: cartItems,
+                      totalPrice: totalPrice,
+                    ),
+                    transitionsBuilder:
+                        (context, animation, secondaryAnimation, child) {
                       return FadeTransition(
                         opacity: animation,
                         child: child,
@@ -38,21 +41,35 @@ class AddToCartBar extends StatelessWidget {
                     },
                     transitionDuration: const Duration(milliseconds: 400),
                   ),
-              );
-            },
-            child: Container(
-              height: MediaQuery.of(context).size.height / 16,
-              padding: const EdgeInsets.all(15),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(100),
-              ),
-              child: const Icon(
-                Icons.shopping_cart,
-                size: 21,
-                color: Colors.black,
-              ),
-            ),
+                );
+              },
+              child: Container(
+                height: MediaQuery.of(context).size.height / 16,
+                padding: const EdgeInsets.all(15),
+                decoration: BoxDecoration(
+                  gradient: const LinearGradient(
+                    colors: [Colors.white, Colors.white54],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                  ),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.5),
+                      spreadRadius: 1,
+                      blurRadius: 3,
+                      offset: const Offset(0, 3),
+                    ),
+                  ],
+                  borderRadius: BorderRadius.circular(100),
+                ),
+                child: const Icon(
+                  Icons.shopping_cart,
+                  size: 21,
+                  color: Colors.black,
+                ),
+              )),
+          const SizedBox(
+            width: 10,
           ),
           InkWell(
             onTap: () {
@@ -66,11 +83,19 @@ class AddToCartBar extends StatelessWidget {
             },
             child: SafeArea(
               child: Container(
-                width: MediaQuery.of(context).size.width / 1.4,
+                width: MediaQuery.of(context).size.width / 1.35,
                 height: MediaQuery.of(context).size.height / 16,
                 decoration: BoxDecoration(
                   color: Colors.black,
                   borderRadius: BorderRadius.circular(30),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.5),
+                      spreadRadius: 2,
+                      blurRadius: 5,
+                      offset: const Offset(0, 3),
+                    ),
+                  ],
                 ),
                 child: Center(
                   child: Text(

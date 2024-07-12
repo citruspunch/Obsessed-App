@@ -15,17 +15,21 @@ class PaymentFinalization extends StatelessWidget {
       appBar: AppBar(
         toolbarHeight: 80,
         centerTitle: true,
-        leading: const ReturnToHomeButton(),
-        title: Text('Payment', style: GoogleFonts.poppins(
-          fontSize: 25,
-          fontWeight: FontWeight.w600,
-        )),
+        leading: const Padding(
+          padding: EdgeInsets.only(left: 11.0, bottom: 2.0),
+          child: ReturnToHomeButton(),
+        ),
+        title: Text('Payment',
+            style: GoogleFonts.poppins(
+              fontSize: 25,
+              fontWeight: FontWeight.w600,
+            )),
         forceMaterialTransparency: true,
       ),
       body: const SafeArea(
         child: SingleChildScrollView(
           child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+            padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 15.0),
             child: OrderDetailsForm(),
           ),
         ),

@@ -1,8 +1,9 @@
+import 'package:feather_icons/feather_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:obsessed_app/main.dart';
 import 'package:obsessed_app/src/features/home/presentation/UI/screens/home.dart';
+import 'package:obsessed_app/src/features/product_detail/presentation/UI/widgets/personalized_dialog.dart';
 import 'package:obsessed_app/src/features/user_account/presentation/UI/screens/sign_up.dart';
-import 'package:obsessed_app/src/features/user_account/presentation/UI/widgets/succesful_login.dart';
 import 'package:obsessed_app/src/features/user_account/presentation/UI/widgets/text_field.dart';
 import 'dart:async';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -18,7 +19,8 @@ class _LoginScreenState extends State<LoginScreen> {
   bool _isLoading = false;
   bool _redirecting = false;
   late final TextEditingController _emailController = TextEditingController();
-  late final TextEditingController _passwordController = TextEditingController();
+  late final TextEditingController _passwordController =
+      TextEditingController();
   late final StreamSubscription<AuthState> _authStateSubscription;
 
   Future<void> _signIn() async {
@@ -53,7 +55,7 @@ class _LoginScreenState extends State<LoginScreen> {
     return emailRegex.hasMatch(email);
   }
 
-    @override
+  @override
   void initState() {
     _authStateSubscription = supabase.auth.onAuthStateChange.listen(
       (data) {
@@ -64,7 +66,11 @@ class _LoginScreenState extends State<LoginScreen> {
           Navigator.of(context).pushReplacement(
             MaterialPageRoute(builder: (context) => const Home()),
           );
-          SuccesfulLogin.show(context);
+          showPersonalizedDialog(
+              context: context,
+              text: 'Succesful Login!',
+              icon: FeatherIcons.userCheck,
+              iconColor: Colors.green);
         }
       },
       onError: (error) {
@@ -92,80 +98,78 @@ class _LoginScreenState extends State<LoginScreen> {
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Container(
-                padding: const EdgeInsets.only(top: 50, bottom: 20),
-                height: height / 2.7,
-                child: Image.asset('assets/images/user_login.png'),
-              ),
-              TextFieldInput(
-                  icon: Icons.person,
-                  textEditingController: _emailController,
-                  hintText: 'Enter your email',
-                  textInputType: TextInputType.text),
-              TextFieldInput(
-                icon: Icons.lock,
-                textEditingController: _passwordController,
-                hintText: 'Enter your password',
-                textInputType: TextInputType.text,
-                isPass: true,
-              ),
-              //const ForgotPassword(),
-              InkWell(
-                onTap: _isLoading ? null : _signIn,
-                child: Padding(
-                  padding: const EdgeInsets.all(20.0),
-                  child: Container(
-                    alignment: Alignment.center,
-                    padding: const EdgeInsets.symmetric(vertical: 12),
-                    decoration: const ShapeDecoration(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(30),
-                          ),
+          child: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Container(
+              padding: const EdgeInsets.only(top: 50, bottom: 20),
+              height: height / 2.7,
+              child: Image.asset('assets/images/user_login.png'),
+            ),
+            TextFieldInput(
+                icon: Icons.person,
+                textEditingController: _emailController,
+                hintText: 'Enter your email',
+                textInputType: TextInputType.text),
+            TextFieldInput(
+              icon: Icons.lock,
+              textEditingController: _passwordController,
+              hintText: 'Enter your password',
+              textInputType: TextInputType.text,
+              isPass: true,
+            ),
+            //const ForgotPassword(),
+            InkWell(
+              onTap: _isLoading ? null : _signIn,
+              child: Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: Container(
+                  alignment: Alignment.center,
+                  padding: const EdgeInsets.symmetric(vertical: 12),
+                  decoration: const ShapeDecoration(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(30),
                         ),
-                        color: Color.fromARGB(255, 25, 39, 116)),
-                    child: Text(
-                      _isLoading ? 'Logging in...' : 'Login',
-                      style: const TextStyle(
-                        fontSize: 20,
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
                       ),
+                      color: Color.fromARGB(255, 25, 39, 116)),
+                  child: Text(
+                    _isLoading ? 'Logging in...' : 'Login',
+                    style: const TextStyle(
+                      fontSize: 20,
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.only(top: 10, left: 100),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Text("Don't have an account? "),
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (context) => const SignupScreen(),
-                          ),
-                        );
-                      },
-                      child: const Text(
-                        "SignUp",
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                    )
-                  ],
-                ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 10, left: 100),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text("Don't have an account? "),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => const SignupScreen(),
+                        ),
+                      );
+                    },
+                    child: const Text(
+                      "SignUp",
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                  )
+                ],
               ),
-            ],
-          ),
-        )
-      ),
+            ),
+          ],
+        ),
+      )),
     );
   }
 }
-

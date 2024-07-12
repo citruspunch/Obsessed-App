@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:obsessed_app/src/core/constants/constants.dart';
 import 'package:obsessed_app/src/core/entities/clothing_item.dart';
 
 class CartItem {
@@ -25,7 +26,7 @@ class CartItem {
     required this.count,
     this.size,
     this.color,
-    this.stock = 10,
+    this.stock = initialStock,
   });
 
   

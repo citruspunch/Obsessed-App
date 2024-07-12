@@ -46,7 +46,10 @@ class _PurchaseHistoryState extends State<PurchaseHistory> {
         forceMaterialTransparency: true,
         toolbarHeight: 80,
         centerTitle: true,
-        leading: const ReturnToHomeButton(),
+        leading: const Padding(
+          padding: EdgeInsets.only(left: 11.0, bottom: 2.0),
+          child: ReturnToHomeButton(),
+        ),
         title: Text('Purchases', style: GoogleFonts.poppins(
           fontSize: 25,
           fontWeight: FontWeight.w600,

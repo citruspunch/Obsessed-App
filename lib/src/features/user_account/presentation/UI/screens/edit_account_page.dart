@@ -167,17 +167,18 @@ class _AccountPageState extends State<AccountPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         forceMaterialTransparency: true,
         toolbarHeight: 80,
         centerTitle: true,
         leading: Padding(
           padding: const EdgeInsets.only(left: 10, bottom: 5),
           child: IconButton(
-            icon: const Icon(FeatherIcons.minus, size: 33, color: Colors.black),
+            icon: const Icon(FeatherIcons.x, size: 30, color: Colors.black),
             onPressed: () => Navigator.of(context).pop(),
           ),
         ),
-        title: Text('Profile',
+        title: Text('Edit Profile',
             style: GoogleFonts.poppins(
               fontSize: 25,
               fontWeight: FontWeight.w600,

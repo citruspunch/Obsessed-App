@@ -1,5 +1,5 @@
 // ignore_for_file: use_build_context_synchronously
-
+/*
 import 'package:flutter/material.dart';
 import 'package:obsessed_app/main.dart';
 import 'package:obsessed_app/src/core/constants/constants.dart';
@@ -121,4 +121,4 @@ class _ForgotPasswordState extends State<ForgotPassword> {
       }
     );
   }
-}
+}*/

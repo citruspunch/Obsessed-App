@@ -9,3 +9,4 @@ bool validateEmail(String email) {
   final emailRegex = RegExp(r'^[^@]+@[^@]+\.[^@]+$');
   return emailRegex.hasMatch(email);
 }
+const int initialStock = 10;

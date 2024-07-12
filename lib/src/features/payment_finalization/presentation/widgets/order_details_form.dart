@@ -79,7 +79,9 @@ class _OrderDetailsFormState extends State<OrderDetailsForm> {
         setState(() {
           _countries = countries;
           // Verifica si el país obtenido de la base de datos está en la lista de países cargados
-          _selectedCountry = selectedCountryFromDb != null && countries.any((country) => country.name == selectedCountryFromDb)
+          _selectedCountry = selectedCountryFromDb != null &&
+                  countries
+                      .any((country) => country.name == selectedCountryFromDb)
               ? selectedCountryFromDb
               : countries.first.name;
         });
@@ -95,9 +97,12 @@ class _OrderDetailsFormState extends State<OrderDetailsForm> {
       setState(() {
         _cities = cities;
         // Verifica si la ciudad obtenida de la base de datos está en la lista de ciudades cargadas
-        _selectedCity = selectedCityFromDb != null && cities.any((city) => city.name == selectedCityFromDb)
+        _selectedCity = selectedCityFromDb != null &&
+                cities.any((city) => city.name == selectedCityFromDb)
             ? selectedCityFromDb
-            : cities.isNotEmpty ? cities.first.name : null;
+            : cities.isNotEmpty
+                ? cities.first.name
+                : null;
       });
     } catch (e) {
       setState(() {
@@ -126,7 +131,8 @@ class _OrderDetailsFormState extends State<OrderDetailsForm> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               TextFormField(
-                autofocus: (supabase.auth.currentSession != null) ? false : true,
+                autofocus:
+                    (supabase.auth.currentSession != null) ? false : true,
                 controller: _nameController,
                 decoration: createDecoration('Name:', icon: Icons.person),
                 style: GoogleFonts.poppins(
@@ -142,7 +148,8 @@ class _OrderDetailsFormState extends State<OrderDetailsForm> {
               const SizedBox(height: 45),
               TextFormField(
                 controller: _lastNameController,
-                decoration: createDecoration('Last Name:', icon: Icons.person_outline),
+                decoration:
+                    createDecoration('Last Name:', icon: Icons.person_outline),
                 style: GoogleFonts.poppins(
                   fontSize: 15,
                 ),
@@ -155,9 +162,11 @@ class _OrderDetailsFormState extends State<OrderDetailsForm> {
               ),
               const SizedBox(height: 45),
               ConstrainedBox(
-                constraints: const BoxConstraints(minWidth: double.infinity, maxHeight: 60.0),
+                constraints: const BoxConstraints(
+                    minWidth: double.infinity, maxHeight: 60.0),
                 child: InputDecorator(
-                  decoration: getDropdownInputDecoration('Country:', Icons.location_on),
+                  decoration:
+                      getDropdownInputDecoration('Country:', Icons.location_on),
                   child: DropdownButtonHideUnderline(
                     child: DropdownButton<String>(
                       value: _selectedCountry,
@@ -168,7 +177,8 @@ class _OrderDetailsFormState extends State<OrderDetailsForm> {
                           _loadCities(_selectedCountry!);
                         });
                       },
-                      items: _countries.map<DropdownMenuItem<String>>((Country country) {
+                      items: _countries
+                          .map<DropdownMenuItem<String>>((Country country) {
                         return DropdownMenuItem<String>(
                           value: country.name,
                           child: Text(
@@ -196,9 +206,11 @@ class _OrderDetailsFormState extends State<OrderDetailsForm> {
               ),
               const SizedBox(height: 45),
               ConstrainedBox(
-                constraints: const BoxConstraints(minWidth: double.infinity, maxHeight: 60.0),
+                constraints: const BoxConstraints(
+                    minWidth: double.infinity, maxHeight: 60.0),
                 child: InputDecorator(
-                  decoration: getDropdownInputDecoration('City:', Icons.location_city),
+                  decoration:
+                      getDropdownInputDecoration('City:', Icons.location_city),
                   child: DropdownButtonHideUnderline(
                     child: DropdownButton<String>(
                       value: _selectedCity,
@@ -258,10 +270,13 @@ class _OrderDetailsFormState extends State<OrderDetailsForm> {
                     onPressed: () async {
                       if (_formKey.currentState!.validate()) {
                         try {
-                          final cart = Provider.of<CartProvider>(context, listen: false);
+                          final cart =
+                              Provider.of<CartProvider>(context, listen: false);
                           final List<CartItem> cartItems = cart.items;
                           final double totalAmount = cart.totalPrice;
-                          final List<String> products = cartItems.map((item) => '${item.quantity}x ${item.name}').toList();
+                          final List<String> products = cartItems
+                              .map((item) => '${item.quantity}x ${item.name}')
+                              .toList();
                           var uuid = const Uuid();
                           final String uniqueId = uuid.v4();
                           final String email = _emailController.text;
@@ -275,10 +290,12 @@ class _OrderDetailsFormState extends State<OrderDetailsForm> {
                             totalAmount: totalAmount,
                             products: products,
                           );
-                          await _sendEmailUseCase.sendEmail(email, subject, body);
+                          await _sendEmailUseCase.sendEmail(
+                              email, subject, body);
                           // Añadir la compra a la base de datos
                           if (supabase.auth.currentSession != null) {
-                            final userId = supabase.auth.currentSession!.user.id;
+                            final userId =
+                                supabase.auth.currentSession!.user.id;
                             await addPurchaseToUser(userId, {
                               'totalAmount': totalAmount,
                               'products': products,
@@ -290,6 +307,7 @@ class _OrderDetailsFormState extends State<OrderDetailsForm> {
                           showDialog(
                             // ignore: use_build_context_synchronously
                             context: context,
+                            barrierColor: Colors.black.withOpacity(0.79),
                             builder: (BuildContext context) {
                               return Dialog(
                                 shape: RoundedRectangleBorder(
@@ -308,7 +326,8 @@ class _OrderDetailsFormState extends State<OrderDetailsForm> {
                       fixedSize: const Size(230, 80),
                       foregroundColor: Colors.deepPurple[500],
                       backgroundColor: Colors.white,
-                      padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 20),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 50, vertical: 20),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20),
                       ),
@@ -332,9 +351,11 @@ class _OrderDetailsFormState extends State<OrderDetailsForm> {
     );
   }
 
-  Future<void> addPurchaseToUser(String userId, Map<String, dynamic> purchaseDetails) async {
+  Future<void> addPurchaseToUser(
+      String userId, Map<String, dynamic> purchaseDetails) async {
     try {
-      final data = await supabase.from('profiles').select().eq('id', userId).single();
+      final data =
+          await supabase.from('profiles').select().eq('id', userId).single();
 
       List<dynamic> currentPurchases = data['purchases'] ?? [];
 
@@ -343,9 +364,7 @@ class _OrderDetailsFormState extends State<OrderDetailsForm> {
       // Actualizar la columna de compras del usuario con la nueva lista de compras
       await supabase
           .from('profiles')
-          .update({'purchases': currentPurchases})
-          .eq('id', userId);
-
+          .update({'purchases': currentPurchases}).eq('id', userId);
     } on PostgrestException catch (error) {
       if (mounted) context.showSnackBar(error.message, isError: true);
     } catch (e) {
@@ -357,28 +376,29 @@ class _OrderDetailsFormState extends State<OrderDetailsForm> {
 
   InputDecoration createDecoration(String label, {IconData? icon}) {
     return InputDecoration(
-                fillColor: Colors.white,
-                filled: true,
-                icon: Icon(icon, color: Colors.deepPurple), 
-                labelText: label,
-                labelStyle: GoogleFonts.poppins(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w600,
-                ),
-                border: OutlineInputBorder( 
-                  borderRadius: BorderRadius.circular(10.0),
-                  borderSide: const BorderSide(color: Colors.grey),
-                ),
-                enabledBorder: OutlineInputBorder( 
-                  borderRadius: BorderRadius.circular(10.0),
-                  borderSide: const BorderSide(color: Colors.grey),
-                ),
-                focusedBorder: OutlineInputBorder( 
-                  borderRadius: BorderRadius.circular(10.0),
-                  borderSide: const BorderSide(color: Colors.deepPurple, width: 2),
-                ),
-              );
+      fillColor: Colors.white,
+      filled: true,
+      icon: Icon(icon, color: Colors.deepPurple),
+      labelText: label,
+      labelStyle: GoogleFonts.poppins(
+        fontSize: 18,
+        fontWeight: FontWeight.w600,
+      ),
+      border: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(10.0),
+        borderSide: const BorderSide(color: Colors.grey),
+      ),
+      enabledBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(10.0),
+        borderSide: const BorderSide(color: Colors.grey),
+      ),
+      focusedBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(10.0),
+        borderSide: const BorderSide(color: Colors.deepPurple, width: 2),
+      ),
+    );
   }
+
   InputDecoration getDropdownInputDecoration(String labelText, IconData? icon) {
     return InputDecoration(
       fillColor: Colors.white,
@@ -414,7 +434,7 @@ class _OrderDetailsFormState extends State<OrderDetailsForm> {
     required List<String> products,
   }) {
     final productsString = products.map((product) => '• $product').join('<br>');
-      return '''
+    return '''
     <html>
     <head>
       <style>
@@ -451,4 +471,3 @@ class _OrderDetailsFormState extends State<OrderDetailsForm> {
     ''';
   }
 }
-

@@ -39,15 +39,22 @@ class ProductDetail extends StatelessWidget {
                           ),
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 15.0, right: 10.0, left: 5.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            const ReturnToHomeButton(),
-                            AddToFavoritesButton(item: item),
-                          ],
-                        ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          const Padding(
+                            padding: EdgeInsets.only(
+                                bottom: 17.0,
+                                right: 13.0,
+                                left: 10.0,
+                                top: 15.0),
+                            child: ReturnToHomeButton(),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: 9.0),
+                            child: AddToFavoritesButton(item: item),
+                          ),
+                        ],
                       ),
                     ],
                   ),
@@ -70,7 +77,7 @@ class ProductDetail extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(height: 5),
-                      // RATING BAR 
+                      // RATING BAR
                       StarRatingWidget(item: item),
                       const SizedBox(height: 5),
                       Text(
@@ -93,6 +100,7 @@ class ProductDetail extends StatelessWidget {
       bottomNavigationBar: AddToCartBar(item: item),
     );
   }
+
   String capitalizeFirstLetter(String text) {
     if (text.isEmpty) return text;
     return text[0].toUpperCase() + text.substring(1);

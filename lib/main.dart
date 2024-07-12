@@ -11,17 +11,19 @@ import 'package:provider/provider.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized(); // Asegurar la inicialización de los widgets
+  WidgetsFlutterBinding
+      .ensureInitialized(); // Asegurar la inicialización de los widgets
   await dotenv.load(fileName: ".env"); // Cargar las variables de entorno
   await Supabase.initialize(
     url: 'https://xotoaqcjdpsgkzfeafge.supabase.co',
-    anonKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhvdG9hcWNqZHBzZ2t6ZmVhZmdlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjAzMDY4MTgsImV4cCI6MjAzNTg4MjgxOH0.s1WsN1FbErB9p4ATv3V0n0CLrURt2B-sRDnZY0hxu_Y',
+    anonKey:
+        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhvdG9hcWNqZHBzZ2t6ZmVhZmdlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjAzMDY4MTgsImV4cCI6MjAzNTg4MjgxOH0.s1WsN1FbErB9p4ATv3V0n0CLrURt2B-sRDnZY0hxu_Y',
   );
   runApp(
     MultiProvider(
       providers: [
         ChangeNotifierProvider(
-          create: (context) => CartProvider(),
+          create: (context) => CartProvider()..loadCartFromDatabase(),
         ),
         ChangeNotifierProvider(
           create: (context) => ClothingProvider(
@@ -33,7 +35,7 @@ void main() async {
           ),
         ),
         ChangeNotifierProvider(
-          create: (context) => FavoritesProvider(),
+          create: (context) => FavoritesProvider()..loadFavoritesFromDatabase(),
         ),
       ],
       child: const MyApp(),

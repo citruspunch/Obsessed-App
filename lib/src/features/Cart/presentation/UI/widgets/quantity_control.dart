@@ -1,6 +1,7 @@
 import 'package:feather_icons/feather_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:obsessed_app/src/core/constants/constants.dart';
 import 'package:obsessed_app/src/features/cart/domain/entities/cart_item.dart';
 import 'package:obsessed_app/src/features/cart/presentation/providers/cart_provider.dart';
 import 'package:provider/provider.dart';
@@ -31,7 +32,7 @@ class QuantityControl extends StatelessWidget {
         ),
         InkWell(
           onTap: () {
-            if (item.quantity < item.item.stock) {
+            if (item.quantity < initialStock) {
               Provider.of<CartProvider>(context, listen: false).increaseItemQuantity(item);
             } else {
               ScaffoldMessenger.of(context).showSnackBar(

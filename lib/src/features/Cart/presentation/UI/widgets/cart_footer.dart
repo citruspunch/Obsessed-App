@@ -12,8 +12,8 @@ class CartFooter extends StatelessWidget {
   Widget build(BuildContext context) {
     return ClipRRect(
       borderRadius: const BorderRadius.only(
-        topLeft: Radius.circular(50),
-        topRight: Radius.circular(50),
+        topLeft: Radius.circular(30),
+        topRight: Radius.circular(30),
       ),
       child: Container(
         color: Theme.of(context).scaffoldBackgroundColor,
@@ -97,12 +97,15 @@ class CartFooter extends StatelessWidget {
                 Navigator.push(
                   context,
                   PageRouteBuilder(
-                    pageBuilder: (context, animation, secondaryAnimation) => PaymentFinalization(totalPrice: totalPrice),
-                    transitionsBuilder: (context, animation, secondaryAnimation, child) {
+                    pageBuilder: (context, animation, secondaryAnimation) =>
+                        PaymentFinalization(totalPrice: totalPrice),
+                    transitionsBuilder:
+                        (context, animation, secondaryAnimation, child) {
                       const begin = Offset(1.0, 0.0);
                       const end = Offset.zero;
                       const curve = Curves.ease;
-                      var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+                      var tween = Tween(begin: begin, end: end)
+                          .chain(CurveTween(curve: curve));
                       var offsetAnimation = animation.drive(tween);
                       return SlideTransition(
                         position: offsetAnimation,

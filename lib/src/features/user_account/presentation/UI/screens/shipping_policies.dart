@@ -14,11 +14,15 @@ class ShippingPolicies extends StatelessWidget {
         forceMaterialTransparency: true,
         toolbarHeight: 80,
         centerTitle: true,
-        leading: const ReturnToHomeButton(),
-        title: Text('Policies', style: GoogleFonts.poppins(
-          fontSize: 25,
-          fontWeight: FontWeight.w600,
-        )),
+        leading: const Padding(
+          padding: EdgeInsets.only(left: 11.0, bottom: 2.0),
+          child: ReturnToHomeButton(),
+        ),
+        title: Text('Policies',
+            style: GoogleFonts.poppins(
+              fontSize: 25,
+              fontWeight: FontWeight.w600,
+            )),
       ),
       body: const SingleChildScrollView(
         child: Column(
@@ -26,8 +30,10 @@ class ShippingPolicies extends StatelessWidget {
             SizedBox(height: 5),
             InfoCard(
               title: 'Shipping Guidelines',
-              englishText: 'Our shipping policies are meticulously designed to ensure that your orders are delivered with utmost precision and speed. We partner with leading logistics providers to offer a wide range of delivery options, catering to your specific needs. From standard to express delivery, we prioritize efficiency and reliability. Our policies include detailed information on shipping rates, estimated delivery times, and tracking capabilities, ensuring a transparent and seamless delivery process. For international shipments, we navigate customs regulations to minimize delays, providing a hassle-free shopping experience from checkout to delivery.',
-              spanishText: 'Nuestras políticas de envío están meticulosamente diseñadas para garantizar que sus pedidos se entreguen con la máxima precisión y rapidez. Nos asociamos con los principales proveedores de logística para ofrecer una amplia gama de opciones de entrega, adaptadas a sus necesidades específicas. Desde la entrega estándar hasta la exprés, priorizamos la eficiencia y la confiabilidad. Nuestras políticas incluyen información detallada sobre las tarifas de envío, los tiempos de entrega estimados y las capacidades de seguimiento, garantizando un proceso de entrega transparente y sin problemas. Para los envíos internacionales, navegamos por las regulaciones aduaneras para minimizar los retrasos, proporcionando una experiencia de compra sin complicaciones desde el pago hasta la entrega.',
+              englishText:
+                  'Our shipping policies are meticulously designed to ensure that your orders are delivered with utmost precision and speed. We partner with leading logistics providers to offer a wide range of delivery options, catering to your specific needs. From standard to express delivery, we prioritize efficiency and reliability. Our policies include detailed information on shipping rates, estimated delivery times, and tracking capabilities, ensuring a transparent and seamless delivery process. For international shipments, we navigate customs regulations to minimize delays, providing a hassle-free shopping experience from checkout to delivery.',
+              spanishText:
+                  'Nuestras políticas de envío están meticulosamente diseñadas para garantizar que sus pedidos se entreguen con la máxima precisión y rapidez. Nos asociamos con los principales proveedores de logística para ofrecer una amplia gama de opciones de entrega, adaptadas a sus necesidades específicas. Desde la entrega estándar hasta la exprés, priorizamos la eficiencia y la confiabilidad. Nuestras políticas incluyen información detallada sobre las tarifas de envío, los tiempos de entrega estimados y las capacidades de seguimiento, garantizando un proceso de entrega transparente y sin problemas. Para los envíos internacionales, navegamos por las regulaciones aduaneras para minimizar los retrasos, proporcionando una experiencia de compra sin complicaciones desde el pago hasta la entrega.',
               icon: FeatherIcons.alertCircle,
             ),
             SizedBox(height: 20),

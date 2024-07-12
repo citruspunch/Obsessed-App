@@ -23,7 +23,7 @@ class _NavigationBarHomeState extends State<NavigationBarHome> {
   Widget build(BuildContext context) {
     List<CartItem> cartItems = Provider.of<CartProvider>(context).items;
     double totalPrice = Provider.of<CartProvider>(context).totalPrice;
-    int totalQuantity = Provider.of<CartProvider>(context).totalQuantity;
+    int totalProducts = Provider.of<CartProvider>(context).items.length;
     return Container(
       height: 55,
       margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
@@ -91,23 +91,23 @@ class _NavigationBarHomeState extends State<NavigationBarHome> {
                       CartScreen(cartItems: cartItems, totalPrice: totalPrice));
                 },
                 icon: Icon(
-                  totalQuantity > 0
+                  totalProducts > 0
                       ? FeatherIcons.shoppingCart
                       : FeatherIcons.shoppingBag,
                   size: 27,
                   color: Colors.black,
                 )),
-            if (totalQuantity > 0 && totalQuantity < 100)
+            if (totalProducts > 0 && totalProducts < 100)
               Positioned(
                 right: 1,
                 top: 3.5,
                 child: CircleAvatar(
-                  backgroundColor: Colors.grey[800],
+                  backgroundColor: Colors.grey[900],
                   radius: 10,
                   child: Text(
-                    totalQuantity.toString(),
+                    totalProducts.toString(),
                     style: GoogleFonts.poppins(
-                      fontSize: (totalQuantity > 9) ? 11.5 : 13.5,
+                      fontSize: (totalProducts > 9) ? 11.5 : 13.5,
                       fontWeight: FontWeight.w700,
                       color: Colors.white,
                     ),

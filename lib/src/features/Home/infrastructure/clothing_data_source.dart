@@ -8,20 +8,19 @@ class ClothingDataSource {
   Future<List<ClothingItem>> getAllItems() async {
     var url = Uri.parse(productsUrl);
     try {
-      final response = await http.get(url); 
-    
+      final response = await http.get(url);
+
       if (response.statusCode == 200) {
         final List<dynamic> itemJson = jsonDecode(response.body);
         // Ignorar artículos que no son ropa
-        for (int i=firstNonUsableItem; i<lastNonUsableItem; i++) {
+        for (int i = firstNonUsableItem; i < lastNonUsableItem; i++) {
           itemJson.removeAt(firstNonUsableItem);
         }
         return itemJson.map((json) => ClothingItem.fromJson(json)).toList();
       } else {
         throw Exception('Failed to load clothing items');
       }
-    } catch (e){
-      print(e.toString());
+    } catch (e) {
       return [];
     }
   }

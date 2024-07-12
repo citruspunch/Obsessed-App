@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:obsessed_app/main.dart';
 import 'package:obsessed_app/src/core/entities/clothing_item.dart';
@@ -8,13 +10,16 @@ class CartProvider extends ChangeNotifier {
 
   List<CartItem> get items => _items;
 
-  void addItem(CartItem item) {
-    final index = _items.indexWhere((element) => element.id == item.id && element.size == item.size && element.color == item.color);
+  void addItem(CartItem item) async {
+    final index = _items.indexWhere((element) =>
+        element.id == item.id &&
+        element.size == item.size &&
+        element.color == item.color);
     if (index != -1) {
       // El ítem ya existe en el carrito, verifica las existencias antes de aumentar la cantidad
       if (_items[index].stock >= item.quantity) {
         _items[index].quantity += item.quantity;
-        _items[index].stock -= item.quantity; // Disminuye las existencias disponibles
+        _items[index].stock -= item.quantity;
       }
     } else {
       // El ítem no existe en el carrito, verifica las existencias antes de agregar
@@ -23,42 +28,56 @@ class CartProvider extends ChangeNotifier {
         item.stock -= item.quantity; // Disminuye las existencias disponibles
       }
     }
+    await saveCartToDatabase();
     notifyListeners();
   }
 
-  void removeItem(CartItem item) {
-    final index = _items.indexWhere((element) => element.id == item.id && element.size == item.size && element.color == item.color);
+  void removeItem(CartItem item) async {
+    final index = _items.indexWhere((element) =>
+        element.id == item.id &&
+        element.size == item.size &&
+        element.color == item.color);
     if (index != -1) {
       _items[index].stock += item.quantity;
       _items.removeAt(index);
       notifyListeners();
+      await saveCartToDatabase();
     }
   }
 
-  void increaseItemQuantity(CartItem item) {
-    final index = _items.indexWhere((element) => element.id == item.id && element.size == item.size && element.color == item.color);
+  void increaseItemQuantity(CartItem item) async {
+    final index = _items.indexWhere((element) =>
+        element.id == item.id &&
+        element.size == item.size &&
+        element.color == item.color);
     if (index != -1) {
       if (_items[index].stock > 0) {
         _items[index].quantity++;
         _items[index].stock--;
         notifyListeners();
+        await saveCartToDatabase();
       }
     }
   }
 
-  void decreaseItemQuantity(CartItem item) {
-    final index = _items.indexWhere((element) => element.id == item.id && element.size == item.size && element.color == item.color);
+  void decreaseItemQuantity(CartItem item) async {
+    final index = _items.indexWhere((element) =>
+        element.id == item.id &&
+        element.size == item.size &&
+        element.color == item.color);
     if (index != -1) {
       if (_items[index].quantity > 1) {
         _items[index].quantity--;
         _items[index].stock++;
         notifyListeners();
-      } 
+        await saveCartToDatabase();
+      }
     }
   }
 
   bool containsClothingItem(ClothingItem item, Color color, String size) {
-    return _items.any((element) => element.item == item && element.color == color && element.size == size);
+    return _items.any((element) =>
+        element.item == item && element.color == color && element.size == size);
   }
 
   int getIndex(ClothingItem item) {
@@ -69,24 +88,20 @@ class CartProvider extends ChangeNotifier {
     try {
       var cartData = _items.map((item) => item.toJson()).toList();
       final userId = supabase.auth.currentSession!.user.id;
-
       await supabase
           .from('profiles')
-          .update({'cart_items': cartData})
-          .eq('id', userId);
+          .update({'cart_items': cartData}).eq('id', userId);
     } catch (e) {
-      print(e.toString());
-      throw e.toString();
+      return;
     }
   }
-
 
   Future<void> loadCartFromDatabase() async {
     try {
       final userId = supabase.auth.currentSession!.user.id;
       final data =
           await supabase.from('profiles').select().eq('id', userId).single();
-      List<dynamic> cartData = (data['cart_items'] ?? '') as List<dynamic>;
+      List<dynamic> cartData = (data['cart_items'] ?? []) as List<dynamic>;
       // Convertir cartData de nuevo a una lista de CartItem y actualizar _items
       _items.clear();
       for (var itemData in cartData) {
@@ -94,8 +109,7 @@ class CartProvider extends ChangeNotifier {
       }
       notifyListeners();
     } catch (e) {
-      print(e.toString());
-      throw e.toString();
+      return;
     }
   }
 
@@ -104,7 +118,9 @@ class CartProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  double get totalPrice => _items.fold(0, (total, current) => total + current.price);
+  double get totalPrice =>
+      _items.fold(0, (total, current) => total + current.price);
 
-  int get totalQuantity => _items.fold(0, (total, current) => total + current.quantity);
+  int get totalQuantity =>
+      _items.fold(0, (total, current) => total + current.quantity);
 }

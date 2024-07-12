@@ -32,7 +32,7 @@ class _HomeState extends State<Home> {
     }
   }
 
-   Future<void> _initializeProfile() async {
+  Future<void> _initializeProfile() async {
     await _getPicture();
   }
 
@@ -41,6 +41,7 @@ class _HomeState extends State<Home> {
     _scrollController.dispose();
     super.dispose();
   }
+
   final List<String> backgroundImages = [
     "assets/images/background1.png",
     "assets/images/background2.png",
@@ -50,7 +51,8 @@ class _HomeState extends State<Home> {
   Future<void> _getPicture() async {
     try {
       final userId = supabase.auth.currentSession!.user.id;
-      final data = await supabase.from('profiles').select().eq('id', userId).single();
+      final data =
+          await supabase.from('profiles').select().eq('id', userId).single();
       setState(() {
         _avatarUrl = (data['avatar_url'] ?? '') as String;
       });
@@ -88,7 +90,7 @@ class _HomeState extends State<Home> {
             width: 40,
             height: 40,
             decoration: BoxDecoration(
-              color: Colors.grey[300], 
+              color: Colors.grey[300],
               shape: BoxShape.circle,
             ),
             child: InkWell(
@@ -98,8 +100,10 @@ class _HomeState extends State<Home> {
                   // Si no hay sesión, navega a LoginPage
                   Navigator.of(context).push(
                     PageRouteBuilder(
-                      pageBuilder: (context, animation, secondaryAnimation) => const LoginScreen(),
-                      transitionsBuilder: (context, animation, secondaryAnimation, child) {
+                      pageBuilder: (context, animation, secondaryAnimation) =>
+                          const LoginScreen(),
+                      transitionsBuilder:
+                          (context, animation, secondaryAnimation, child) {
                         return FadeTransition(
                           opacity: animation,
                           child: child,
@@ -112,8 +116,10 @@ class _HomeState extends State<Home> {
                   // Si hay sesión, navega a AccountPage
                   Navigator.of(context).push(
                     PageRouteBuilder(
-                      pageBuilder: (context, animation, secondaryAnimation) => const ProfilePage(),
-                      transitionsBuilder: (context, animation, secondaryAnimation, child) {
+                      pageBuilder: (context, animation, secondaryAnimation) =>
+                          const ProfilePage(),
+                      transitionsBuilder:
+                          (context, animation, secondaryAnimation, child) {
                         return FadeTransition(
                           opacity: animation,
                           child: child,
@@ -125,27 +131,29 @@ class _HomeState extends State<Home> {
                 }
               },
               child: (_avatarUrl != null)
-                ? ClipOval(
-                  child: Image.network(
-                    _avatarUrl!,
-                    fit: BoxFit.cover,
-                  ),
-                )
-                : const Icon(
-                    FeatherIcons.user,
-                    color: Colors.black,
-                  ),
+                  ? ClipOval(
+                      child: Image.network(
+                        _avatarUrl!,
+                        fit: BoxFit.cover,
+                      ),
+                    )
+                  : const Icon(
+                      FeatherIcons.user,
+                      color: Colors.black,
+                    ),
             ),
           )
         ],
       ),
       body: FutureBuilder(
-        future: Provider.of<ClothingProvider>(context, listen: false).loadItems(),
+        future:
+            Provider.of<ClothingProvider>(context, listen: false).loadItems(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
           } else if (snapshot.hasError) {
-            return Center(child: Text('An error occurred (future): ${snapshot.error}'));
+            return Center(
+                child: Text('An error occurred (future): ${snapshot.error}'));
           } else {
             return Consumer<ClothingProvider>(
               builder: (context, clothingProvider, child) {
@@ -169,11 +177,12 @@ class _HomeState extends State<Home> {
                           gridDelegate:
                               const SliverGridDelegateWithFixedCrossAxisCount(
                                   mainAxisExtent: 200,
-                                  mainAxisSpacing: 24,
+                                  mainAxisSpacing: 15,
                                   crossAxisSpacing: 13,
                                   crossAxisCount: 2),
                           itemBuilder: (context, index) {
-                            return ClothingItemWidget(item: clothingProvider.items[index]);
+                            return ClothingItemWidget(
+                                item: clothingProvider.items[index]);
                           },
                         ),
                       ),
