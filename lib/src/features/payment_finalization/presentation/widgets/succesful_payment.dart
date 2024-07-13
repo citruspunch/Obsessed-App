@@ -42,8 +42,8 @@ class _SuccesfulPaymentState extends State<SuccesfulPayment>
         boxShadow: [
           BoxShadow(
             color: Colors.grey.withOpacity(0.6),
-            spreadRadius: 5,
-            blurRadius: 7,
+            spreadRadius: 3,
+            blurRadius: 5,
             offset: const Offset(0, 2),
           ),
         ],
@@ -81,10 +81,7 @@ class _SuccesfulPaymentState extends State<SuccesfulPayment>
                 gradient: const LinearGradient(
                   begin: Alignment.topRight,
                   end: Alignment.bottomLeft,
-                  colors: [
-                    Color.fromARGB(255, 16, 234, 238),
-                    Color.fromARGB(100, 4, 193, 190)
-                  ],
+                  colors: [Colors.white, Colors.white70, Colors.white54],
                 ),
               ),
               child: Text(

@@ -1,5 +1,6 @@
 import 'package:feather_icons/feather_icons.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:obsessed_app/main.dart';
 import 'package:obsessed_app/src/features/home/presentation/UI/screens/home.dart';
 import 'package:obsessed_app/src/features/product_detail/presentation/UI/widgets/personalized_dialog.dart';
@@ -63,9 +64,7 @@ class _LoginScreenState extends State<LoginScreen> {
         final session = data.session;
         if (session != null) {
           _redirecting = true;
-          Navigator.of(context).pushReplacement(
-            MaterialPageRoute(builder: (context) => const Home()),
-          );
+          animateTransition(context, const Home());
           showPersonalizedDialog(
               context: context,
               text: 'Succesful Login!',
@@ -100,15 +99,19 @@ class _LoginScreenState extends State<LoginScreen> {
       body: SafeArea(
           child: SingleChildScrollView(
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Container(
-              padding: const EdgeInsets.only(top: 50, bottom: 20),
-              height: height / 2.7,
-              child: Image.asset('assets/images/user_login.png'),
+            Padding(
+              padding: const EdgeInsets.only(top: 60.0, bottom: 20.0),
+              child: SizedBox(
+                height: height / 3.3,
+                child: Image.asset('assets/images/login_ilustration.jpg'),
+              ),
             ),
             TextFieldInput(
                 icon: Icons.person,
+                focus: true,
                 textEditingController: _emailController,
                 hintText: 'Enter your email',
                 textInputType: TextInputType.text),
@@ -119,7 +122,6 @@ class _LoginScreenState extends State<LoginScreen> {
               textInputType: TextInputType.text,
               isPass: true,
             ),
-            //const ForgotPassword(),
             InkWell(
               onTap: _isLoading ? null : _signIn,
               child: Padding(
@@ -136,7 +138,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       color: Color.fromARGB(255, 25, 39, 116)),
                   child: Text(
                     _isLoading ? 'Logging in...' : 'Login',
-                    style: const TextStyle(
+                    style: GoogleFonts.poppins(
                       fontSize: 20,
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
@@ -146,22 +148,23 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.only(top: 10, left: 100),
+              padding: const EdgeInsets.only(left: 60),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Text("Don't have an account? "),
+                  Text(
+                    "Don't have an account? ",
+                    style: GoogleFonts.poppins(
+                        fontSize: 14, fontWeight: FontWeight.w400),
+                  ),
                   GestureDetector(
                     onTap: () {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (context) => const SignupScreen(),
-                        ),
-                      );
+                      animateTransition(context, const SignupScreen());
                     },
-                    child: const Text(
-                      "SignUp",
-                      style: TextStyle(fontWeight: FontWeight.bold),
+                    child: Text(
+                      " SignUp",
+                      style: GoogleFonts.poppins(
+                          fontSize: 14, fontWeight: FontWeight.bold),
                     ),
                   )
                 ],
@@ -170,6 +173,22 @@ class _LoginScreenState extends State<LoginScreen> {
           ],
         ),
       )),
+    );
+  }
+
+  void animateTransition(BuildContext context, Widget page) {
+    Navigator.pushReplacement(
+      context,
+      PageRouteBuilder(
+        pageBuilder: (context, animation, secondaryAnimation) => page,
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          return FadeTransition(
+            opacity: animation,
+            child: child,
+          );
+        },
+        transitionDuration: const Duration(milliseconds: 400),
+      ),
     );
   }
 }

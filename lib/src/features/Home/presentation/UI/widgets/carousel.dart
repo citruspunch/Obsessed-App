@@ -29,7 +29,7 @@ class Carousel extends StatelessWidget {
               itemCount: backgroundImages.length,
               options: CarouselOptions(
                 viewportFraction: 1,
-                height: MediaQuery.of(context).size.height / 4.3,
+                height: MediaQuery.of(context).size.height / 4.2,
                 enableInfiniteScroll: true,
                 autoPlay: true,
                 autoPlayInterval: const Duration(seconds: 9),
@@ -58,7 +58,7 @@ class Carousel extends StatelessWidget {
                             shadows: [
                               const Shadow(
                                 blurRadius: 5.0,
-                                color: Colors.black54, // Aumenta la opacidad
+                                color: Colors.black54,
                                 offset: Offset(3.0, .0),
                               ),
                             ],
@@ -87,7 +87,7 @@ class Carousel extends StatelessWidget {
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(0),
                 ),
-                elevation: 0, // Eliminar la sombra del botón
+                elevation: 0,
               ),
               onPressed: onPreviousPage,
               child: const Icon(

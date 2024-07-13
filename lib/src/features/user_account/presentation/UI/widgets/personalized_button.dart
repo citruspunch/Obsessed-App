@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class MyButtons extends StatelessWidget {
   final VoidCallback onTap;
@@ -24,10 +25,10 @@ class MyButtons extends StatelessWidget {
                   Radius.circular(30),
                 ),
               ),
-              color: Colors.blue),
+              color: Color.fromARGB(255, 25, 39, 116)),
           child: Text(
             text,
-            style: const TextStyle(
+            style: GoogleFonts.poppins(
               fontSize: 20,
               color: Colors.white,
               fontWeight: FontWeight.bold,

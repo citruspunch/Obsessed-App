@@ -7,6 +7,7 @@ import 'package:obsessed_app/src/features/home/domain/use_cases/get_all_items.da
 import 'package:obsessed_app/src/features/home/infrastructure/clothing_data_source.dart';
 import 'package:obsessed_app/src/features/home/presentation/UI/screens/home.dart';
 import 'package:obsessed_app/src/features/home/presentation/providers/clothing_provider.dart';
+import 'package:obsessed_app/src/features/user_account/presentation/UI/screens/welcome.dart';
 import 'package:provider/provider.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -50,10 +51,12 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       title: 'Obsessed App',
       debugShowCheckedModeBanner: false,
-      home: Home(),
+      home: supabase.auth.currentSession == null
+          ? const WelcomeScreen()
+          : const Home(),
     );
   }
 }

@@ -87,8 +87,8 @@ class _HomeState extends State<Home> {
         actions: [
           Container(
             margin: const EdgeInsets.only(right: 15),
-            width: 40,
-            height: 40,
+            width: 41,
+            height: 41,
             decoration: BoxDecoration(
               color: Colors.grey[300],
               shape: BoxShape.circle,
@@ -130,7 +130,7 @@ class _HomeState extends State<Home> {
                   );
                 }
               },
-              child: (_avatarUrl != null)
+              child: (_avatarUrl != null && _avatarUrl!.isNotEmpty)
                   ? ClipOval(
                       child: Image.network(
                         _avatarUrl!,

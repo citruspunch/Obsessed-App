@@ -77,7 +77,6 @@ class ProductDetail extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(height: 5),
-                      // RATING BAR
                       StarRatingWidget(item: item),
                       const SizedBox(height: 5),
                       Text(
