@@ -113,8 +113,9 @@ class CartProvider extends ChangeNotifier {
     }
   }
 
-  void clear() {
+  void clear() async {
     _items.clear();
+    await saveCartToDatabase();
     notifyListeners();
   }
 

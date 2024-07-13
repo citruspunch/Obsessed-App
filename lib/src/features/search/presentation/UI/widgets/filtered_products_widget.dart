@@ -9,11 +9,17 @@ class FilteredProductsWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final filteredProducts = Provider.of<ClothingProvider>(context).filteredItems;
+    final filteredProducts =
+        Provider.of<ClothingProvider>(context).filteredItems;
 
     // Verificar si hay productos filtrados
     if (filteredProducts.isEmpty) {
-      return const Center(child: NoItemsFoundWidget());
+      return Column(
+        children: [
+          SizedBox(height: MediaQuery.of(context).size.height * 0.24),
+          const NoItemsFoundWidget(),
+        ],
+      );
     } else {
       return Padding(
         padding: const EdgeInsets.symmetric(horizontal: 10.0),
