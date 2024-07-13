@@ -1,6 +1,6 @@
 # Obsessed App
 
-Welcome to the Obsessed App, a cutting-edge mobile application meticulously crafted for the modern fashion enthusiast. Developed with the Flutter framework and integrated with Supabase for real-time data handling, this app is designed to provide a seamless and engaging shopping experience. With a sleek and intuitive user interface, the Obsessed App offers a wide range of features, including a trending fashion carousel, detailed product insights, effortless shopping cart management, favorites functionality, and robust user account management.
+Welcome to the Obsessed App, an user-friendly mobile app built to offer great features and benefits for anyone interested in staying up-to-date with the latest trends. Developed with the Flutter framework and integrated with Supabase for real-time data handling, this app is designed to provide a seamless and engaging shopping experience. With a sleek and intuitive user interface, the Obsessed App offers a wide range of features, including a trending fashion carousel, detailed product insights, effortless shopping cart management, favorites functionality, and robust user account management.
 
 ## Key Features
 
