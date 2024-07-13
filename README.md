@@ -49,7 +49,8 @@ To begin exploring the Obsessed App, follow these simple steps to dive into the 
    - **Effortless Entry with a Test Account**: For an immediate dive into the App, employ the credentials of the test account:
      - **Email**: userobsessedapp@gmail.com
      - **Password**: user_password
-   - **Create Your Account**: If you want to set up your own account, just choose the sign-up option and follow the simple steps.
+   - **Create Your Account**: If you want to set up your own account, just choose the sign-up option and follow the simple steps to create your profile.
+     - **Warning!** Choosing this option requires you to contact me to add your email to Mailgun's authorized recipients list.
 4. **Explore**: Once logged in, you're all set to explore the various features and functionalities of the Obsessed App.
 
 Enjoy your journey with the Obsessed App!
