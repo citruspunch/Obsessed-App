@@ -45,11 +45,6 @@ To begin exploring the Obsessed App, follow these simple steps to dive into the 
 
 1. **Download the App**: Click [here](https://drive.google.com/drive/folders/147oj2J3fwnoP8ulDRyOGYTQMIzkwxtMw?usp=sharing) to download the Obsessed App APK. 
 2. **Install the App**: Open the downloaded APK file on your device and follow the prompts to install.
-3. **Log In or Sign Up**:
-   - To log in, use the following credentials:
-     - **Email**: userobsessedapp@gmail.com
-     - **Password**: user_password
-   - To create a new account, select the sign-up option and follow the instructions.
 3. **Test the App**:
    - **Effortless Entry with a Test Account**: For an immediate dive into the App, employ the credentials of the test account:
      - **Email**: userobsessedapp@gmail.com
