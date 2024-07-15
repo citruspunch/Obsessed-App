@@ -63,7 +63,7 @@ class _AvatarState extends State<Avatar> {
                       ],
                     ),
                     child: Icon(Icons.create_outlined,
-                        size: 30, color: Colors.deepPurple[800]),
+                        size: 30, color: Colors.deepPurple[500]),
                   ),
                 ),
               ),

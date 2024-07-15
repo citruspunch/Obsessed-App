@@ -32,6 +32,7 @@ class _SignupScreenState extends State<SignupScreen> {
   }
 
   void signupUser() async {
+    FocusScope.of(context).unfocus();
     setState(() {
       isLoading = true;
     });
@@ -67,6 +68,7 @@ class _SignupScreenState extends State<SignupScreen> {
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
     return Scaffold(
       backgroundColor: Colors.black,
       body: SafeArea(
@@ -80,7 +82,7 @@ class _SignupScreenState extends State<SignupScreen> {
                     Padding(
                       padding: const EdgeInsets.only(top: 110.0),
                       child: SizedBox(
-                        width: height / 2.8,
+                        width: width / 1.1,
                         height: height / 3.8,
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -89,8 +91,7 @@ class _SignupScreenState extends State<SignupScreen> {
                             Text(
                               "Sign Up",
                               style: GoogleFonts.cinzel(
-                                fontSize:
-                                    MediaQuery.of(context).size.width / 5.5,
+                                fontSize: width / 5.5,
                                 fontWeight: FontWeight.bold,
                                 color: Colors.white,
                                 shadows: [
@@ -105,8 +106,8 @@ class _SignupScreenState extends State<SignupScreen> {
                             const Divider(
                               color: Colors.white,
                               thickness: 0.5,
-                              indent: 15,
-                              endIndent: 15,
+                              indent: 20,
+                              endIndent: 20,
                             ),
                           ],
                         ),
