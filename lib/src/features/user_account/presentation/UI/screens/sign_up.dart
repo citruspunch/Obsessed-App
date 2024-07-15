@@ -68,20 +68,48 @@ class _SignupScreenState extends State<SignupScreen> {
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Colors.black,
       body: SafeArea(
         child: isLoading
             ? const Center(child: CircularProgressIndicator())
             : SingleChildScrollView(
                 child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Padding(
-                      padding: const EdgeInsets.only(top: 52.0),
+                      padding: const EdgeInsets.only(top: 110.0),
                       child: SizedBox(
-                        height: height / 2.8,
-                        child:
-                            Image.asset('assets/images/signup ilustration.jpg'),
+                        width: height / 2.8,
+                        height: height / 3.8,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Text(
+                              "Sign Up",
+                              style: GoogleFonts.cinzel(
+                                fontSize:
+                                    MediaQuery.of(context).size.width / 5.5,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white,
+                                shadows: [
+                                  const Shadow(
+                                    blurRadius: 8.0,
+                                    color: Colors.white38,
+                                    offset: Offset(2.8, 2.8),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            const Divider(
+                              color: Colors.white,
+                              thickness: 0.5,
+                              indent: 15,
+                              endIndent: 15,
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                     TextFieldInput(
@@ -106,7 +134,9 @@ class _SignupScreenState extends State<SignupScreen> {
                           Text(
                             "Already have an account?",
                             style: GoogleFonts.poppins(
-                                fontSize: 14, fontWeight: FontWeight.w400),
+                                fontSize: 14,
+                                fontWeight: FontWeight.w400,
+                                color: Colors.white),
                           ),
                           GestureDetector(
                             onTap: () {
@@ -115,7 +145,9 @@ class _SignupScreenState extends State<SignupScreen> {
                             child: Text(
                               " Login",
                               style: GoogleFonts.poppins(
-                                  fontSize: 14, fontWeight: FontWeight.bold),
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white),
                             ),
                           )
                         ],
@@ -139,7 +171,7 @@ class _SignupScreenState extends State<SignupScreen> {
             child: child,
           );
         },
-        transitionDuration: const Duration(milliseconds: 400),
+        transitionDuration: const Duration(milliseconds: 500),
       ),
     );
   }

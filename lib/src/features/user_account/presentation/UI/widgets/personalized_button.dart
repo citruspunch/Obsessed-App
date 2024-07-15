@@ -22,15 +22,15 @@ class MyButtons extends StatelessWidget {
           decoration: const ShapeDecoration(
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.all(
-                  Radius.circular(30),
+                  Radius.circular(20),
                 ),
               ),
-              color: Color.fromARGB(255, 25, 39, 116)),
+              color: Color(0xFFedf0f8)),
           child: Text(
             text,
             style: GoogleFonts.poppins(
               fontSize: 20,
-              color: Colors.white,
+              color: Colors.black87,
               fontWeight: FontWeight.bold,
             ),
           ),

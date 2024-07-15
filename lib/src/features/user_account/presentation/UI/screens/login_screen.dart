@@ -95,7 +95,7 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Colors.black,
       body: SafeArea(
           child: SingleChildScrollView(
         child: Column(
@@ -103,10 +103,10 @@ class _LoginScreenState extends State<LoginScreen> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Padding(
-              padding: const EdgeInsets.only(top: 60.0, bottom: 20.0),
+              padding: const EdgeInsets.only(top: 65.0, bottom: 20.0),
               child: SizedBox(
                 height: height / 3.3,
-                child: Image.asset('assets/images/login_ilustration.jpg'),
+                child: Image.asset('assets/images/Obsessed icon.png'),
               ),
             ),
             TextFieldInput(
@@ -132,15 +132,15 @@ class _LoginScreenState extends State<LoginScreen> {
                   decoration: const ShapeDecoration(
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.all(
-                          Radius.circular(30),
+                          Radius.circular(20),
                         ),
                       ),
-                      color: Color.fromARGB(255, 25, 39, 116)),
+                      color: Color(0xFFedf0f8)),
                   child: Text(
                     _isLoading ? 'Logging in...' : 'Login',
                     style: GoogleFonts.poppins(
                       fontSize: 20,
-                      color: Colors.white,
+                      color: Colors.black87,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
@@ -155,7 +155,9 @@ class _LoginScreenState extends State<LoginScreen> {
                   Text(
                     "Don't have an account? ",
                     style: GoogleFonts.poppins(
-                        fontSize: 14, fontWeight: FontWeight.w400),
+                        fontSize: 14,
+                        fontWeight: FontWeight.w400,
+                        color: Colors.white),
                   ),
                   GestureDetector(
                     onTap: () {
@@ -164,7 +166,9 @@ class _LoginScreenState extends State<LoginScreen> {
                     child: Text(
                       " SignUp",
                       style: GoogleFonts.poppins(
-                          fontSize: 14, fontWeight: FontWeight.bold),
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white),
                     ),
                   )
                 ],
@@ -187,7 +191,7 @@ class _LoginScreenState extends State<LoginScreen> {
             child: child,
           );
         },
-        transitionDuration: const Duration(milliseconds: 400),
+        transitionDuration: const Duration(milliseconds: 500),
       ),
     );
   }

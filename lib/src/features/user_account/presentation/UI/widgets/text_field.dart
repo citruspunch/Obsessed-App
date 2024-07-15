@@ -24,25 +24,26 @@ class TextFieldInput extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
       child: TextField(
         autofocus: focus,
-        style: const TextStyle(fontSize: 20),
+        style: GoogleFonts.poppins(
+            fontSize: 19, color: Colors.white70, fontWeight: FontWeight.w500),
         controller: textEditingController,
         decoration: InputDecoration(
-          prefixIcon: Icon(icon, color: Colors.black54),
+          prefixIcon: Icon(icon, color: Colors.white54),
           hintText: hintText,
           hintStyle: GoogleFonts.poppins(
-              fontWeight: FontWeight.w400, color: Colors.black45, fontSize: 17),
+              fontWeight: FontWeight.w400, color: Colors.white38, fontSize: 17),
           enabledBorder: OutlineInputBorder(
             borderSide: BorderSide.none,
-            borderRadius: BorderRadius.circular(30),
+            borderRadius: BorderRadius.circular(20),
           ),
           border: InputBorder.none,
           focusedBorder: OutlineInputBorder(
-            borderSide: const BorderSide(
-                color: Color.fromARGB(255, 36, 119, 188), width: 2),
-            borderRadius: BorderRadius.circular(30),
+            borderSide:
+                BorderSide(color: Colors.white.withOpacity(0.85), width: 2),
+            borderRadius: BorderRadius.circular(20),
           ),
           filled: true,
-          fillColor: const Color(0xFFedf0f8),
+          fillColor: Colors.grey[900],
           contentPadding: const EdgeInsets.symmetric(
             vertical: 15,
             horizontal: 20,
